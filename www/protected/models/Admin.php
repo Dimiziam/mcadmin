@@ -41,7 +41,7 @@ class Admin extends InfoModel {
 	{
 		return array(
 			// Required rules
-			array('login, password', 'required', 'on' => 'create,update'),
+			array('login, password', 'required', 'on' => 'create,update,signin'),
 			
 			// Formats rules
 			array('password', 'length', 'min' => 3, 'max' => 32, 'on' => 'create,update'),

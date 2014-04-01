@@ -15,7 +15,7 @@
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/main.css" />
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/form.css" />
 
-	<script src="<?php echo Yii::app()->request->baseUrl; ?>/assets/jquery.min.js"></script>
+	<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery.min.js"></script>
 	<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/main.js"></script>
 	<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/tools.js"></script>
 	<?php 
@@ -26,9 +26,9 @@
 	?>
 
  	<!-- Include superfish plugin -->
-	<link rel="stylesheet" media="screen" href="<?php echo Yii::app()->request->baseUrl; ?>/assets/superfish/css/superfish.css" /> 
-	<script src="<?php echo Yii::app()->request->baseUrl; ?>/assets/superfish/js/hoverIntent.js"></script> 
-	<script src="<?php echo Yii::app()->request->baseUrl; ?>/assets/superfish/js/superfish.js"></script> 
+	<link rel="stylesheet" media="screen" href="<?php echo Yii::app()->request->baseUrl; ?>/js/superfish/css/superfish.css" /> 
+	<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/superfish/js/hoverIntent.js"></script> 
+	<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/superfish/js/superfish.js"></script> 
 
 	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
 </head>
@@ -45,7 +45,7 @@
 	<div style='margin-bottom: 60px;'>
 	<?php 
 		if (!Yii::app()->user->isGuest) {
-			include('layouts/top_menu.php');
+			$this->renderPartial('application.views.layouts.top_menu');
 		}
 	?>
 	</div>

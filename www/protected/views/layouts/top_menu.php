@@ -1,17 +1,9 @@
 <?php
+// Get user info
+$userInfo = Yii::app()->user->getInfo();
+
 // Prepare menu items
 $items = array(
-	array(
-		'label' => 'Система',
-		'visible' => Yii::app()->user->getState('type') == 'admin', 
-		'items' => array(
-			array('label' => 'Сводная статистика', 'url' => './index.php?r=statistic/common'),
-			array('label' => 'Хранилища', 'url' => './index.php?r=storage'),
-			array('label' => 'Боевые сервера', 'url' => './index.php?r=battleServer'),
-			array('label' => 'Смайлы', 'url' => './index.php?r=smile/groupIndex&groupId=0'),
-			array('label' => 'Валюты', 'url' => './index.php?r=currency'),
-		)
-	),
 	array(
 		'label' => 'Пользователи', 
 		'items' => array(
@@ -30,57 +22,9 @@ $items = array(
 			),
 			array('label' => 'NPC', 'url' => './index.php?r=npc/groupIndex&groupId=0'),
 		),
-		'visible' => Yii::app()->user->getState('type') == 'admin'
 	),
 	array(
-		'label' => 'Игровой мир', 
-		'items' => array(
-			array('label' => 'Карты', 'url' => './index.php?r=map'),
-			array('label' => 'Локации', 'url' => './index.php?r=location/groupIndex&groupId=0'),
-			array('label' => 'Настройки ячеек', 'url' => './index.php?r=ceilSetting'),
-			array(
-				'label' => 'Объекты карты',
-				'items' => array(
-					array('label' => 'Список', 'url' => './index.php?r=object/groupIndex&groupId=0'),
-					array('label' => 'Виды объектов', 'url' => './index.php?r=objectType/typeIndex&typeId=0'),
-				)
-			),
-			array('label' => 'Изображения', 'url' => './index.php?r=mapImage/entityIndex&entityId=0&groupId=0'),
-		),
-		'visible' => Yii::app()->user->getState('type') == 'admin'
-	),
-	array(
-		'label' => 'Профессии', 
-		'items' => array(
-			array('label' => 'Список', 'url' => './index.php?r=profession'),
-			array('label' => 'Ресурсы', 'url' => './index.php?r=resource/groupIndex&groupId=0'),
-			array('label' => 'Материалы', 'url' => './index.php?r=material/groupIndex&groupId=0'),
-			array('label' => 'Ремесла', 'url' => './index.php?r=craft/groupIndex&groupId=0'),
-		),
-		'visible' => Yii::app()->user->getState('type') == 'admin'
-	),
-	array(
-		'label' => 'Предметы', 
-		'items' => array(
-			array('label' => 'Чертежи/Рецепты', 'url' => './index.php?r=drawing/groupIndex&groupId=0'),
-			array('label' => 'Предназначения предметов', 'url' => './index.php?r=drawingPurpose/index'),
-			array('label' => 'Эффекты', 'url' => './index.php?r=effect/groupIndex&groupId=0'),
-		),
-		'visible' => Yii::app()->user->getState('type') == 'admin'
-	),
-	array(
-		'label' => 'Магия', 
-		'items' => array(
-			array('label' => 'Школы', 'url' => './index.php?r=magicType/index'),
-			array('label' => 'Руны', 'url' => './index.php?r=rune/groupIndex&groupId=0'),
-			array('label' => 'Заклинания', 'url' => './index.php?r=spell/groupIndex&groupId=0'),
-			array('label' => 'Свитки', 'url' => './index.php?r=magicScroll/index'),
-			array('label' => 'Сферы', 'url' => './index.php?r=magicSphere/index'),
-		),
-		'visible' => Yii::app()->user->getState('type') == 'admin'
-	),
-	array(
-		'label' => 'Выход (' . Yii::app()->user->login . ')', 'url' => './index.php?r=user/logout'
+		'label' => 'Выход (' . $userInfo['login'] . ')', 'url' => '/admin/logout/'
 	)
 );
 

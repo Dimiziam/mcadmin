@@ -1,62 +1,42 @@
 <?php
-/*
- *
- *
- *
- *
-*/
-
-class IndexController extends Controller
+/**
+ * IndexController
+ * 
+ * Controller for index page
+ * 
+ * @package MediaClub
+ * @subpackage controllers
+ * @copyright (C) 2014 point.od.ua <support@point.od.ua>
+ * @author Tishenko Vladimir <vagrand@mail.ru>
+ */
+class IndexController extends Controller 
 {
-
-
-	public function init() {
-
-		parent::init();
-
-		//$this->layout='//layouts/main';
-
-
-	}
-
-
 	/**
-	 * Declares class-based actions.
+	 * Specifies the access control rules.
+	 * 
+	 * @return array access control rules
 	 */
-	public function actions()
+	public function accessRules()
 	{
 		return array(
-				// captcha action renders the CAPTCHA image displayed on the contact page
-				'captcha'=>array(
-						'class'=>'CCaptchaAction',
-						'backColor'=>0xFFFFFF,
-				),
-				// page action renders "static" pages stored under 'protected/views/site/pages'
-				// They can be accessed via: index.php?r=site/page&view=FileName
-				'page'=>array(
-						'class'=>'CViewAction',
-				),
+			array('allow',
+				'actions' => array('index'),
+				'users' => array('@')
+			),
+			array('deny',
+				'users' => array('*'),
+			)
 		);
 	}
 
-
 	/**
-	 * This is the default 'index' action that is invoked
-	 * when an action is not explicitly requested by users.
+	 * Action to display index page
+	 * 
+	 * @return void
 	 */
 	public function actionIndex()
 	{
-		// renders the view file 'protected/views/site/index.php'
-		// using the default layout 'protected/views/layouts/main.php'
-	//	$this->render('index');
-
-		$media=1;
-
-			$this->render('index',array(
-						'MediaClub'=>$media
-			));
-
-
+		$this->render('index');
 	}
 
 }

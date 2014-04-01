@@ -27,9 +27,6 @@ if (!empty($_SERVER['REQUEST_URI'])) {
 	}
 }
 
-// Custom Includes
-require_once(dirname(__FILE__) . '/../includes/localization.php');
-
 // This is the main Web application configuration. Any writable
 // CWebApplication properties can be configured here.
 $settings = array(
@@ -44,13 +41,9 @@ $settings = array(
 		'application.models.*',
 		'application.models.form.*',
 		'application.components.*',
-		'application.extensions.yii-mail.YiiMailMessage',
 
 		// Import tools
 		'application.includes.tools.*',
-
-		// Import billings
-		'application.includes.billings.*',
 	),
 	'language' => 'en',
 	'sourceLanguage' => '',
@@ -62,19 +55,6 @@ $settings = array(
 
 	// application components
 	'components' => array(
-		'curl' => array(
-			'class' => 'application.extensions.curl.Curl',
-		),
-		'mail' => array(
-	 		'class' => 'application.extensions.yii-mail.YiiMail',
-			'transportType' => 'php',
-	 		'viewPath' => 'application.views.mail',
-			'logging' => true
-		),
-		"messages" => array(
-			//"class" => "CGettextMessageSource",
-			//"useMoFile" => FALSE,
-		),
 		'request' => array(
 			'enableCookieValidation' => true,
 			'enableCsrfValidation' => true,
@@ -87,7 +67,7 @@ $settings = array(
 			'class' => 'MCWebUser',
 		
 			// Singin url
-			'loginUrl'=>array('/user/signin/')
+			'loginUrl' => array('/admin/signin/')
 		),
 		'urlManager'=>array(
 			'urlFormat' => 'path',
@@ -100,55 +80,10 @@ $settings = array(
 				// Routes index page
 				'/captcha/display/<key:([^\_]+)>_<rand:([^\.]+)>.jpg' => '/captcha/display/',
 		
-				// Routes search
-				'<language:(' . implode('|', $i18n) . ')>/search/letters/<letter>.html' => '/search/letters/',
-
-				// Routes singes
-				'/<language:(' . implode('|', $i18n) . ')>/singer/<letter>/<alias:([^\.]+)>.<id>.html' => '/singer/',
-		
-				// Routes albums
-				'/<language:(' . implode('|', $i18n) . ')>/album/<singerLetter>/<singerAlias>/<alias:([^\.]+)>.<id>.html' => '/album/',
-				'/<language:(' . implode('|', $i18n) . ')>/albums/history/<date:([^\.]+)>.<genreId>.html' => '/album/history/',
-			
-				// Songs albums
-				'/song/download/<orderSongId>.html' => '/song/download/',
-				'/static/<language:(' . implode('|', $i18n) . ')>/lyrics/<singerLetter>/<singerAlias>/<albumAlias>/<alias:([^\.]+)>.<id>.html' => '/song/lyrics/',
-				'/static/<language:(' . implode('|', $i18n) . ')>/lyrics_ajax/<singerLetter>/<singerAlias>/<albumAlias>/<alias:([^\.]+)>.<id:([0-9]+)>.html' => '/song/lyricsAjax/',
-		
-				// Routes genres
-				'/static/<language:(' . implode('|', $i18n) . ')>/genres/<alias:([^\.]+)>.<id>.html' => '/genre/',
-				'/static/<language:(' . implode('|', $i18n) . ')>/genres.html' => '/genre/',
-		
-				// Routes styles
-				'/static/<language:(' . implode('|', $i18n) . ')>/styles/<genreId>/<alias:([^\.]+)>.<id>.html' => '/style/',
-		
-				// Routes countries
-				'/static/<language:(' . implode('|', $i18n) . ')>/countries/<alias:([^\.]+)>.<id>.html' => '/country/',
-				'/static/<language:(' . implode('|', $i18n) . ')>/countries.html' => '/country/',
-		
-				// User routes
-				'/<language:(' . implode('|', $i18n) . ')>/user/signup/' => '/user/signup/',
-				'/<language:(' . implode('|', $i18n) . ')>/user/signin/' => '/user/signin/',
-				'/<language:(' . implode('|', $i18n) . ')>/user/logout/' => '/user/logout/',
-				'/<language:(' . implode('|', $i18n) . ')>/user/profile/' => '/user/profile/',
-				'/<language:(' . implode('|', $i18n) . ')>/user/confirm_email/<id:([0-9]+)>_<token:([^\.]+)>.html' => '/user/confirmEmail/',
-				'/<language:(' . implode('|', $i18n) . ')>/user/end_signup/<id:([0-9]+)>_<mailResult:([^\.]+)>.html' => '/user/endSignup/',
-				'/<language:(' . implode('|', $i18n) . ')>/user/end_signup/<id:([0-9]+)>.html' => '/user/endSignup/',
-				'/<language:(' . implode('|', $i18n) . ')>/user/remember_password.html' => '/user/rememberPassword/',
-				'/<language:(' . implode('|', $i18n) . ')>/user/change_password/<id:([0-9]+)>_<token:([^\.]+)>.html' => '/user/changePassword/',
-		
-				// Order routes
-				'/order/add_to_cart/<type:([^\.]+)>.html' => '/order/addToCart/',
-				'/order/remove_from_cart/<type:([^\.]+)>.<id:([0-9]+)>.html' => '/order/removeFromCart/',
-				'/<language:(' . implode('|', $i18n) . ')>/order/cart/' => '/order/cart/',
-				'/order/cart_confirm/' => '/order/cartConfirm/',
-				'/<language:(' . implode('|', $i18n) . ')>/order/list/' => '/order/list/',
-				'/<language:(' . implode('|', $i18n) . ')>/order/songs/<id:([0-9]+)>.html' => '/order/songs/',
-		
-				// Payments routs
-				'/<language:(' . implode('|', $i18n) . ')>/payment/topup/' => '/payment/topup/',
-				'/<language:(' . implode('|', $i18n) . ')>/payment/topup_return/<billing:([^\.]+)>.<status:([^\.]+)>.<transactionId:([0-9]+)>.html' => '/payment/topupReturn/',
-				'/<language:(' . implode('|', $i18n) . ')>/payment/transactions/' => '/payment/transactions/',
+				// Admin routes
+				'/<language:(' . implode('|', $i18n) . ')>/admin/search/' => '/admin/search/',
+				'/<language:(' . implode('|', $i18n) . ')>/admin/signin/' => '/admin/signin/',
+				'/<language:(' . implode('|', $i18n) . ')>/admin/logout/' => '/admin/logout/',
 			)
 		),
 		'errorHandler' => array(
@@ -174,13 +109,6 @@ $settings = array(
 				)
 			)
 		),
-		// Sphinx component
-		'sphinx' => array(
-			'class' => 'system.db.CDbConnection',
-			'connectionString' => 'mysql:host=127.0.0.1;port=9306',
-			'charset' => 'utf8',
-			'enableProfiling' => true
-		)
 	),
 	// application-level parameters that can be accessed
 	// using Yii::app()->params['paramName']
@@ -193,12 +121,9 @@ $settings = array(
 	
 		// application-level parameters
 		'languages' => array('ru' => 'Russain', 'en' => 'English', 'cz' => 'Czech'),
-		
-		// Static file cache: true - enabled, false or nothing - disabled
-		'static_cache' => true,
 	
 		// Part of seacret key to create hashes
-		'secret_key' => 'MediaClub_0343742374-fjfnsdjkfn=jdnfjksdfn',
+		'secret_key' => 'ADMIN-MediaClub_XJEkekcjnck)_249598=-0-dsjkcvnsdjkvnsdjkvn',
 	
 		'RangeSearchAutocomplite' => '30',
 		'singer_cover' => '/images/art/',
@@ -261,8 +186,5 @@ $settings['params']['db'] = require_once 'main_db.php';
 
 // Add paths to app params
 $settings['params']['paths'] = require_once 'paths.php';
-
-// Add billings settings to app params
-$settings['params']['billings'] = require_once 'billings.php';
 
 return $settings;
