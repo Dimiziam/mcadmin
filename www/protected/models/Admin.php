@@ -29,7 +29,7 @@ class Admin extends InfoModel {
 	 */
 	public function tableName()
 	{
-		return 'users';
+		return 'admins';
 	}
 
 	/**
