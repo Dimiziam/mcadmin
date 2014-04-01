@@ -1,0 +1,316 @@
+set names 'utf8';
+
+-- [2014-02-11] -- vagrand -- Add table users
+
+CREATE TABLE `users` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `email` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL COMMENT 'пароль в md5 + salt',
+  `name` varchar(50) DEFAULT NULL,
+  `last_name` varchar(50) DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
+  `is_email_confirmed` enum('yes','no') NOT NULL DEFAULT 'no',
+  `fb_token` varchar(255) DEFAULT NULL,
+  `approve_token_mail` varchar(255) DEFAULT NULL,
+  `amount` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT 'сумма на счету',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email_idx` (`email`)
+) ENGINE=Aria DEFAULT CHARSET=utf8 PAGE_CHECKSUM=1;
+
+-- [2014-02-11] -- vagrand -- Add table singers
+
+CREATE TABLE `singers` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `alias` varchar(255) NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `pseudonym` varchar(255) NOT NULL,
+  `description` text,
+  `page` text,
+  `country_id` int(11) NOT NULL default 0,
+  `dir` int(11) NOT NULL default 0,
+  `permit_from` tinyint(1) NOT NULL DEFAULT '0',
+  `is_composer` enum('yes','no') NOT NULL DEFAULT 'no',
+  PRIMARY KEY (`id`)
+) ENGINE=Aria DEFAULT CHARSET=utf8 PAGE_CHECKSUM=1;
+
+-- [2014-02-11] -- vagrand -- Add table singer_letters
+
+CREATE TABLE `singer_letters` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `singer_id` int(11) unsigned NOT NULL default 0,
+  `type` enum('name','pseudonym') NOT NULL DEFAULT 'name',
+  `letter_id` int(11) unsigned NOT NULL default 0,
+  PRIMARY KEY (`id`),
+  KEY `singerId_letterId_idx` (singer_id, letter_id)
+) ENGINE=Aria DEFAULT CHARSET=utf8 PAGE_CHECKSUM=1;
+ 
+ -- [2014-02-11] -- vagrand -- Add table albums
+ 
+CREATE TABLE `albums` (
+  `id` int(11) unsigned NOT NULL DEFAULT '0',
+  `title` varchar(255) NOT NULL DEFAULT '0',
+  `year` int(11) NOT NULL default 0,
+  `singer_id` int(11) unsigned NOT NULL default 0,
+  `uploader` tinyint(4) unsigned NOT NULL default 0, 
+  `owner_id` int(11) unsigned NOT NULL default 0, 
+  `dir` int(10) unsigned NOT NULL default 0, 
+  `description` text,
+  `type` tinyint(4) unsigned NOT NULL default 0,
+  `created` date NOT NULL default '0000-00-00',
+  `updated` date NOT NULL default '0000-00-00',
+  `id_singer_tribute` varchar(50) DEFAULT '0' COMMENT 'перекрестная ссылка', 
+  `permit_from` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT 'правила для продажи', 
+  `composer` varchar(50) DEFAULT '0' COMMENT 'ссылка на композитора', 
+  PRIMARY KEY (`id`),
+  KEY `singerId_idx` (`singer_id`)
+) ENGINE=Aria DEFAULT CHARSET=utf8 PAGE_CHECKSUM=1;
+ 
+-- [2014-02-11] -- vagrand -- Add table owners
+  
+CREATE TABLE `owners` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL DEFAULT '',
+  `info` varchar(255) NOT NULL DEFAULT '',
+  `url` varchar(255) NOT NULL DEFAULT '',
+  `permit` tinyint(1) NOT NULL DEFAULT '1', 
+  `rule_number` tinyint(4) NOT NULL DEFAULT '0', 
+  `owner_login` varchar(25) NOT NULL DEFAULT '', 
+  PRIMARY KEY (`id`)
+) ENGINE=Aria DEFAULT CHARSET=utf8 PAGE_CHECKSUM=1;
+
+-- [2014-02-11] -- vagrand -- Add table songs
+
+CREATE TABLE `songs` (
+  `id` int(10) unsigned NOT NULL,
+  `album_id` int(11) unsigned NOT NULL DEFAULT '0',
+  `singer_id` int(11) unsigned NOT NULL default 0,
+  `path` varchar(255) NOT NULL default '',
+  `name` varchar(255) DEFAULT '',
+  `year` int(11) unsigned not null DEFAULT 0,
+  `size` int(11) unsigned NOT NULL DEFAULT 0,
+  `length` int(11) unsigned NOT NULL DEFAULT 0,
+  `comment` varchar(255),
+  `mode` enum('undefined','mono','stereo') NOT NULL DEFAULT 'undefined', 
+  `bitrate` varchar(11) NOT NULL default '',
+  `track` smallint(3) unsigned NOT NULL, 
+  `text` int(1) unsigned NOT NULL DEFAULT '1', 
+  `md5` varchar(255) NOT NULL, 
+  `owner_id` int(11) unsigned NOT NULL default 0,
+  KEY `albumId_idx` (`album_id`),
+  KEY `singerId_idx` (`singer_id`)
+) ENGINE=Aria DEFAULT CHARSET=utf8 PAGE_CHECKSUM=1;
+ 
+-- [2014-02-11] -- vagrand -- Add table genres
+
+CREATE TABLE `genres` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=Aria DEFAULT CHARSET=utf8 PAGE_CHECKSUM=1;
+
+-- [2014-02-11] -- vagrand -- Add table styles
+
+CREATE TABLE `styles` (
+  `id` int(10) NOT NULL,
+  `genre_id` int(11) unsigned NOT NULL default 0,
+  `name` varchar(255) not null default '',
+  `description` text,
+  PRIMARY KEY (`id`),
+  KEY `genreId_idx` (`genre_id`) 
+) ENGINE=Aria DEFAULT CHARSET=utf8 PAGE_CHECKSUM=1;
+
+-- [2014-02-11] -- vagrand -- Add table letters
+
+CREATE TABLE `letters` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `letter` char(1) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`),
+  KEY `letter_idx` (`letter`)
+) ENGINE=Aria DEFAULT CHARSET=utf8 PAGE_CHECKSUM=1;
+
+-- [2014-02-11] -- vagrand -- Add table album_styles
+
+CREATE TABLE `album_styles` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `album_id` int(11) unsigned NOT NULL DEFAULT '0',
+  `style_id` int(11) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `styleId_albumId_idx` (`style_id`,`album_id`),
+  KEY `albumId_idx` (`album_id`)
+) ENGINE=Aria DEFAULT CHARSET=cp1251 PAGE_CHECKSUM=1;
+
+-- [2014-02-11] -- vagrand -- Add table singer_genres
+
+CREATE TABLE `singer_genres` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `singer_id` int(11) unsigned NOT NULL DEFAULT '0',
+  `genre_id` int(11) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `genreId_singerId_idx` (`genre_id`,`singer_id`),
+  KEY `singerId_idx` (`singer_id`)
+) ENGINE=Aria DEFAULT CHARSET=utf8 PAGE_CHECKSUM=1;
+
+-- [2014-02-11] -- vagrand -- Add table singer_styles
+
+CREATE TABLE `singer_styles` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `singer_id` int(11) unsigned NOT NULL DEFAULT '0',
+  `style_id` int(11) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `styleId_singerId_idx` (`style_id`,`singer_id`),
+  KEY `singerId_idx` (`singer_id`)
+) ENGINE=Aria DEFAULT CHARSET=cp1251 PAGE_CHECKSUM=1;
+
+-- [2014-02-11] -- vagrand -- Add table song_text
+
+CREATE TABLE `song_text` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `text` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=Aria DEFAULT CHARSET=utf8 PAGE_CHECKSUM=1;
+
+-- [2014-02-11] -- vagrand -- Add table countries
+
+CREATE TABLE `countries` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `country_ru` varchar(255) NOT NULL DEFAULT '',
+  `country_en` varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=Aria DEFAULT CHARSET=utf8 PAGE_CHECKSUM=1;
+
+-- [2014-02-16] -- vagrand -- Modify table songs
+
+alter table songs add column alias char(255) not null default '' after name;
+
+-- [2014-02-16] -- vagrand -- Add table album_genres
+
+CREATE TABLE `album_genres` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `album_id` int(11) unsigned NOT NULL DEFAULT '0',
+  `genre_id` int(11) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `genreId_albumId_idx` (`genre_id`,`album_id`),
+  KEY `albumId_idx` (`album_id`)
+) ENGINE=Aria DEFAULT CHARSET=utf8 PAGE_CHECKSUM=1;
+
+-- [2014-02-16] -- vagrand -- Modify table albums
+
+alter table albums add column alias char(255) not null default '' after title;
+
+-- [2014-02-16] -- vagrand -- Add letters
+
+INSERT INTO `letters` VALUES (1,'A'),(2,'B'),(3,'C'),(4,'D'),(5,'E'),(6,'F'),(7,'G'),(8,'H'),(9,'I'),(10,'J'),(11,'K'),(12,'L'),(13,'M'),(14,'N'),(15,'O'),(16,'P'),(17,'Q'),(18,'R'),(19,'S'),(20,'T'),(21,'U'),(22,'V'),(23,'W'),(24,'X'),(25,'Y'),(26,'Z'),(27,'#');
+
+-- [2014-02-18] -- vagrand -- Modify table albums
+
+alter table albums add size int(11) unsigned not null default 0;
+alter table albums add length int(11) unsigned not null default 0;
+alter table albums add bitrate varchar(11) not null default '';
+alter table albums add songs_number int(11) unsigned not null default 0;
+
+-- [2014-02-18] -- vagrand -- Modify tables genres, styles and countries
+
+alter table genres add column alias varchar(255) not null default '' after name;
+alter table styles add column alias varchar(255) not null default '' after name;
+alter table countries add column alias varchar(255) not null default '' after id;
+alter table countries add key alias_idx (alias);
+
+-- [2014-02-18] -- vagrand -- Modify table singers
+
+alter table singers add key countryId_name_idx (country_id, name);
+
+-- [2014-02-18] -- vagrand -- Modify table genres
+
+alter table genres add key name_idx (name);
+
+-- [2014-02-18] -- vagrand -- Modify table styles
+
+alter table styles add key genreId_name_idx (genre_id, name);
+
+-- [2014-02-19] -- vagrand -- Modify table users
+
+alter table users add column secret_key char(32) not null default '' after password;
+
+-- [2014-02-20] -- vagrand -- Modify table users
+
+alter table users add column `auth_hash` char(32) NOT NULL DEFAULT '';
+alter table users add column `auth_hash_till` int(11) NOT NULL DEFAULT 0;
+alter table users add column `last_rebuild_hash` int(11) NOT NULL DEFAULT 0;
+
+-- [2014-02-24] -- vagrand -- Added table orders
+
+CREATE TABLE `orders` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) unsigned NOT NULL default 0,
+  `transaction_id` int(11) unsigned NOT NULL default 0,
+  `songs_number` int(11) unsigned NOT NULL default 0,
+  `price` decimal(12,2) NOT NULL DEFAULT '0.00',
+  `created` datetime not null default '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
+  KEY `userId_created_idx` (`user_id`, `created`),
+  KEY `transactionId_idx` (`transaction_id`)
+) ENGINE=Aria DEFAULT CHARSET=utf8 PAGE_CHECKSUM=1;
+
+-- [2014-02-24] -- vagrand -- Added table order_songs
+
+CREATE TABLE `order_songs` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) unsigned NOT NULL default 0,
+  `order_id` int(11) unsigned NOT NULL default 0,
+  `album_id` int(11) unsigned NOT NULL default 0,
+  `song_id` int(11) unsigned NOT NULL default 0,
+  `price` decimal(12,2) NOT NULL DEFAULT '0.00',
+  `created` datetime not null default '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
+  KEY `orderId_idx` (`order_id`)
+) ENGINE=Aria DEFAULT CHARSET=utf8 PAGE_CHECKSUM=1;
+
+-- [2014-02-24] -- vagrand -- Added table transactions
+
+CREATE TABLE `transactions` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) unsigned NOT NULL default 0,
+  `type` enum('add', 'sub') not null default 'add',
+  `amount` decimal(12,2) NOT NULL DEFAULT '0.00',
+  `date_start` datetime not null default '0000-00-00 00:00:00',
+  `date_end` datetime not null default '0000-00-00 00:00:00',
+  `info` blob null,
+  PRIMARY KEY (`id`),
+  KEY `userId_dateStart_idx` (`user_id`, `date_start`)
+) ENGINE=Aria DEFAULT CHARSET=utf8 PAGE_CHECKSUM=1;
+
+-- [2014-02-25] -- vagrand -- Modify table transactions
+
+alter table transactions add column order_id int(11) unsigned not null default 0 after user_id;
+
+-- [2014-02-25] -- vagrand -- Modify table albums
+
+alter table albums add key `created_idx` (`created`);
+
+-- [2014-02-27] -- vagrand -- Added table new_album_statisitcs
+
+CREATE TABLE `new_album_statisitcs` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `year` int(11) unsigned NOT NULL default 0,
+  `month` int(11) unsigned NOT NULL default 0,
+  `day` int(11) unsigned NOT NULL default 0,
+  `albums_number` int(11) unsigned NOT NULL default 0,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `year_month_day_idx` (`year`, `month`, `day`)
+) ENGINE=Aria DEFAULT CHARSET=utf8 PAGE_CHECKSUM=1;
+
+-- [2014-02-27] -- vagrand -- Fill table new_album_statisitcs
+
+insert ignore into new_album_statisitcs (year, month, day, albums_number)
+select DATE_FORMAT(created, '%Y'), DATE_FORMAT(created, '%m'), DATE_FORMAT(created, '%d'), count(id)
+from albums 
+group by created;
+
+-- [2014-02-28] -- vagrand -- Modify table transactions
+
+alter table transactions add column status enum('preparing', 'processing', 'done', 'error') not null default 'preparing' after type;
+
+-- [2014-03-01] -- vagrand -- Modify table transactions
+
+alter table transactions modify column `status` enum('preparing','processing','done','error','canceld') NOT NULL DEFAULT 'preparing';
