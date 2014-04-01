@@ -2,7 +2,7 @@
 /**
  * MCUserIdentity
  * 
- * Component to authenticate user by email and password
+ * Component to authenticate admin by login and password
  * 
  * @package MediaClub
  * @subpackage components
@@ -11,49 +11,45 @@
  */
 class MCUserIdentity extends CUserIdentity
 {
-	const ERROR_USER_NOT_CONFIRM_EMAIL = 200;
-	
 	/**
-	 * Variable to store user id
+	 * Variable to store admin id
 	 * 
 	 * @var int
 	 */
 	private $_id;
 	
 	/**
-	 * Authenticates a user
+	 * Authenticates a admin
 	 * 
 	 * @return boolean whether authentication succeeds.
 	 */
 	public function authenticate()
 	{
-		// Fid user by email
-		$user = User::model()->findByAttributes(array('email' => $this->username));
+		// Fid admin by email
+		$admin = Admin::model()->findByAttributes(array('login' => $this->username));
 		
-		// Check $user
-		if (empty($user)) {
+		// Check admin
+		if (empty($admin)) {
 			$this->errorCode = self::ERROR_USERNAME_INVALID;
 		} else if (
-			$user->password !== md5(
+			$admin->password !== md5(
 				Yii::app()->params['secret_key'] 
-				. md5($user->secret_key . $this->password . Yii::app()->params['secret_key'])
-				. $user->secret_key
+				. md5($admin->secret_key . $this->password . Yii::app()->params['secret_key'])
+				. $admin->secret_key
 			)
 		) {
 			$this->errorCode = self::ERROR_PASSWORD_INVALID;
-		} else if ($user->is_email_confirmed != 'yes') {
-			$this->errorCode = self::ERROR_USER_NOT_CONFIRM_EMAIL;
 		} else {
-			// Store user id
-			$this->_id = $user->id;
+			// Store admin id
+			$this->_id = $admin->id;
 			
 			// Set success status
 			$this->errorCode = self::ERROR_NONE;
 			
 			// Build authorization hash
-			if ($this->_buildHash($user)) {
+			if ($this->_buildHash($admin)) {
 				// Set auth cookie
-				$this->_setAuthCookie($user);
+				$this->_setAuthCookie($admin);
 			}
 		}
 		
@@ -63,10 +59,10 @@ class MCUserIdentity extends CUserIdentity
 	/**
 	 * Method to set auth cookie
 	 * 
-	 * @param User $user
+	 * @param Admin $admin
 	 * @return void
 	 */
-	private function _setAuthCookie(User $user)
+	private function _setAuthCookie(Admin $admin)
 	{
 		// Prepare params
 		$expireTime = time() + Yii::app()->params['cookies']['life_time'];
@@ -75,41 +71,41 @@ class MCUserIdentity extends CUserIdentity
 		$prefix = Yii::app()->params['cookies']['prefix'];
 		
 		// Set cookie
-		setcookie($prefix . 'userId', $user->id, $expireTime, $path, $domain);
-		setcookie($prefix . 'authHash', $user->auth_hash, $expireTime, $path, $domain);
+		setcookie($prefix . 'userId', $admin->id, $expireTime, $path, $domain);
+		setcookie($prefix . 'authHash', $admin->auth_hash, $expireTime, $path, $domain);
 	}
 	
 	/**
 	 * Method to build authorization hash
 	 * 
-	 * @param User $user
+	 * @param Admin $admin
 	 * @return bool
 	 */
-	private function _buildHash(User $user)
+	private function _buildHash(Admin $admin)
 	{
 		// Calculate hash expire time
-		$user->auth_hash_till = time() + Yii::app()->params['cookies']['life_time'];
+		$admin->auth_hash_till = time() + Yii::app()->params['cookies']['life_time'];
 		
 		// Create hash
-		$user->auth_hash = md5(
+		$admin->auth_hash = md5(
 			Yii::app()->params['secret_key'] 
-			. md5($user->secret_key . $user->auth_hash_till . Yii::app()->params['secret_key'])
-			. $user->secret_key
+			. md5($admin->secret_key . $admin->auth_hash_till . Yii::app()->params['secret_key'])
+			. $admin->secret_key
 		);
 		
 		// Set rebuild hash time
-		$user->last_rebuild_hash = time();
+		$admin->last_rebuild_hash = time();
 		
-		// Store user auth params
-		$this->setState('auth_hash', $user->auth_hash);
-		$this->setState('auth_hash_till', $user->auth_hash_till);
+		// Store admin auth params
+		$this->setState('auth_hash', $admin->auth_hash);
+		$this->setState('auth_hash_till', $admin->auth_hash_till);
 		
-		// Save user
-		return $user->save();
+		// Save admin
+		return $admin->save();
 	}
 	
 	/**
-	 * Method return user id
+	 * Method return admin id
 	 * 
 	 * @return int
 	 */
