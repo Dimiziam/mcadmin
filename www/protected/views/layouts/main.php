@@ -16,6 +16,8 @@
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/form.css" />
 
 	<script src="<?php echo Yii::app()->request->baseUrl; ?>/assets/jquery.min.js"></script>
+	<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/main.js"></script>
+	<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/tools.js"></script>
 	<?php 
 		Yii::app()->clientScript->scriptMap=array(
 			'jquery.js'=>false,
@@ -62,7 +64,6 @@
 	<div id="footer">
 		Copyright &copy; <?php echo date('Y'); ?> by My Company.<br/>
 		All Rights Reserved.<br/>
-		<?php echo Yii::powered(); ?>
 	</div><!-- footer -->
 
 </div><!-- page -->
