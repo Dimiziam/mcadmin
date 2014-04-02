@@ -31,6 +31,10 @@
 	<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/superfish/js/superfish.js"></script> 
 
 	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
+	
+	<script>
+		var global_language_code = '<?php echo Yii::app()->params['currentLanguage']; ?>';
+	</script>
 </head>
 
 <body>

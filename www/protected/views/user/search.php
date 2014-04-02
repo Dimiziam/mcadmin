@@ -8,6 +8,15 @@
 	);
 ?>
 
+<script>
+	var global_messages = {
+		'user': {
+			'delete_confirm': "<?php echo $translations['delete_confirm']; ?>",
+			'delete_error': "<?php echo $translations['message_3']; ?>"
+		}
+	};
+</script>
+
 <?php $form = $this->beginWidget('CActiveForm', array(
 	'id' => 'search-form',
 )); ?>
@@ -69,7 +78,7 @@
 					</a>
 				</td>
 				<td>
-					<a href="JavaScript: void(0);" onClick="delete_user(<?php echo $item['id']; ?>);" title="<?php echo $translations['delete_link_title']; ?>">
+					<a href="JavaScript: void(0);" onClick="user_delete(<?php echo $item['id']; ?>);" title="<?php echo $translations['delete_link_title']; ?>">
 						<img src="/images/trash_16.png" border="0">
 					</a>
 				</td>

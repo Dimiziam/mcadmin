@@ -19,7 +19,7 @@ class UserController extends Controller {
 	{
 		return array(
 			array('allow',
-				'actions' => array('search', 'add', 'edit'),
+				'actions' => array('search', 'add', 'edit', 'delete'),
 				'users' => array('@')
 			),
 			array('deny',
@@ -28,6 +28,41 @@ class UserController extends Controller {
 		);
 	}
 
+	/**
+	 * Action to delete user or mark it as disabled
+	 * 
+	 * @param int $id - favorite id
+	 * @return void
+	 */
+	public function actionDelete($id)
+	{
+		// Prepare result
+		$result = new stdClass;
+		$result->status = 'error';
+		
+		// Check id
+		if (empty($id)) {
+			$result->message = MTLang::t('no_id', 'user');
+			$this->sendJson($result);
+		}
+		
+		// Get user model
+		$model = User::model()->findByPk($id);
+		if (empty($model)) {
+			$result->message = MTLang::t('not_found', 'user');
+			$this->sendJson($result);
+		}
+		
+		// Delete
+		if ($model->delete()) {
+			$result->status = 'success';
+		} else {
+			$result->message = MTLang::t('message_3', 'book');
+		}
+		
+		$this->sendJson($result);
+	}
+	
 	/**
 	 * Action to add new user
 	 * 

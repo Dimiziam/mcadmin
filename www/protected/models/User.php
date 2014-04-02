@@ -97,6 +97,17 @@ class User extends InfoModel {
 	}
 	
 	/**
+	 * After delete hook
+	 * 
+	 * @return void
+	 */
+	public function afterDelete()
+	{
+		// Remove all cache
+		$this->cleareCache($this->id);
+	}
+	
+	/**
 	 * Method to save model
 	 * 
 	 * @param bool $runValidation
