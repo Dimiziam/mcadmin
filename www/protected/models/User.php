@@ -10,26 +10,6 @@
  * @author Tishenko Vladimir <vagrand@mail.ru>
  */
 class User extends InfoModel {
-	/**
-	 * Variable to store confirm password value
-	 * 
-	 * @var string
-	 */
-	public $confirmPassword;
-	
-	/**
-	 * Variable to store current password value
-	 * 
-	 * @var string
-	 */
-	public $currentPassword;
-	
-	/**
-	 * Variable to store ccaptcha string
-	 * 
-	 * @var string
-	 */
-	public $captcha;
 	
 	/**
 	 * Returns the static model of the specified AR class.
@@ -61,32 +41,24 @@ class User extends InfoModel {
 	{
 		return array(
 			// Required rules
-			array('email, password, confirmPassword, captcha', 'required', 'on' => 'signup'),
-			array('email, password', 'required', 'on' => 'signin'),
-			array('login', 'required', 'on' => 'validateLogin'),
-			array('email, captcha', 'required', 'on' => 'rememberPassword'),
-			array('password, confirmPassword, captcha', 'required', 'on' => 'changePassword'),
-			array('captcha', 'required', 'on' => 'profile'),
+			array('email, password', 'required', 'on' => 'create'),
+			array('email', 'required', 'on' => 'update'),
 			
 			// Formats rules
-			array('password', 'length', 'min' => 3, 'max' => 32, 'on' => 'signup,signin,changePassword'),
-			array('confirmPassword', 'compare', 'compareAttribute' => 'password', 'on' => 'signup,changePassword,profile'),
-			array('email', 'length', 'max' => 150, 'on' => 'signup,rememberPassword'),
-			array('email', 'email', 'on' => 'signup,rememberPassword'),
-			array('name, last_name', 'length', 'max' => 255, 'on' => 'profile'),
+			array('password', 'length', 'min' => 3, 'max' => 32, 'on' => 'create,update'),
+			array('email', 'length', 'max' => 150, 'on' => 'create,update'),
+			array('email', 'email', 'on' => 'create,update'),
+			array('name, last_name', 'length', 'max' => 255, 'on' => 'create,update'),
 			
 			// Custom rules
 			array('email', 'uniqueEmail', 'on' => 'signup'),
-			array('email', 'existsEmail', 'on' => 'rememberPassword'),
-			array('captcha', 'checkCaptcha', 'on' => 'signup,rememberPassword,profile'),
-			array('currentPassword', 'checkCurrentPassword', 'on' => 'profile'),
 			
 			// Safe rule
-			array('name, last_name, password, confirmPassword', 'safe', 'on' => 'profile'),
+			array('name, last_name, password, confirmPassword', 'safe', 'on' => 'create,update'),
+			array('email', 'safe', 'on' => 'search'),
 			
 			// Default rules
 			array('created', 'default', 'value' => date('Y-m-d H:i:s', time()), 'on' => 'signup'),
-			array('approve_token_mail', 'default', 'value' => md5(uniqid(microtime() . rand(1, 1000000))), 'on' => 'signup'),
 		);
 	}
 
@@ -100,80 +72,11 @@ class User extends InfoModel {
 		return array(
 			'email' => MTLang::t('email', 'user'),
 			'password' => MTLang::t('password', 'user'),
-			'confirmPassword' => MTLang::t('c_password', 'user'),
-			'captcha' => MTLang::t('captcha', 'user'),
-			'currentPassword' => MTLang::t('current_password', 'user'),
 			'name' => MTLang::t('name', 'user'),
 			'last_name' => MTLang::t('last_name', 'user'),
+			'is_active' => MTLang::t('is_active', 'user'),
+			'is_email_confirmed' => MTLang::t('is_email_confirmed', 'user'),
 		);
-	}
-	
-	/**
-	 * Method to check current password
-	 * 
-	 * @param string $attribute
-	 * @param array $params
-	 */
-	public function checkCurrentPassword($attribute, $params)
-	{
-		if (empty($this->currentPassword) && empty($this->password)) {
-			return true;
-		}
-		
-		// Try to find item by id
-		$item = self::model()->findByPk($this->id);
-		if (empty($item)) {
-			$this->addError('currentPassword', MTLang::t('not_found', 'user'));
-		}
-		
-		// Prepare encrypted password
-		$password = md5(
-			Yii::app()->params['secret_key'] 
-			. md5($item->secret_key . $this->currentPassword . Yii::app()->params['secret_key'])
-			. $item->secret_key
-		);
-		
-		// Check is item exists
-		if ($item->password != $password) {
-			$this->addError('currentPassword', MTLang::t('current_password_incorrect', 'user'));
-		}
-	}
-	
-	/**
-	 * Method to check captcha string
-	 * 
-	 * @param string $attribute
-	 * @param array $params
-	 */
-	public function checkCaptcha($attribute, $params)
-	{
-		// Get captcha handler
-		$captcha = new MTCaptcha('data', Yii::app()->getController()->getTmpUserToken());
-		
-		// Configure captcha
-		$captcha->configure(array('key' => 'user'));
-		
-		// Validate captcha string
-		if (!$captcha->validate($this->captcha)) {
-			$this->addError('captcha', MTLang::t('incorrect_captcha', 'user'));
-		}
-	}
-	
-	/**
-	 * Method to check is email exists
-	 * 
-	 * @param string $attribute
-	 * @param array $params
-	 */
-	public function existsEmail($attribute, $params)
-	{
-		// Try to find item by email
-		$item = self::model()->find('email = :email', array(':email' => $this->email));
-		
-		// Check is item exists
-		if (empty($item)) {
-			$this->addError('email', MTLang::t('email_not_exists', 'user'));
-		}
 	}
 	
 	/**
@@ -188,84 +91,55 @@ class User extends InfoModel {
 		$item = self::model()->find('email = :email', array(':email' => $this->email));
 		
 		// Check is item exists
-		if (!empty($item)) {
+		if (!empty($item) && !empty($this->id) && $item->id != $this->id) {
 			$this->addError('email', MTLang::t('email_exists', 'user'));
 		}
 	}
 	
 	/**
-	 * Method to cleare current model cache for some user id
+	 * Method to search users
 	 * 
-	 * @param int $id
-	 * @return bool
-	 */
-	public function cleareCache($id)
-	{
-		return TRedis::instance('users')->deleteByTag('USER_' . $id)
-			&& MTCache::instance('models')->delete('user_' . $id);
-	}
-	
-	/**
-	 * Method return user info by id
-	 * 
-	 * @param int $id
+	 * @param array $params
 	 * @return mixed
 	 */
-	public function getById($id)
+	public function search($params)
 	{
-		// Prepare cache key
-		$key = 'user_' . $id;
+		// Create query command
+		$command = $this->getDbConnection()->createCommand(
+			'select SQL_CALC_FOUND_ROWS * 
+			from ' . $this->tableName() . '
+			' . (!empty($params['email']) ? 'where email = :email' : '') . '
+			order by id desc
+			limit ' . ($this->getCurrentPage() * $this->getRowsPerPage()) . ', ' . $this->getRowsPerPage()
+		);
 		
-		// Check app cache
-		if (!MTCache::instance('models')->test($key)) {
-			// Try to get user from cache
-			$user = TRedis::instance('users')->get($key);
-			if (!empty($user)) {
-				// Store into app cache
-				MTCache::instance('models')->set($key, $user);
-			}
-		} else {
-			// Get user from app cache
-			$user = MTCache::instance('models')->get($key);
+		// Bind params
+		if (!empty($params['email'])) {
+			$command->bindParam(":email", $params['email'], PDO::PARAM_STR);
 		}
 		
-		if (empty($user)) {
-			// Get user from DB
-			$user = $this->getDbConnection()
-				->createCommand('select * from ' . $this->tableName() . ' where id = :id')
-				->bindParam(":id", $id, PDO::PARAM_INT)
-				->queryRow();
-			if (empty($user)) {
-				return false;
-			}
-			
-			// Store user into cache
-			TRedis::instance('users')->setByTag('USER_' . $id, $key, $user);
-			
-			// Store into app cache
-			MTCache::instance('models')->set($key, $user);
+		// Try to find users
+		$users = $command->queryAll();
+		
+		// Check users
+		if (empty($users)) {
+			return false;
 		}
 		
-		return $user;
-	}
-	
-	/**
-	 * Method to save model
-	 * 
-	 * @param bool $runValidation
-	 * @param array $attributes
-	 */
-	public function save($runValidation = true, $attributes = null)
-	{
-		// Call parent method
-		$result = parent::save($runValidation, $attributes);
+		// Get nuber of found rows
+		$foundRows = $this->getDbConnection()->createCommand('SELECT found_rows() as totalRows')->queryScalar();
 		
-		// Check result
-		if ($result === true && !empty($this->id)) {
-			// Remove all cache
-			$this->cleareCache($this->id);
-		}
+		// Get data provider
+		$provider = new MTArrayDataProvider($users, 
+			array(
+				'totalItemCount' => $foundRows,
+				'pagination' => array('pageSize' => $this->getRowsPerPage()),
+			)
+		);
 		
-		return $result;
+		// Set offset
+		$provider->setOffset(0);
+		
+		return $provider;
 	}
 }

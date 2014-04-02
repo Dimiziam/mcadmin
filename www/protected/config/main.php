@@ -84,6 +84,13 @@ $settings = array(
 				'/<language:(' . implode('|', $i18n) . ')>/admin/search/' => '/admin/search/',
 				'/<language:(' . implode('|', $i18n) . ')>/admin/signin/' => '/admin/signin/',
 				'/<language:(' . implode('|', $i18n) . ')>/admin/logout/' => '/admin/logout/',
+		
+				// User routes
+				'/<language:(' . implode('|', $i18n) . ')>/user/search/' => '/user/search/',
+				'/<language:(' . implode('|', $i18n) . ')>/user/add/' => '/user/add/',
+				'/<language:(' . implode('|', $i18n) . ')>/user/edit/<id:([^\.]+)>.html' => '/user/edit/',
+				'/<language:(' . implode('|', $i18n) . ')>/user/delete/<id:([^\.]+)>.html' => '/user/delete/',
+				'/<language:(' . implode('|', $i18n) . ')>/user/payments/<id:([^\.]+)>.html' => '/user/payments/',
 			)
 		),
 		'errorHandler' => array(
@@ -133,11 +140,11 @@ $settings = array(
 
 		// Pager settings
 		'pager' => array(
-			'variable' => 'page',
-			'rpp' => array(
-				'singer_letters' => 200,
-				'albums' => 15
-			)
+			'variable' => array(
+				'current' => '_pager_current_page',
+				'rpp' => '_pager_rpp'
+			),
+			'rpp' => 20
 		),
 	
 		// royalty for track price
@@ -171,13 +178,6 @@ $settings = array(
 			// One year life time for cookie with tmp user token
 			'tmp_token_life_time' => 31536000,
 		),
-		
-		// Lists settings
-		'lists' => array(
-			'albums' => array(
-				'index_latest_number' => 5
-			)
-		)
 	)
 );
 

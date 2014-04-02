@@ -7,24 +7,12 @@ $items = array(
 	array(
 		'label' => 'Пользователи', 
 		'items' => array(
-			array('label' => 'Администраторы', 'url' => './index.php?r=user&type=admin'),
-			array('label' => 'Модераторы', 'url' => './index.php?r=user&type=moderator'),
-			array(
-				'label' => 'Игроки',
-				'items' => array(
-					array('label' => 'Список', 'url' => './index.php?r=player'),
-					array('label' => 'Параметры', 'url' => './index.php?r=parameter'),
-					array('label' => 'Свойства', 'url' => './index.php?r=property/groupIndex&groupId=0'),
-					array('label' => 'Виды энергии', 'url' => './index.php?r=energy'),
-					array('label' => 'Расы', 'url' => './index.php?r=race'),
-					array('label' => 'Образы', 'url' => './index.php?r=playerImage/groupIndex&groupId=0'),
-				)
-			),
-			array('label' => 'NPC', 'url' => './index.php?r=npc/groupIndex&groupId=0'),
+			array('label' => 'Администраторы', 'url' => Yii::app()->getController()->createUrl('/admin/search/')),
+			array('label' => 'Пользователи', 'url' => Yii::app()->getController()->createUrl('/user/search/')),
 		),
 	),
 	array(
-		'label' => 'Выход (' . $userInfo['login'] . ')', 'url' => '/admin/logout/'
+		'label' => 'Выход (' . $userInfo['login'] . ')', 'url' => Yii::app()->getController()->createUrl('/admin/logout/')
 	)
 );
 
