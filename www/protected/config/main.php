@@ -130,7 +130,7 @@ $settings = array(
 		'languages' => array('ru' => 'Russain', 'en' => 'English', 'cz' => 'Czech'),
 	
 		// Part of seacret key to create hashes
-		'secret_key' => 'ADMIN-MediaClub_XJEkekcjnck)_249598=-0-dsjkcvnsdjkvnsdjkvn',
+		'secret_key' => 'MediaClub_0343742374-fjfnsdjkfn=jdnfjksdfn',
 	
 		'RangeSearchAutocomplite' => '30',
 		'singer_cover' => '/images/art/',
