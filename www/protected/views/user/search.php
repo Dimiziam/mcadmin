@@ -23,7 +23,7 @@
 	</div>
 	
 	<div class="row buttons">
-		<?php echo CHtml::submitButton($translations['find_button']); ?>
+		<input type="submit" value="<?php echo $translations['find_button']; ?>" onClick='$("#pager_currentPageField").attr("value", 1);'>
 	</div>
 
 </div>
