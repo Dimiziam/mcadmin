@@ -51,14 +51,14 @@ class User extends InfoModel {
 			array('name, last_name', 'length', 'max' => 255, 'on' => 'create,update'),
 			
 			// Custom rules
-			array('email', 'uniqueEmail', 'on' => 'signup'),
+			array('email', 'uniqueEmail', 'on' => 'create'),
 			
 			// Safe rule
-			array('name, last_name, password, confirmPassword', 'safe', 'on' => 'create,update'),
+			array('name, last_name, password, is_active, is_email_confirmed', 'safe', 'on' => 'create,update'),
 			array('email', 'safe', 'on' => 'search'),
 			
 			// Default rules
-			array('created', 'default', 'value' => date('Y-m-d H:i:s', time()), 'on' => 'signup'),
+			array('created', 'default', 'value' => date('Y-m-d H:i:s', time()), 'on' => 'create'),
 		);
 	}
 
@@ -91,9 +91,40 @@ class User extends InfoModel {
 		$item = self::model()->find('email = :email', array(':email' => $this->email));
 		
 		// Check is item exists
-		if (!empty($item) && !empty($this->id) && $item->id != $this->id) {
+		if (!empty($item) && (!empty($this->id) || $item->id != $this->id)) {
 			$this->addError('email', MTLang::t('email_exists', 'user'));
 		}
+	}
+	
+	/**
+	 * Method to save model
+	 * 
+	 * @param bool $runValidation
+	 * @param array $attributes
+	 */
+	public function save($runValidation = true, $attributes = null)
+	{
+		// Call parent method
+		$result = parent::save($runValidation, $attributes);
+		
+		// Check result
+		if ($result === true && !empty($this->id)) {
+			// Remove all cache
+			$this->cleareCache($this->id);
+		}
+		
+		return $result;
+	}
+	
+	/**
+	 * Method to cleare current model cache for some user id
+	 * 
+	 * @param int $id
+	 * @return bool
+	 */
+	public function cleareCache($id)
+	{
+		return TRedis::instance('users')->deleteByTag('USER_' . $id);
 	}
 	
 	/**
