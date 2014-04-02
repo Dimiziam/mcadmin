@@ -9,7 +9,7 @@
  */
 return array(
 	'users' => array(
-		'namespace' => 'MCAUsers_',
+		'namespace' => 'MCUsers_',
 		'servers' => array(
 			array('host' => '127.0.0.1', 'port' => 6379, 'db' => 1)
 		)
@@ -17,25 +17,25 @@ return array(
 	// in this namespace store all info albums,tracks,singers,genre,style
 	// cleanup then base converting
 	'data' => array(
-		'namespace' => 'MCAData_',
+		'namespace' => 'MCData_',
 		'servers' => array(
 			array('host' => '127.0.0.1', 'port' => 6379, 'db' => 2)
 		)
 	),
 	'charts' => array(
-		'namespace' => 'MCACharst_',
+		'namespace' => 'MCCharst_',
 		'servers' => array(
 			array('host' => '127.0.0.1', 'port' => 6379, 'db' => 3)
 		)
 	),
 	'autocomplite' => array(
-		'namespace' => 'MCAAutocomplite_',
+		'namespace' => 'MCAutocomplite_',
 		'servers' => array(
 			array('host' => '127.0.0.1', 'port' => 6379, 'db' => 4)
 		)
 	),
 	'cart' => array(
-		'namespace' => 'MCACart_',
+		'namespace' => 'MCCart_',
 		'servers' => array(
 			array('host' => '127.0.0.1', 'port' => 6379, 'db' => 5)
 		)
