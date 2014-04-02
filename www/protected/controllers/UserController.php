@@ -19,7 +19,7 @@ class UserController extends Controller {
 	{
 		return array(
 			array('allow',
-				'actions' => array('search'),
+				'actions' => array('search', 'add', 'edit'),
 				'users' => array('@')
 			),
 			array('deny',
@@ -28,6 +28,88 @@ class UserController extends Controller {
 		);
 	}
 
+	/**
+	 * Action to add new user
+	 * 
+	 * @return void
+	 */
+	public function actionAdd()
+	{
+		$model = new User('create');
+
+		if (isset($_POST['User'])) {
+			$model->attributes = $_POST['User'];
+			
+			if ($model->save()) {
+				$this->redirect(array('/user/search/'));
+			} else {
+				Yii::app()->user->setFlash('error', MTLang::t('message_2', 'user'));
+			}
+		}
+
+		$this->render('add', array('model' => $model));
+	}
+	
+	/**
+	 * Action to edit user
+	 * 
+	 * @param integer $id
+	 * @return void
+	 */
+	public function actionEdit($id)
+	{
+		$model = $this->loadModel($id);
+		$model->scenario = 'update';
+		
+		if (isset($_POST['User'])) {
+			// Store old password
+			$oldPassword = $model->password;
+			
+			// Set attributes
+			$model->attributes = $_POST['User'];
+			
+			// Prepare new password
+			if (!empty($model->password)) {
+				// Generate new secret key
+				$model->secret_key = md5(uniqid(microtime() . rand(1, 10000)));
+				
+				// Encrypt password
+				$model->password = md5(
+					Yii::app()->params['secret_key'] 
+					. md5($model->secret_key . $model->password . Yii::app()->params['secret_key'])
+					. $model->secret_key
+				);
+			} else {
+				$model->password = $oldPassword;
+			}
+			
+			if ($model->save()) {
+				$this->redirect(array('/user/search/'));
+			} else {
+				Yii::app()->user->setFlash('error', MTLang::t('message_1', 'user'));
+			}
+		}
+
+		$this->render('edit', array('model' => $model));
+	}
+	
+	/**
+	 * Method return loaded model by id
+	 * 
+	 * @param integer the ID of the model to be loaded
+	 * @return CActiveRecord
+	 */
+	public function loadModel($id)
+	{
+		$model = User::model()->findByPk($id);
+		
+		if ($model === null) {
+			throw new CHttpException(404, MTLang::t('not_found', 'user'));
+		}
+		
+		return $model;
+	}
+	
 	/**
 	 * Action to search users
 	 * 
