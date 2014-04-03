@@ -52,10 +52,11 @@ class Transaction extends InfoModel
 	{
 		// Create query command
 		$command = $this->getDbConnection()->createCommand(
-			'select SQL_CALC_FOUND_ROWS * 
-			from ' . $this->tableName() . '
-			' . (!empty($params['user_id']) ? 'where user_id = :user_id' : '') . '
-			order by id desc
+			'select SQL_CALC_FOUND_ROWS transactions.*, users.email
+			from ' . $this->tableName() . ' transactions
+				inner join ' . User::model()->tableName() . ' users on users.id = transactions.user_id
+			' . (!empty($params['user_id']) ? 'where transactions.user_id = :user_id' : '') . '
+			order by transactions.id desc
 			limit ' . ($this->getCurrentPage() * $this->getRowsPerPage()) . ', ' . $this->getRowsPerPage()
 		);
 		

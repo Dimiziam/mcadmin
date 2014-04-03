@@ -100,7 +100,7 @@ $settings = array(
 				'/<language:(' . implode('|', $i18n) . ')>/order/songs/<id:([^\.]+)>.html' => '/order/songs/',
 		
 				// Payments routes
-				'/<language:(' . implode('|', $i18n) . ')>/payment/search/' => '/payment/search/',
+				'/<language:(' . implode('|', $i18n) . ')>/transaction/search/' => '/transaction/search/',
 			)
 		),
 		'errorHandler' => array(
