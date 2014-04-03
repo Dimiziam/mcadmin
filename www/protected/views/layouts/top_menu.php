@@ -18,7 +18,7 @@ $items = array(
 		'label' => $translations['payments'], 
 		'items' => array(
 			array('label' => $translations['orders'], 'url' => Yii::app()->getController()->createUrl('/order/search/')),
-			array('label' => $translations['payments'], 'url' => Yii::app()->getController()->createUrl('/payment/search/')),
+			array('label' => $translations['payments'], 'url' => Yii::app()->getController()->createUrl('/transaction/search/')),
 		),
 	),
 	array(
