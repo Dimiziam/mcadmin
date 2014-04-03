@@ -94,6 +94,13 @@ $settings = array(
 				'/<language:(' . implode('|', $i18n) . ')>/user/edit/<id:([^\.]+)>.html' => '/user/edit/',
 				'/<language:(' . implode('|', $i18n) . ')>/user/delete/<id:([^\.]+)>.html' => '/user/delete/',
 				'/<language:(' . implode('|', $i18n) . ')>/user/payments/<id:([^\.]+)>.html' => '/user/payments/',
+		
+				// Order routes
+				'/<language:(' . implode('|', $i18n) . ')>/order/search/' => '/order/search/',
+				'/<language:(' . implode('|', $i18n) . ')>/order/songs/<id:([^\.]+)>.html' => '/order/songs/',
+		
+				// Payments routes
+				'/<language:(' . implode('|', $i18n) . ')>/payment/search/' => '/payment/search/',
 			)
 		),
 		'errorHandler' => array(
