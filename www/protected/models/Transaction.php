@@ -43,104 +43,49 @@ class Transaction extends InfoModel
 	}
 	
 	/**
-	 * Method return list of all transactions by user id
+	 * Method to search transactions
 	 * 
-	 * @param int $id
+	 * @param array $params
 	 * @return mixed
 	 */
-	public function getByUserId($id)
+	public function search($params)
 	{
-		// Prepare cache key
-		$key = 'transactions_' . $id;
+		// Create query command
+		$command = $this->getDbConnection()->createCommand(
+			'select SQL_CALC_FOUND_ROWS * 
+			from ' . $this->tableName() . '
+			' . (!empty($params['user_id']) ? 'where user_id = :user_id' : '') . '
+			order by id desc
+			limit ' . ($this->getCurrentPage() * $this->getRowsPerPage()) . ', ' . $this->getRowsPerPage()
+		);
 		
-		// Check app cache
-		if (!MTCache::instance($key)->test('all')) {
-			// Get list of transactions from cache
-			$transactions = TRedis::instance('data')->get($key);
-			if (!empty($transactions)) {
-				// Store into app cache
-				MTCache::instance($key)->set('all', $transactions);
-				
-				// Return transactions
-				return $transactions;
-			}
-		} else {
-			// Get transactions from app cache
-			return MTCache::instance($key)->get('all');
+		// Bind params
+		if (!empty($params['user_id'])) {
+			$command->bindParam(":user_id", $params['user_id'], PDO::PARAM_STR);
 		}
 		
-		// Get list of transactions from DB
-		$transactions = $this->getDbConnection()
-			->createCommand(
-				'select * 
-				from ' . $this->tableName() . '
-				where user_id = :userId
-				order by date_start desc'
-			)
-			->bindParam(':userId', $id, PDO::PARAM_INT)
-			->queryAll();
+		// Try to find transactions
+		$transactions = $command->queryAll();
+		
+		// Check transactions
 		if (empty($transactions)) {
 			return false;
 		}
-
-		// Prepare transactions
-		foreach ($transactions as $index => $transaction) {
-			// Unserialize info
-			$transaction['info'] = !empty($transaction['info']) ? unserialize($transaction['info']) : null;
-			
-			$transactions[$index] = $transaction;
-		}
 		
-		// Store list of transactions
-		TRedis::instance('data')->setByTag('TRANSACTIONS_' . $id, $key, $transactions);
+		// Get nuber of found rows
+		$foundRows = $this->getDbConnection()->createCommand('SELECT found_rows() as totalRows')->queryScalar();
 		
-		// Store list of transactions into app cache
-		MTCache::instance($key)->set('all', $transactions);
+		// Get data provider
+		$provider = new MTArrayDataProvider($transactions, 
+			array(
+				'totalItemCount' => $foundRows,
+				'pagination' => array('pageSize' => $this->getRowsPerPage()),
+			)
+		);
 		
-		return $transactions;
-	}
-	
-	/**
-	 * Method to cleare current model cache
-	 * 
-	 * @param int $userId
-	 * @return bool
-	 */
-	public function cleareCache($userId)
-	{
-		return TRedis::instance('data')->deleteByTag('TRANSACTIONS_' . $userId)
-			&& MTCache::instance('transactions_' . $userId)->cleareCache()
-			&& User::model()->cleareCache($userId);
-	}
-	
-	/**
-	 * After delete hook
-	 * 
-	 * @return void
-	 */
-	public function afterDelete()
-	{
-		// Remove all cache
-		$this->cleareCache($this->user_id);
-	}
-	
-	/**
-	 * Method to save model
-	 * 
-	 * @param bool $runValidation
-	 * @param array $attributes
-	 */
-	public function save($runValidation = true, $attributes = null)
-	{
-		// Call parent method
-		$result = parent::save($runValidation, $attributes);
+		// Set offset
+		$provider->setOffset(0);
 		
-		// Check result
-		if ($result === true) {
-			// Remove all cache
-			$this->cleareCache($this->user_id);
-		}
-		
-		return $result;
+		return $provider;
 	}
 }

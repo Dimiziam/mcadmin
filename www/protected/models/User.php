@@ -12,6 +12,13 @@
 class User extends InfoModel {
 	
 	/**
+	 * Variable to store user id
+	 * 
+	 * @var int
+	 */
+	public $user_id;
+	
+	/**
 	 * Returns the static model of the specified AR class.
 	 * 
 	 * @param string $className active record class name.
@@ -55,7 +62,7 @@ class User extends InfoModel {
 			
 			// Safe rule
 			array('name, last_name, password, is_active, is_email_confirmed', 'safe', 'on' => 'create,update'),
-			array('email', 'safe', 'on' => 'search'),
+			array('email, user_id', 'safe', 'on' => 'search'),
 			
 			// Default rules
 			array('created', 'default', 'value' => date('Y-m-d H:i:s', time()), 'on' => 'create'),
