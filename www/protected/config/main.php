@@ -84,6 +84,9 @@ $settings = array(
 				'/<language:(' . implode('|', $i18n) . ')>/admin/search/' => '/admin/search/',
 				'/<language:(' . implode('|', $i18n) . ')>/admin/signin/' => '/admin/signin/',
 				'/<language:(' . implode('|', $i18n) . ')>/admin/logout/' => '/admin/logout/',
+				'/<language:(' . implode('|', $i18n) . ')>/admin/add/' => '/admin/add/',
+				'/<language:(' . implode('|', $i18n) . ')>/admin/edit/<id:([^\.]+)>.html' => '/admin/edit/',
+				'/<language:(' . implode('|', $i18n) . ')>/admin/delete/<id:([^\.]+)>.html' => '/admin/delete/',
 		
 				// User routes
 				'/<language:(' . implode('|', $i18n) . ')>/user/search/' => '/user/search/',

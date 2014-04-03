@@ -41,11 +41,15 @@ class Admin extends InfoModel {
 	{
 		return array(
 			// Required rules
-			array('login, password', 'required', 'on' => 'create,update,signin'),
+			array('login, password', 'required', 'on' => 'create,signin'),
+			array('login', 'required', 'on' => 'update'),
 			
 			// Formats rules
 			array('password', 'length', 'min' => 3, 'max' => 32, 'on' => 'create,update'),
 			array('login', 'length', 'max' => 150, 'on' => 'create,update'),
+			
+			// Safe rule
+			array('login', 'safe', 'on' => 'search'),
 			
 			// Custom rules
 			array('login', 'uniqueLogin', 'on' => 'create,update'),
@@ -77,21 +81,9 @@ class Admin extends InfoModel {
 		$item = self::model()->find('login = :login', array(':login' => $this->login));
 		
 		// Check is item exists
-		if (!empty($item) && !empty($this->id) && $item->id != $this->id) {
+		if (!empty($item) && (!empty($this->id) || $item->id != $this->id)) {
 			$this->addError('login', MTLang::t('login_exists', 'admin'));
 		}
-	}
-	
-	/**
-	 * Method to cleare current model cache for some admin id
-	 * 
-	 * @param int $id
-	 * @return void
-	 */
-	public function cleareCache($id)
-	{
-		TRedis::instance('data')->deleteByTag('ADMIN_' . $id);
-		MTCache::instance('models')->delete('admin_' . $id);
 	}
 	
 	/**
@@ -102,59 +94,62 @@ class Admin extends InfoModel {
 	 */
 	public function getById($id)
 	{
-		// Prepare cache key
-		$key = 'admin_' . $id;
-		
-		// Check app cache
-		if (!MTCache::instance('models')->test($key)) {
-			// Try to get admin from cache
-			$admin = TRedis::instance('data')->get($key);
-			if (!empty($admin)) {
-				// Store into app cache
-				MTCache::instance('models')->set($key, $admin);
-			}
-		} else {
-			// Get user from app cache
-			$user = MTCache::instance('models')->get($key);
-		}
-		
+		// Get admin from DB
+		$admin = $this->getDbConnection()
+			->createCommand('select * from ' . $this->tableName() . ' where id = :id')
+			->bindParam(":id", $id, PDO::PARAM_INT)
+			->queryRow();
 		if (empty($admin)) {
-			// Get admin from DB
-			$admin = $this->getDbConnection()
-				->createCommand('select * from ' . $this->tableName() . ' where id = :id')
-				->bindParam(":id", $id, PDO::PARAM_INT)
-				->queryRow();
-			if (empty($admin)) {
-				return false;
-			}
-			
-			// Store user into cache
-			TRedis::instance('data')->setByTag('ADMIN_' . $id, $key, $admin);
-			
-			// Store into app cache
-			MTCache::instance('models')->set($key, $admin);
+			return false;
 		}
 		
 		return $admin;
 	}
 	
 	/**
-	 * Method to save model
+	 * Method to search users
 	 * 
-	 * @param bool $runValidation
-	 * @param array $attributes
+	 * @param array $params
+	 * @return mixed
 	 */
-	public function save($runValidation = true, $attributes = null)
+	public function search($params)
 	{
-		// Call parent method
-		$result = parent::save($runValidation, $attributes);
+		// Create query command
+		$command = $this->getDbConnection()->createCommand(
+			'select SQL_CALC_FOUND_ROWS * 
+			from ' . $this->tableName() . '
+			' . (!empty($params['login']) ? 'where login = :login' : '') . '
+			order by id desc
+			limit ' . ($this->getCurrentPage() * $this->getRowsPerPage()) . ', ' . $this->getRowsPerPage()
+		);
 		
-		// Check result
-		if ($result === true && !empty($this->id)) {
-			// Remove all cache
-			$this->cleareCache($this->id);
+		// Bind params
+		if (!empty($params['login'])) {
+			$command->bindParam(":login", $params['login'], PDO::PARAM_STR);
 		}
 		
-		return $result;
+		// Try to find admins
+		$admins = $command->queryAll();
+		
+		// Check users
+		if (empty($admins)) {
+			return false;
+		}
+		
+		// Get nuber of found rows
+		$foundRows = $this->getDbConnection()->createCommand('SELECT found_rows() as totalRows')->queryScalar();
+		
+		// Get data provider
+		$provider = new MTArrayDataProvider($admins, 
+			array(
+				'totalItemCount' => $foundRows,
+				'pagination' => array('pageSize' => $this->getRowsPerPage()),
+			)
+		);
+		
+		// Set offset
+		$provider->setOffset(0);
+		
+		return $provider;
 	}
 }

@@ -19,7 +19,7 @@ class AdminController extends Controller {
 	{
 		return array(
 			array('allow',
-				'actions' => array('logout'),
+				'actions' => array('logout', 'search', 'add', 'edit', 'delete'),
 				'users' => array('@')
 			),
 			array('allow',
@@ -32,6 +32,163 @@ class AdminController extends Controller {
 		);
 	}
 
+	/**
+	 * Action to delete admin
+	 * 
+	 * @param int $id
+	 * @return void
+	 */
+	public function actionDelete($id)
+	{
+		// Prepare result
+		$result = new stdClass;
+		$result->status = 'error';
+		
+		// Check id
+		if (empty($id)) {
+			$result->message = MTLang::t('no_id', 'admin');
+			$this->sendJson($result);
+		}
+		
+		// Get admin model
+		$model = Admin::model()->findByPk($id);
+		if (empty($model)) {
+			$result->message = MTLang::t('not_found', 'admin');
+			$this->sendJson($result);
+		}
+		
+		// Delete
+		if ($model->delete()) {
+			$result->status = 'deleted';
+		} else {
+			$result->message = MTLang::t('message_3', 'admin');
+		}
+		
+		$this->sendJson($result);
+	}
+	
+	/**
+	 * Action to add new admin
+	 * 
+	 * @return void
+	 */
+	public function actionAdd()
+	{
+		$model = new Admin('create');
+
+		if (isset($_POST['Admin'])) {
+			$model->attributes = $_POST['Admin'];
+			
+			// Generate new secret key
+			$model->secret_key = md5(uniqid(microtime() . rand(1, 10000)));
+			
+			// Encrypt password
+			$model->password = md5(
+				Yii::app()->params['secret_key'] 
+				. md5($model->secret_key . $model->password . Yii::app()->params['secret_key'])
+				. $model->secret_key
+			);
+			
+			if ($model->save()) {
+				$this->redirect(array('/admin/search/'));
+			} else {
+				Yii::app()->user->setFlash('error', MTLang::t('message_2', 'admin'));
+			}
+		}
+
+		$this->render('add', array('model' => $model));
+	}
+	
+	/**
+	 * Action to edit admin
+	 * 
+	 * @param integer $id
+	 * @return void
+	 */
+	public function actionEdit($id)
+	{
+		$model = $this->loadModel($id);
+		$model->scenario = 'update';
+		
+		if (isset($_POST['Admin'])) {
+			// Store old password
+			$oldPassword = $model->password;
+			
+			// Set attributes
+			$model->attributes = $_POST['Admin'];
+			
+			// Prepare new password
+			if (!empty($model->password)) {
+				// Generate new secret key
+				$model->secret_key = md5(uniqid(microtime() . rand(1, 10000)));
+				
+				// Encrypt password
+				$model->password = md5(
+					Yii::app()->params['secret_key'] 
+					. md5($model->secret_key . $model->password . Yii::app()->params['secret_key'])
+					. $model->secret_key
+				);
+			} else {
+				$model->password = $oldPassword;
+			}
+			
+			if ($model->save()) {
+				$this->redirect(array('/admin/search/'));
+			} else {
+				Yii::app()->user->setFlash('error', MTLang::t('message_1', 'admin'));
+			}
+		}
+
+		$this->render('edit', array('model' => $model));
+	}
+	
+	/**
+	 * Method return loaded model by id
+	 * 
+	 * @param integer the ID of the model to be loaded
+	 * @return CActiveRecord
+	 */
+	public function loadModel($id)
+	{
+		$model = Admin::model()->findByPk($id);
+		
+		if ($model === null) {
+			throw new CHttpException(404, MTLang::t('not_found', 'admin'));
+		}
+		
+		return $model;
+	}
+	
+	/**
+	 * Action to search admins
+	 * 
+	 * @return void
+	 */
+	public function actionSearch()
+	{
+		$params = array();
+		
+		// Get admin model
+		$model = new Admin('search');
+		
+		if (!empty($_POST['Admin'])) {
+			$model->attributes = $_POST['Admin'];
+			
+			// Add search by login
+			if (!empty($model->login)) {
+				$params['login'] = $model->login;
+			}
+		}
+		
+		// Render view
+		$this->render('search', 
+			array(
+				'model' => $model,
+				'admins' => Admin::model()->search($params)
+			)
+		);
+	}
+	
 	/**
 	 * Action to logout player
 	 * 

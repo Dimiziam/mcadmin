@@ -1,4 +1,37 @@
 /**
+ * Method to delete admin
+ * 
+ * @param int adminId
+ * @return bool
+ */
+function admin_delete(adminId)
+{
+	if (!confirm(global_messages['admin']['delete_confirm'])) {
+		return false;
+	}
+	
+	// Send AJAX request
+	$.ajax(
+		{
+			url: '/' + global_language_code + '/admin/delete/' + adminId + '.html',
+			dataType: "json",
+			success: function(response) {
+				if (response.status == 'error') {
+					alert(response.message);
+				} else {
+					$('#admin_' + adminId).fadeOut("slow", function(){
+						$('#admin_' + adminId).remove();
+					});
+				}
+			},
+			error: function() {
+				alert(global_messages['admin']['delete_error']);
+			}
+		}
+	);
+}
+
+/**
  * Method to delete user
  * 
  * @param int userId

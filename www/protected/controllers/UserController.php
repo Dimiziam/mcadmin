@@ -31,7 +31,7 @@ class UserController extends Controller {
 	/**
 	 * Action to delete user or mark it as disabled
 	 * 
-	 * @param int $id - favorite id
+	 * @param int $id
 	 * @return void
 	 */
 	public function actionDelete($id)
@@ -59,7 +59,7 @@ class UserController extends Controller {
 			if ($model->delete()) {
 				$result->status = 'deleted';
 			} else {
-				$result->message = MTLang::t('message_3', 'book');
+				$result->message = MTLang::t('message_3', 'user');
 			}
 		} else {
 			$model->is_active = 'no';
@@ -68,7 +68,7 @@ class UserController extends Controller {
 			if ($model->save()) {
 				$result->status = 'disabled';
 			} else {
-				$result->message = MTLang::t('message_4', 'book');
+				$result->message = MTLang::t('message_4', 'user');
 			}
 		}
 		
@@ -86,6 +86,16 @@ class UserController extends Controller {
 
 		if (isset($_POST['User'])) {
 			$model->attributes = $_POST['User'];
+			
+			// Generate new secret key
+			$model->secret_key = md5(uniqid(microtime() . rand(1, 10000)));
+			
+			// Encrypt password
+			$model->password = md5(
+				Yii::app()->params['secret_key'] 
+				. md5($model->secret_key . $model->password . Yii::app()->params['secret_key'])
+				. $model->secret_key
+			);
 			
 			if ($model->save()) {
 				$this->redirect(array('/user/search/'));

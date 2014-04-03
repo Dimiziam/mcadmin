@@ -34,7 +34,7 @@
 	</div>
 	
 	<div class="row buttons">
-		<input type="submit" value="<?php echo $translations['find_button']; ?>" onClick='$("#pager_currentPageField").attr("value", 1);'>
+		<input type="submit" value="<?php echo MTLang::t('find_button', 'persistence'); ?>" onClick='$("#pager_currentPageField").attr("value", 1);'>
 	</div>
 
 </div>
@@ -52,7 +52,7 @@
 		// Add pager widget
 		$this->widget('application.components.widgets.WPager', array('provider' => $users));
 ?>
-	<table>
+	<table class="list_table">
 		<tr>
 			<th>ID</th>
 			<th><?php echo $translations['email']; ?></th>

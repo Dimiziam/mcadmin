@@ -1,18 +1,21 @@
 <?php
+// Get top_menu translations
+$translations = MTLang::instance()->getGroup('top_menu');
+
 // Get user info
 $userInfo = Yii::app()->user->getInfo();
 
 // Prepare menu items
 $items = array(
 	array(
-		'label' => 'Пользователи', 
+		'label' => $translations['users'], 
 		'items' => array(
-			array('label' => 'Администраторы', 'url' => Yii::app()->getController()->createUrl('/admin/search/')),
-			array('label' => 'Пользователи', 'url' => Yii::app()->getController()->createUrl('/user/search/')),
+			array('label' => $translations['administrators'], 'url' => Yii::app()->getController()->createUrl('/admin/search/')),
+			array('label' => $translations['users'], 'url' => Yii::app()->getController()->createUrl('/user/search/')),
 		),
 	),
 	array(
-		'label' => 'Выход (' . $userInfo['login'] . ')', 'url' => Yii::app()->getController()->createUrl('/admin/logout/')
+		'label' => $translations['exit'] . ' (' . $userInfo['login'] . ')', 'url' => Yii::app()->getController()->createUrl('/admin/logout/')
 	)
 );
 
