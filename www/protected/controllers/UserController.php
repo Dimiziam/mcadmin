@@ -53,11 +53,23 @@ class UserController extends Controller {
 			$this->sendJson($result);
 		}
 		
-		// Delete
-		if ($model->delete()) {
-			$result->status = 'success';
+		// Check is need to delete user
+		if ((empty($model->amount) || $model->amount == '0.00') && !Order::model()->getNumberByuserId($model->id)) {
+			// Delete
+			if ($model->delete()) {
+				$result->status = 'deleted';
+			} else {
+				$result->message = MTLang::t('message_3', 'book');
+			}
 		} else {
-			$result->message = MTLang::t('message_3', 'book');
+			$model->is_active = 'no';
+			
+			// Save
+			if ($model->save()) {
+				$result->status = 'disabled';
+			} else {
+				$result->message = MTLang::t('message_4', 'book');
+			}
 		}
 		
 		$this->sendJson($result);

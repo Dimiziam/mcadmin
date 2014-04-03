@@ -12,7 +12,9 @@
 	var global_messages = {
 		'user': {
 			'delete_confirm': "<?php echo $translations['delete_confirm']; ?>",
-			'delete_error': "<?php echo $translations['message_3']; ?>"
+			'delete_error': "<?php echo $translations['message_3']; ?>",
+			'disabled_message': "<?php echo $translations['message_5']; ?>",
+			'status_no': "<b><?php echo MTLang::t('no_value', 'persistence'); ?></b>"
 		}
 	};
 </script>
@@ -69,7 +71,7 @@
 				<td><?php echo $item['name']; ?></td>
 				<td><?php echo $item['last_name']; ?></td>
 				<td><?php echo $item['amount']; ?></td>
-				<td><?php echo $statuses[$item['is_active']]; ?></td>
+				<td id="user_status_<?php echo $item['id']; ?>"><?php echo $statuses[$item['is_active']]; ?></td>
 				<td><?php echo $statuses[$item['is_email_confirmed']]; ?></td>
 				<td><?php echo $item['created']; ?></td>
 				<td>
