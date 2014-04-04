@@ -19,7 +19,7 @@ class AdminController extends Controller {
 	{
 		return array(
 			array('allow',
-				'actions' => array('logout', 'search', 'add', 'edit', 'delete'),
+				'actions' => array('logout', 'search', 'add', 'edit', 'delete', 'autocomplete'),
 				'users' => array('@')
 			),
 			array('allow',
@@ -32,6 +32,34 @@ class AdminController extends Controller {
 		);
 	}
 
+	/**
+	 * Displays a particular model.
+	 * 
+	 * @param integer $id the ID of the model to be displayed
+	 * @return void
+	 */
+	public function actionAutocomplete()
+	{
+		// Prepare criteria
+		$criteria = new CDbCriteria;
+		$criteria->condition = "login LIKE :login";
+		$criteria->params = array(":login" => $_GET['q'] . "%");
+		$criteria->limit = $_GET['limit'];
+		
+		// Find admins
+		$admins = Admin::model()->findAll($criteria);
+		if (empty($admins)) {
+			exit;
+		}
+		
+		// Send admin
+		foreach ($admins as $admin) {
+			echo $admin->login . '|' . $admin->id . "\n";
+		}
+		
+		Yii::app()->end();
+	}
+	
 	/**
 	 * Action to delete admin
 	 * 
@@ -168,15 +196,23 @@ class AdminController extends Controller {
 	{
 		$params = array();
 		
-		// Get admin model
-		$model = new Admin('search');
+		// Get user model
+		$model = new SearchAdminForm('search');
 		
-		if (!empty($_POST['Admin'])) {
-			$model->attributes = $_POST['Admin'];
+		if (!empty($_REQUEST['SearchAdminForm'])) {
+			$model->attributes = $_REQUEST['SearchAdminForm'];
 			
-			// Add search by login
-			if (!empty($model->login)) {
-				$params['login'] = $model->login;
+			// Add search by id
+			if (!empty($model->id)) {
+				$params['id'] = $model->id;
+				
+				// Get admin by id
+				$admin = Admin::model()->findByPk($model->id);
+				
+				// Set admin login
+				if (!empty($admin)) {
+					$model->login = $admin->login;
+				}
 			}
 		}
 		

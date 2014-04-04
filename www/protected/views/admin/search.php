@@ -23,12 +23,26 @@
 
 <div class="form">
 	
-	<?php echo $form->errorSummary($model); ?>
-	
 	<div class="row">
-		<?php echo $form->labelEx($model, 'login'); ?>
-		<?php echo $form->textField($model, 'login'); ?>
-		<?php echo $form->error($model, 'login'); ?>
+		<?php echo $translations['login']; ?>:
+		<?php 
+			$this->widget('CAutoComplete',
+				array(
+					'model' => 'SearchAdminForm',
+					'name' => 'login',
+					'value' => !empty($model->login) ? $model->login : '',
+					'url' => $this->createUrl('/admin/autocomplete/'),
+					'minChars' => 2,
+					'max' => 10,
+					'htmlOptions' => array(
+						'size' => 50
+					),
+					'methodChain' => '.result(function(event,item){$("#SearchAdminForm_id").attr("value", item[1]);})'
+				)
+			);
+			
+			echo CHtml::hiddenField('SearchAdminForm[id]', !empty($model->id) ? $model->id : 0);
+		?>
 	</div>
 	
 	<div class="row buttons">

@@ -19,7 +19,7 @@ class UserController extends Controller {
 	{
 		return array(
 			array('allow',
-				'actions' => array('search', 'add', 'edit', 'delete'),
+				'actions' => array('search', 'add', 'edit', 'delete', 'autocomplete'),
 				'users' => array('@')
 			),
 			array('deny',
@@ -28,6 +28,34 @@ class UserController extends Controller {
 		);
 	}
 
+	/**
+	 * Displays a particular model.
+	 * 
+	 * @param integer $id the ID of the model to be displayed
+	 * @return void
+	 */
+	public function actionAutocomplete()
+	{
+		// Prepare criteria
+		$criteria = new CDbCriteria;
+		$criteria->condition = "email LIKE :email";
+		$criteria->params = array(":email" => $_GET['q'] . "%");
+		$criteria->limit = $_GET['limit'];
+		
+		// Find users
+		$users = User::model()->findAll($criteria);
+		if (empty($users)) {
+			exit;
+		}
+		
+		// Send user
+		foreach ($users as $user) {
+			echo $user->email . '|' . $user->id . "\n";
+		}
+		
+		Yii::app()->end();
+	}
+	
 	/**
 	 * Action to delete user or mark it as disabled
 	 * 
@@ -177,14 +205,22 @@ class UserController extends Controller {
 		$params = array();
 		
 		// Get user model
-		$model = new User('search');
+		$model = new SearchUserForm('search');
 		
-		if (!empty($_POST['User'])) {
-			$model->attributes = $_POST['User'];
+		if (!empty($_REQUEST['SearchUserForm'])) {
+			$model->attributes = $_REQUEST['SearchUserForm'];
 			
-			// Add search by email
-			if (!empty($model->email)) {
-				$params['email'] = $model->email;
+			// Add search by id
+			if (!empty($model->id)) {
+				$params['id'] = $model->id;
+				
+				// Get user by id
+				$user = User::model()->findByPk($model->id);
+				
+				// Set user email
+				if (!empty($user)) {
+					$model->email = $user->email;
+				}
 			}
 		}
 		

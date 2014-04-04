@@ -157,14 +157,14 @@ class User extends InfoModel {
 		$command = $this->getDbConnection()->createCommand(
 			'select SQL_CALC_FOUND_ROWS * 
 			from ' . $this->tableName() . '
-			' . (!empty($params['email']) ? 'where email = :email' : '') . '
+			' . (!empty($params['id']) ? 'where id = :id' : '') . '
 			order by id desc
 			limit ' . ($this->getCurrentPage() * $this->getRowsPerPage()) . ', ' . $this->getRowsPerPage()
 		);
 		
 		// Bind params
-		if (!empty($params['email'])) {
-			$command->bindParam(":email", $params['email'], PDO::PARAM_STR);
+		if (!empty($params['id'])) {
+			$command->bindParam(":id", $params['id'], PDO::PARAM_INT);
 		}
 		
 		// Try to find users

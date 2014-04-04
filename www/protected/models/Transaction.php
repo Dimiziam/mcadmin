@@ -55,12 +55,17 @@ class Transaction extends InfoModel
 			'select SQL_CALC_FOUND_ROWS transactions.*, users.email
 			from ' . $this->tableName() . ' transactions
 				inner join ' . User::model()->tableName() . ' users on users.id = transactions.user_id
-			' . (!empty($params['user_id']) ? 'where transactions.user_id = :user_id' : '') . '
+			where 1 
+				' . (!empty($params['id']) ? ' and transactions.id = :id' : '') . '
+				' . (!empty($params['user_id']) ? ' and transactions.user_id = :user_id' : '') . '
 			order by transactions.id desc
 			limit ' . ($this->getCurrentPage() * $this->getRowsPerPage()) . ', ' . $this->getRowsPerPage()
 		);
 		
 		// Bind params
+		if (!empty($params['id'])) {
+			$command->bindParam(":id", $params['id'], PDO::PARAM_STR);
+		}
 		if (!empty($params['user_id'])) {
 			$command->bindParam(":user_id", $params['user_id'], PDO::PARAM_STR);
 		}

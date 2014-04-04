@@ -38,14 +38,27 @@ class TransactionController extends Controller {
 		$params = array();
 		
 		// Get user model
-		$model = new User('search');
+		$model = new SearchTransactionForm('search');
 		
-		if (!empty($_POST['User'])) {
-			$model->attributes = $_POST['User'];
+		if (!empty($_REQUEST['SearchTransactionForm'])) {
+			$model->attributes = $_POST['SearchTransactionForm'];
+			
+			// Add search by id
+			if (!empty($model->id)) {
+				$params['id'] = $model->id;
+			}
 			
 			// Add search by user id
 			if (!empty($model->user_id)) {
 				$params['user_id'] = $model->user_id;
+				
+				// Get user by id
+				$user = User::model()->findByPk($model->user_id);
+				
+				// Set user email
+				if (!empty($user)) {
+					$model->email = $user->email;
+				}
 			}
 		}
 		

@@ -99,12 +99,17 @@ class Order extends InfoModel
 			from ' . $this->tableName() . ' orders
 				inner join ' . User::model()->tableName() . ' users on users.id = orders.user_id
 				inner join ' . Transaction::model()->tableName() . ' transactions on transactions.id = orders.transaction_id
-			' . (!empty($params['user_id']) ? 'where orders.user_id = :user_id' : '') . '
+			where 1 
+				' . (!empty($params['id']) ? ' and orders.id = :id' : '') . '
+				' . (!empty($params['user_id']) ? ' and orders.user_id = :user_id' : '') . '
 			order by orders.id desc
 			limit ' . ($this->getCurrentPage() * $this->getRowsPerPage()) . ', ' . $this->getRowsPerPage()
 		);
 		
 		// Bind params
+		if (!empty($params['id'])) {
+			$command->bindParam(":id", $params['id'], PDO::PARAM_STR);
+		}
 		if (!empty($params['user_id'])) {
 			$command->bindParam(":user_id", $params['user_id'], PDO::PARAM_STR);
 		}

@@ -87,6 +87,7 @@ $settings = array(
 				'/<language:(' . implode('|', $i18n) . ')>/admin/add/' => '/admin/add/',
 				'/<language:(' . implode('|', $i18n) . ')>/admin/edit/<id:([^\.]+)>.html' => '/admin/edit/',
 				'/<language:(' . implode('|', $i18n) . ')>/admin/delete/<id:([^\.]+)>.html' => '/admin/delete/',
+				'/<language:(' . implode('|', $i18n) . ')>/admin/autocomplete/' => '/admin/autocomplete/',
 		
 				// User routes
 				'/<language:(' . implode('|', $i18n) . ')>/user/search/' => '/user/search/',
@@ -94,6 +95,7 @@ $settings = array(
 				'/<language:(' . implode('|', $i18n) . ')>/user/edit/<id:([^\.]+)>.html' => '/user/edit/',
 				'/<language:(' . implode('|', $i18n) . ')>/user/delete/<id:([^\.]+)>.html' => '/user/delete/',
 				'/<language:(' . implode('|', $i18n) . ')>/user/payments/<id:([^\.]+)>.html' => '/user/payments/',
+				'/<language:(' . implode('|', $i18n) . ')>/user/autocomplete/' => '/user/autocomplete/',
 		
 				// Order routes
 				'/<language:(' . implode('|', $i18n) . ')>/order/search/' => '/order/search/',

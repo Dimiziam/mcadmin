@@ -12,12 +12,31 @@
 
 <div class="form">
 	
-	<?php echo $form->errorSummary($model); ?>
+	<div class="row">
+		<?php echo $translations['transaction_id']; ?>:
+		<?php echo $form->textField($model, 'id'); ?>
+	</div>
 	
 	<div class="row">
-		<?php echo $form->labelEx($model, 'email'); ?>
-		<?php echo $form->emailField($model, 'email'); ?>
-		<?php echo $form->error($model, 'email'); ?>
+		<?php echo $translations['user_email']; ?>:
+		<?php 
+			$this->widget('CAutoComplete',
+				array(
+					'model' => 'SearchTransactionForm',
+					'name' => 'email',
+					'value' => !empty($model->email) ? $model->email : '',
+					'url' => $this->createUrl('/user/autocomplete/'),
+					'minChars' => 2,
+					'max' => 10,
+					'htmlOptions' => array(
+						'size' => 50
+					),
+					'methodChain' => '.result(function(event,item){$("#SearchTransactionForm_user_id").attr("value", item[1]);})'
+				)
+			);
+			
+			echo CHtml::hiddenField('SearchTransactionForm[user_id]', !empty($model->user_id) ? $model->user_id : 0);
+		?>
 	</div>
 	
 	<div class="row buttons">

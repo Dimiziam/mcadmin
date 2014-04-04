@@ -118,14 +118,14 @@ class Admin extends InfoModel {
 		$command = $this->getDbConnection()->createCommand(
 			'select SQL_CALC_FOUND_ROWS * 
 			from ' . $this->tableName() . '
-			' . (!empty($params['login']) ? 'where login = :login' : '') . '
+			' . (!empty($params['id']) ? 'where id = :id' : '') . '
 			order by id desc
 			limit ' . ($this->getCurrentPage() * $this->getRowsPerPage()) . ', ' . $this->getRowsPerPage()
 		);
 		
 		// Bind params
-		if (!empty($params['login'])) {
-			$command->bindParam(":login", $params['login'], PDO::PARAM_STR);
+		if (!empty($params['id'])) {
+			$command->bindParam(":id", $params['id'], PDO::PARAM_INT);
 		}
 		
 		// Try to find admins

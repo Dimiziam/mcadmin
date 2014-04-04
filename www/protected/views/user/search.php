@@ -25,12 +25,26 @@
 
 <div class="form">
 	
-	<?php echo $form->errorSummary($model); ?>
-	
 	<div class="row">
-		<?php echo $form->labelEx($model, 'email'); ?>
-		<?php echo $form->emailField($model, 'email'); ?>
-		<?php echo $form->error($model, 'email'); ?>
+		Email:
+		<?php 
+			$this->widget('CAutoComplete',
+				array(
+					'model' => 'SearchUserForm',
+					'name' => 'email',
+					'value' => !empty($model->email) ? $model->email : '',
+					'url' => $this->createUrl('/user/autocomplete/'),
+					'minChars' => 2,
+					'max' => 10,
+					'htmlOptions' => array(
+						'size' => 50
+					),
+					'methodChain' => '.result(function(event,item){$("#SearchUserForm_id").attr("value", item[1]);})'
+				)
+			);
+			
+			echo CHtml::hiddenField('SearchUserForm[id]', !empty($model->id) ? $model->id : 0);
+		?>
 	</div>
 	
 	<div class="row buttons">
