@@ -99,8 +99,13 @@
 					</a>
 				</td>
 				<td>
-					<a href="<?php echo $this->createUrl('/user/payments/', array('id' => $item['id'])); ?>" title="<?php echo $translations['payments_link_title']; ?>">
+					<a href="<?php echo $this->createUrl('/transaction/search/', array('SearchTransactionForm[user_id]' => $item['id'])); ?>" title="<?php echo $translations['payments_link_title']; ?>">
 						<img src="/images/coins_16.png" border="0">
+					</a>
+				</td>
+				<td>
+					<a href="<?php echo $this->createUrl('/order/search/', array('SearchOrderForm[user_id]' => $item['id'])); ?>" title="<?php echo $translations['orders_link_title']; ?>">
+						<img src="/images/cart_16.png" border="0">
 					</a>
 				</td>
 			</tr>

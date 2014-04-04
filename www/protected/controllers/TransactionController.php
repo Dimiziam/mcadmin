@@ -41,7 +41,7 @@ class TransactionController extends Controller {
 		$model = new SearchTransactionForm('search');
 		
 		if (!empty($_REQUEST['SearchTransactionForm'])) {
-			$model->attributes = $_POST['SearchTransactionForm'];
+			$model->attributes = $_REQUEST['SearchTransactionForm'];
 			
 			// Add search by id
 			if (!empty($model->id)) {

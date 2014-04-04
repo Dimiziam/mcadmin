@@ -58,7 +58,7 @@ class OrderController extends Controller {
 		$model = new SearchOrderForm('search');
 		
 		if (!empty($_REQUEST['SearchOrderForm'])) {
-			$model->attributes = $_POST['SearchOrderForm'];
+			$model->attributes = $_REQUEST['SearchOrderForm'];
 			
 			// Add search by id
 			if (!empty($model->id)) {
