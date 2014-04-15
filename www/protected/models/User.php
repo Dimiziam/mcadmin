@@ -98,7 +98,7 @@ class User extends InfoModel {
 		$item = self::model()->find('email = :email', array(':email' => $this->email));
 		
 		// Check is item exists
-		if (!empty($item) && (!empty($this->id) || $item->id != $this->id)) {
+		if (!empty($item) && (empty($this->id) || $item->id != $this->id)) {
 			$this->addError('email', MTLang::t('email_exists', 'user'));
 		}
 	}

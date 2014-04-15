@@ -81,7 +81,7 @@ class Admin extends InfoModel {
 		$item = self::model()->find('login = :login', array(':login' => $this->login));
 		
 		// Check is item exists
-		if (!empty($item) && (!empty($this->id) || $item->id != $this->id)) {
+		if (!empty($item) && (empty($this->id) || $item->id != $this->id)) {
 			$this->addError('login', MTLang::t('login_exists', 'admin'));
 		}
 	}
