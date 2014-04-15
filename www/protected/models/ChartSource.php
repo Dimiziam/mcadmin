@@ -76,8 +76,6 @@ class ChartSource extends InfoModel {
 		// Try to find item by login
 		$item = self::model()->find('alias = :alias', array(':alias' => $this->alias));
 		
-		var_dump($item->id, $this->id);
-		
 		// Check is item exists
 		if (!empty($item) && (empty($this->id) || $item->id != $this->id)) {
 			$this->addError('login', MTLang::t('alias_exists', 'chart'));
