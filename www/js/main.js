@@ -1,4 +1,37 @@
 /**
+ * Method to delete chart
+ * 
+ * @param int chartId
+ * @return bool
+ */
+function chart_delete(chartId)
+{
+	if (!confirm(global_messages['chart']['delete_confirm'])) {
+		return false;
+	}
+	
+	// Send AJAX request
+	$.ajax(
+		{
+			url: '/' + global_language_code + '/chart/delete/' + chartId + '.html',
+			dataType: "json",
+			success: function(response) {
+				if (response.status == 'error') {
+					alert(response.message);
+				} else {
+					$('#chart_' + chartId).fadeOut("slow", function(){
+						$('#chart_' + chartId).remove();
+					});
+				}
+			},
+			error: function() {
+				alert(global_messages['chart']['delete_error']);
+			}
+		}
+	);
+}
+
+/**
  * Method to delete admin
  * 
  * @param int adminId
