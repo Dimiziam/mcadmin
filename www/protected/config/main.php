@@ -103,6 +103,12 @@ $settings = array(
 		
 				// Payments routes
 				'/<language:(' . implode('|', $i18n) . ')>/transaction/search/' => '/transaction/search/',
+		
+				// Chart routes
+				'/<language:(' . implode('|', $i18n) . ')>/chart/add/' => '/chart/add/',
+				'/<language:(' . implode('|', $i18n) . ')>/chart/edit/<id:([^\.]+)>.html' => '/chart/edit/',
+				'/<language:(' . implode('|', $i18n) . ')>/chart/delete/<id:([^\.]+)>.html' => '/chart/delete/',
+				'/<language:(' . implode('|', $i18n) . ')>/chart/autocomplete/' => '/chart/autocomplete/',
 			)
 		),
 		'errorHandler' => array(
