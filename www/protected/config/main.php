@@ -109,6 +109,7 @@ $settings = array(
 				'/<language:(' . implode('|', $i18n) . ')>/chart/edit/<id:([^\.]+)>.html' => '/chart/edit/',
 				'/<language:(' . implode('|', $i18n) . ')>/chart/delete/<id:([^\.]+)>.html' => '/chart/delete/',
 				'/<language:(' . implode('|', $i18n) . ')>/chart/autocomplete/' => '/chart/autocomplete/',
+				'/<language:(' . implode('|', $i18n) . ')>/chart/items/<id:([^\.]+)>.html' => '/chart/items/',
 			)
 		),
 		'errorHandler' => array(
