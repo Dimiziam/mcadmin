@@ -65,7 +65,7 @@
 			<th><?php echo $translations['alias']; ?></th>
 			<th><?php echo $translations['title']; ?></th>
 			<th><?php echo $translations['url']; ?></th>
-			<th colspan="2">&nbsp;</th>
+			<th colspan="3">&nbsp;</th>
 		</tr>
 		<?php foreach ($items as $item) { ?>
 			<tr id="chart_<?php echo $item['id']; ?>">
@@ -85,6 +85,11 @@
 				<td>
 					<a href="JavaScript: void(0);" onClick="chart_delete(<?php echo $item['id']; ?>);" title="<?php echo $translations['delete_link_title']; ?>">
 						<img src="/images/trash_16.png" border="0">
+					</a>
+				</td>
+				<td>
+					<a href="<?php echo $this->createUrl('/chart/items/', array('id' => $item['id'])); ?>" title="<?php echo $translations['items_link_title']; ?>">
+						<img src="/images/list_16.png" border="0">
 					</a>
 				</td>
 			</tr>

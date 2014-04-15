@@ -8,8 +8,9 @@ $this->breadcrumbs = array(
 );
 
 $this->menu = array(
+	array('label' => $translations['charts_list'], 'url' => $this->createUrl('/chart/search/')),
 	array('label' => MTLang::t('add_new', 'persistence'), 'url' => $this->createUrl('/chart/add/')),
-	array('label' => $translations['charts_list'], 'url' => $this->createUrl('/chart/search/'))
+	array('label' => $translations['items_link_title'], 'url' => $this->createUrl('/chart/items/', array('id' => $model->id))),
 );
 ?>
 
