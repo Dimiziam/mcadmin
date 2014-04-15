@@ -22,6 +22,12 @@ $items = array(
 		),
 	),
 	array(
+		'label' => $translations['content'], 
+		'items' => array(
+			array('label' => $translations['charts'], 'url' => Yii::app()->getController()->createUrl('/chart/search/')),
+		),
+	),
+	array(
 		'label' => $translations['exit'] . ' (' . $userInfo['login'] . ')', 'url' => Yii::app()->getController()->createUrl('/admin/logout/')
 	)
 );
