@@ -12,6 +12,20 @@
 class SearchChartItemForm extends ChartSource {
 
 	/**
+	 * Variable to store selected year
+	 * 
+	 * @var int
+	 */
+	public $year;
+	
+	/**
+	 * Variable to store selected month
+	 * 
+	 * @var string
+	 */
+	public $month;
+	
+	/**
 	 * Method return field rules
 	 * 
 	 * @return array validation rules for model attributes.
