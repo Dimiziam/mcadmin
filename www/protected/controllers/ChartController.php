@@ -19,7 +19,10 @@ class ChartController extends Controller {
 	{
 		return array(
 			array('allow',
-				'actions' => array('search', 'add', 'edit', 'delete', 'autocomplete'),
+				'actions' => array(
+					'search', 'add', 'edit', 'delete', 'autocomplete',
+					'items', 'itemAdd', 'itemEdit', 'itemDelete'
+				),
 				'users' => array('@')
 			),
 			array('deny',
@@ -28,6 +31,155 @@ class ChartController extends Controller {
 		);
 	}
 
+	/**
+	 * Action to delete chart item
+	 * 
+	 * @param int $id
+	 * @return void
+	 */
+	public function actionItemDelete($id)
+	{
+		// Prepare result
+		$result = new stdClass;
+		$result->status = 'error';
+		
+		// Check id
+		if (empty($id)) {
+			$result->message = MTLang::t('no_id', 'chart');
+			$this->sendJson($result);
+		}
+		
+		// Get chart item model
+		$model = ChartItem::model()->findByPk($id);
+		if (empty($model)) {
+			$result->message = MTLang::t('not_found', 'chart');
+			$this->sendJson($result);
+		}
+		
+		// Delete
+		if ($model->delete()) {
+			$result->status = 'deleted';
+		} else {
+			$result->message = MTLang::t('message_5', 'chart');
+		}
+		
+		$this->sendJson($result);
+	}
+	
+	/**
+	 * Action to add new chart item
+	 * 
+	 * @param string $created
+	 * @param int $sourceId
+	 * @return void
+	 */
+	public function actionItemAdd($created, $sourceId)
+	{
+		$model = new ChartItem('create');
+
+		if (isset($_POST['ChartItem'])) {
+			$model->attributes = $_POST['ChartItem'];
+			$model->source_id = (int) $sourceId;
+			$model->created = addslashes($created);
+			
+			if ($model->save()) {
+				$this->redirect(array('/chart/items/', 'id' => $model->source_id));
+			} else {
+				Yii::app()->user->setFlash('error', MTLang::t('message_6', 'chart'));
+			}
+		}
+
+		$this->render('item_add', 
+			array(
+				'model' => $model,
+				'chart' => ChartSource::model()->findByPk($sourceId)
+			)
+		);
+	}
+	
+	/**
+	 * Action to edit chart item
+	 * 
+	 * @param integer $id
+	 * @return void
+	 */
+	public function actionItemEdit($id)
+	{
+		$model = $this->loadItemModel($id);
+		$model->scenario = 'update';
+		
+		if (isset($_POST['ChartItem'])) {
+			// Set attributes
+			$model->attributes = $_POST['ChartItem'];
+			
+			if ($model->save()) {
+				$this->redirect(array('/chart/items/', 'id' => $model->source_id));
+			} else {
+				Yii::app()->user->setFlash('error', MTLang::t('message_4', 'chart'));
+			}
+		}
+
+		$this->render('item_edit', 
+			array(
+				'model' => $model,
+				'chart' => ChartSource::model()->findByPk($model->source_id),
+			)
+		);
+	}
+	
+	/**
+	 * Method return loaded model by id
+	 * 
+	 * @param integer the ID of the model to be loaded
+	 * @return CActiveRecord
+	 */
+	public function loadItemModel($id)
+	{
+		$model = ChartItem::model()->findByPk($id);
+		
+		if ($model === null) {
+			throw new CHttpException(404, MTLang::t('item_not_found', 'chart'));
+		}
+		
+		return $model;
+	}
+	
+	/**
+	 * Action to search chart items
+	 * 
+	 * @param int $id
+	 * @return void
+	 */
+	public function actionItems($id)
+	{
+		$params = array();
+		
+		// Get user model
+		$model = new SearchChartItemForm('search');
+		
+		// Add filter by current date
+		$params['created'] = date('Y-m', time()) . '-01';
+		
+		if (!empty($_REQUEST['SearchChartItemForm'])) {
+			$model->attributes = $_REQUEST['SearchChartItemForm'];
+			
+			// Add search by id
+			if (!empty($model->year) && !empty($model->month)) {
+				$params['created'] = $model->year . '-' . $model->month . '-01';
+			}
+		}
+		
+		// Render view
+		$this->render('items', 
+			array(
+				'chart' => ChartSource::model()->findByPk($id),
+				'model' => $model,
+				'items' => ChartItem::model()->search($id, $params),
+				'created' => $params['created']
+			)
+		);
+	}
+	
 	/**
 	 * Displays a particular model.
 	 * 
