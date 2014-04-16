@@ -42,6 +42,9 @@ class ChartItem extends InfoModel {
 		return array(
 			// Required rules
 			array('singer_id, album_id, position', 'required', 'on' => 'create,update'),
+			
+			// Safe rule
+			array('singer, album', 'safe', 'on' => 'create,update'),
 		);
 	}
 
@@ -101,6 +104,28 @@ class ChartItem extends InfoModel {
 	}
 	
 	/**
+	 * Method to delete all items by source id
+	 * 
+	 * @param int $sourceId
+	 * @return bool
+	 */
+	public function deleteBySourceId($sourceId)
+	{
+		// Delete
+		$result = $this->getDbConnection()->createCommand(
+			'delete from ' . $this->tableName() . ' where source_id = :sourceId'
+		)->bindParam(':sourceId', $sourceId, PDO::PARAM_INT)->execute();
+		if ($result === false) {
+			return false;
+		}
+		
+		// Cleare cache
+		$this->cleareCache();
+		
+		return true;
+	}
+	
+	/**
 	 * Method to search chart items
 	 * 
 	 * @param int $sourceId
@@ -114,15 +139,15 @@ class ChartItem extends InfoModel {
 			'select SQL_CALC_FOUND_ROWS * 
 			from ' . $this->tableName() . '
 			where source_id = :sourceId
-			' . (!empty($params['date']) ? 'and created = :created' : '') . '
+			' . (!empty($params['created']) ? 'and created = :created' : '') . '
 			order by position
 			limit ' . ($this->getCurrentPage() * $this->getRowsPerPage()) . ', ' . $this->getRowsPerPage()
 		);
 		
 		// Bind params
 		$command->bindParam(":sourceId", $sourceId, PDO::PARAM_INT);
-		if (!empty($params['id'])) {
-			$command->bindParam(":id", $params['id'], PDO::PARAM_INT);
+		if (!empty($params['created'])) {
+			$command->bindParam(":created", $params['created'], PDO::PARAM_STR);
 		}
 		
 		// Try to find chart items
