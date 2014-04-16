@@ -83,6 +83,50 @@ class ChartSource extends InfoModel {
 	}
 	
 	/**
+	 * After delete hook
+	 * 
+	 * @return void
+	 */
+	public function afterDelete()
+	{
+		// Delete all itesm
+		ChartItem::model()->deleteBySourceId($this->id);
+		
+		// Remove all cache
+		$this->cleareCache();
+	}
+	
+	/**
+	 * Method to save model
+	 * 
+	 * @param bool $runValidation
+	 * @param array $attributes
+	 */
+	public function save($runValidation = true, $attributes = null)
+	{
+		// Call parent method
+		$result = parent::save($runValidation, $attributes);
+		
+		// Check result
+		if ($result === true && !empty($this->id)) {
+			// Remove all cache
+			$this->cleareCache();
+		}
+		
+		return $result;
+	}
+	
+	/**
+	 * Method to cleare current model cache
+	 * 
+	 * @return bool
+	 */
+	public function cleareCache()
+	{
+		return TRedis::instance('data')->deleteByTag('CHARTS');
+	}
+	
+	/**
 	 * Method to search chart sources
 	 * 
 	 * @param array $params
