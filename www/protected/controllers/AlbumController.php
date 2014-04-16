@@ -43,7 +43,6 @@ class AlbumController extends Controller {
 		if (!empty($_REQUEST['singer_id'])) {
 			$criteria->params[':singerId'] = (int) $_REQUEST['singer_id'];
 		}
-		$criteria->limit = $_GET['limit'];
 		
 		// Find albums
 		$albums = Album::model()->findAll($criteria);
@@ -52,10 +51,16 @@ class AlbumController extends Controller {
 		}
 		
 		// Send albums
+		$options = array();
 		foreach ($albums as $album) {
-			echo $album->title . '|' . $album->id . "\n";
+			$options[] = array(
+				'id' => $album->id,
+				'label' => $album->title,
+				'value' => $album->title,
+			);
 		}
 		
+		echo CJSON::encode($options);
 		Yii::app()->end();
 	}
 }
