@@ -1,6 +1,6 @@
 <?php
 /**
- * SearchChartSourceForm
+ * SearchChartItemForm
  * 
  * Class for search chart items form
  * 
@@ -9,7 +9,7 @@
  * @copyright (C) 2014 point.od.ua <support@point.od.ua>
  * @author Tishenko Vladimir <vagrand@mail.ru>
  */
-class SearchChartSourceForm extends ChartSource {
+class SearchChartItemForm extends ChartSource {
 
 	/**
 	 * Method return field rules
