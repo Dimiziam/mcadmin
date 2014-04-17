@@ -169,6 +169,11 @@ class ChartController extends Controller {
 			}
 		}
 		
+		// Refresh chart
+		if (!empty($_REQUEST['need_refresh'])) {
+			$this->_refresh($id, $params['created']);
+		}
+		
 		// Render view
 		$this->render('items', 
 			array(
@@ -178,6 +183,38 @@ class ChartController extends Controller {
 				'created' => $params['created']
 			)
 		);
+	}
+	
+	/**
+	 * Method to refresh chart
+	 * 
+	 * @param int $id
+	 * @param string $created
+	 * @return bool
+	 */
+	private function _refresh($id, $created)
+	{
+		// Remove old items
+		if (!ChartItem::model()->deleteBySourceId($id, $created)) {
+			Yii::app()->user->setFlash('error', MTLang::t('message_7', 'chart'));
+			return false;
+		}
+		
+		// Get chart items
+		$items = MTCharts::getItems($id);
+		if (empty($items)) {
+			Yii::app()->user->setFlash('error', MTLang::t('message_8', 'chart'));
+			return false;
+		}
+		
+		// Add items
+		if (!ChartItem::model()->bulckAdd($id, $created, $items)) {
+			Yii::app()->user->setFlash('error', MTLang::t('message_9', 'chart'));
+			return false;
+		} else {
+			Yii::app()->user->setFlash('success', MTLang::t('message_10', 'chart'));
+			return true;
+		}
 	}
 	
 	/**
