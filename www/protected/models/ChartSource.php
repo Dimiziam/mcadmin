@@ -123,7 +123,7 @@ class ChartSource extends InfoModel {
 	 */
 	public function cleareCache()
 	{
-		return TRedis::instance('data')->deleteByTag('CHARTS');
+		return TRedis::instance('charts')->deleteByTag('CHARTS');
 	}
 	
 	/**

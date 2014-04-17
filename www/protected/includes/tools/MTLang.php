@@ -38,7 +38,7 @@ class MTLang
 	 */
 	public function cleareCache()
 	{
-		return TRedis::instance('data')->deleteByTag('TRANSLATIONS')
+		return TRedis::instance('lang')->deleteByTag('TRANSLATIONS')
 			&& MTCache::instance('translations')->cleareCache();
 	}
 	
@@ -95,7 +95,7 @@ class MTLang
 		// Check app cache
 		if (!MTCache::instance('translations')->test($key)) {
 			// Get translations from Redis
-			$translations = TRedis::instance('data')->get($key);
+			$translations = TRedis::instance('lang')->get($key);
 			
 			// Store into app cache
 			MTCache::instance('translations')->set($key, $translations);
@@ -119,7 +119,7 @@ class MTLang
 		$language = !empty($language) ? $language : Yii::app()->params['currentLanguage'];
 		
 		// Check is translations already in cache
-		if (TRedis::instance('data')->get('is_translations_in_cache_' . $language)) {
+		if (TRedis::instance('lang')->get('is_translations_in_cache_' . $language)) {
 			return true;
 		}
 		
@@ -145,13 +145,13 @@ class MTLang
 		// Process translations groups
 		foreach ($translations as $groupAlias => $items) {
 			// Store translations for current group
-			if (!TRedis::instance('data')->setByTag('TRANSLATIONS', $language . '_translations_' . $groupAlias, $items)) {
+			if (!TRedis::instance('lang')->setByTag('TRANSLATIONS', $language . '_translations_' . $groupAlias, $items)) {
 				return false;
 			}
 		}
 		
 		// Store cached flag
-		return TRedis::instance('data')->setByTag('TRANSLATIONS', 'is_translations_in_cache_' . $language, true);
+		return TRedis::instance('lang')->setByTag('TRANSLATIONS', 'is_translations_in_cache_' . $language, true);
 	}
 	
 	/**

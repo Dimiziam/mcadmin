@@ -22,6 +22,12 @@ return array(
 			array('host' => '127.0.0.1', 'port' => 6379, 'db' => 2)
 		)
 	),
+	'lang' => array(
+		'namespace' => 'MCLang_',
+		'servers' => array(
+			array('host' => '127.0.0.1', 'port' => 6379, 'db' => 2)
+		)
+	),
 	'charts' => array(
 		'namespace' => 'MCCharst_',
 		'servers' => array(
