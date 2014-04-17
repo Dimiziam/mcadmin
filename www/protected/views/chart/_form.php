@@ -26,6 +26,7 @@
 	<div class="row">
 		<?php echo $form->labelEx($model, 'url'); ?>
 		<?php echo $form->textField($model, 'url', array('maxlength' => 255, 'size' => 70)); ?>
+		<br><small><?php echo $translations['support_sites']; ?></small>
 		<?php echo $form->error($model, 'url'); ?>
 	</div>
 
