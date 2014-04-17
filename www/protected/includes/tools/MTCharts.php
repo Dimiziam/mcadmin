@@ -77,6 +77,8 @@ class MTCharts
 			default:
 				return false;
 		}
+		
+		return $items;
 	}
 
 	/**
@@ -269,8 +271,8 @@ class MTCharts
 		foreach ($matches[2] as $index => $singer) {
 			$items[] = array(
 				'position' => $index + 1,
-				'singer' => trim($singer),
-				'album' => trim($matches[1][$index]),
+				'singer' => htmlspecialchars_decode(trim($singer)),
+				'album' => htmlspecialchars_decode(trim($matches[1][$index])),
 			);
 		}
 		
@@ -304,8 +306,8 @@ class MTCharts
 		foreach ($matches[1] as $index => $singer) {
 			$items[] = array(
 				'position' => $index + 1,
-				'singer' => trim($singer),
-				'album' => trim($matches[2][$index]),
+				'singer' => htmlspecialchars_decode(trim($singer)),
+				'album' => htmlspecialchars_decode(trim($matches[2][$index])),
 			);
 		}
 		
@@ -349,15 +351,15 @@ class MTCharts
 		$items = array(
 			array(
 				'position' => 1,
-				'singer' => trim($first[1][0]),
-				'album' => trim($first[2][0]),
+				'singer' => htmlspecialchars_decode(trim($first[1][0])),
+				'album' => htmlspecialchars_decode(trim($first[2][0])),
 			)
 		);
 		foreach ($positions[1] as $index => $position) {
 			$items[] = array(
 				'position' => $position,
-				'singer' => trim($names[1][$index]),
-				'album' => trim($names[2][$index]),
+				'singer' => htmlspecialchars_decode(trim($names[1][$index])),
+				'album' => htmlspecialchars_decode(trim($names[2][$index])),
 			);
 		}
 		
@@ -390,8 +392,8 @@ class MTCharts
 		foreach ($matches[1] as $index => $position) {
 			$items[] = array(
 				'position' => $position,
-				'singer' => trim($matches[3][$index]),
-				'album' => trim($matches[2][$index]),
+				'singer' => htmlspecialchars_decode(trim($matches[3][$index])),
+				'album' => htmlspecialchars_decode(trim($matches[2][$index])),
 			);
 		}
 		
