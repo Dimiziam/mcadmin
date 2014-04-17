@@ -104,18 +104,68 @@ class ChartItem extends InfoModel {
 	}
 	
 	/**
+	 * Method to add new items
+	 * 
+	 * @param int $sourceId
+	 * @param string $created
+	 * @param array $items
+	 * @return bool
+	 */
+	public function bulckAdd($sourceId, $created, $items)
+	{
+		// Prepare values
+		$values = array();
+		foreach ($items as $item) {
+			$values[] = '(
+				' . (int) $sourceId . ', 
+				"' . addslashes($created) . '",
+				' . (int) $item['position'] . ',
+				"' . addslashes($item['singer']) . '",
+				"' . addslashes($item['album']) . '"
+			)';
+		}
+		
+		// Prepare command
+		$command = $this->getDbConnection()->createCommand(
+			'insert into ' . $this->tableName() . ' (source_id, created, position, singer, album) 
+			values ' . join(',', $values)
+		);
+		
+		// Add
+		if ($command->execute() === false) {
+			return false;
+		}
+		
+		// Cleare cache
+		$this->cleareCache();
+		
+		return true;
+	}
+	
+	/**
 	 * Method to delete all items by source id
 	 * 
 	 * @param int $sourceId
+	 * @param string $created
 	 * @return bool
 	 */
-	public function deleteBySourceId($sourceId)
+	public function deleteBySourceId($sourceId, $created = null)
 	{
+		// Prepare command
+		$command = $this->getDbConnection()->createCommand(
+			'delete from ' . $this->tableName() . '
+			where source_id = :sourceId
+				' . (!empty($created) ? ' and created = :created' : '')
+		);
+		
+		// Bind params
+		$command->bindParam(':sourceId', $sourceId, PDO::PARAM_INT);
+		if (!empty($created)) {
+			$command->bindParam(':created', $created, PDO::PARAM_STR);
+		}
+		
 		// Delete
-		$result = $this->getDbConnection()->createCommand(
-			'delete from ' . $this->tableName() . ' where source_id = :sourceId'
-		)->bindParam(':sourceId', $sourceId, PDO::PARAM_INT)->execute();
-		if ($result === false) {
+		if ($command->execute() === false) {
 			return false;
 		}
 		
