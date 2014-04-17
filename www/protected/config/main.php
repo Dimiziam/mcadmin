@@ -110,6 +110,15 @@ $settings = array(
 				'/<language:(' . implode('|', $i18n) . ')>/chart/delete/<id:([^\.]+)>.html' => '/chart/delete/',
 				'/<language:(' . implode('|', $i18n) . ')>/chart/autocomplete/' => '/chart/autocomplete/',
 				'/<language:(' . implode('|', $i18n) . ')>/chart/items/<id:([^\.]+)>.html' => '/chart/items/',
+				'/<language:(' . implode('|', $i18n) . ')>/chart/item_add/<created:([^\_]+)>_<sourceId:([^\.]+)>.html' => '/chart/itemAdd/',
+				'/<language:(' . implode('|', $i18n) . ')>/chart/item_edit/<id:([^\.]+)>.html' => '/chart/itemEdit/',
+				'/<language:(' . implode('|', $i18n) . ')>/chart/item_delete/<id:([^\.]+)>.html' => '/chart/itemDelete/',
+				
+				// Singer routs
+				'/<language:(' . implode('|', $i18n) . ')>/singer/autocomplete/' => '/singer/autocomplete/',
+		
+				// Album routs
+				'/<language:(' . implode('|', $i18n) . ')>/album/autocomplete/' => '/album/autocomplete/',
 			)
 		),
 		'errorHandler' => array(

@@ -67,10 +67,17 @@
 
 </div>
 
+<div>
+	<input type="hidden" name="need_refresh" id="need_refresh" />
+	<input type="submit" value="<?php echo $translations['load_from_site']; ?>" onClick='$("#need_refresh").attr("value", 1);'>
+</div>
+
+<?php $this->renderPartial('application.views.include.messages'); ?>
+
 <?php
 	if (!empty($items)) {
 		// Get charts items
-		$items = $items->getData();
+		$chartItems = $items->getData();
 		
 		// Add pager widget
 		$this->widget('application.components.widgets.WPager', array('provider' => $items));
@@ -83,8 +90,8 @@
 			<th><?php echo $translations['album']; ?></th>
 			<th colspan="2">&nbsp;</th>
 		</tr>
-		<?php foreach ($items as $item) { ?>
-			<tr id="id_<?php echo $item['id']; ?>">
+		<?php foreach ($chartItems as $item) { ?>
+			<tr id="chart_item_<?php echo $item['id']; ?>">
 				<td><?php echo CHtml::encode($item['id']); ?></td>
 				<td><?php echo CHtml::encode($item['position']); ?></td>
 				<td><nobr><?php echo CHtml::encode($item['singer']) . (!empty($item['singer_id']) ? ' (' . $item['singer_id'] . ')' : ''); ?></nobr></td>
@@ -95,7 +102,7 @@
 					</a>
 				</td>
 				<td>
-					<a href="JavaScript: void(0);" onClick="chart_utem_delete(<?php echo $item['id']; ?>);" title="<?php echo $translations['item_delete_link_title']; ?>">
+					<a href="JavaScript: void(0);" onClick="chart_item_delete(<?php echo $item['id']; ?>);" title="<?php echo $translations['item_delete_link_title']; ?>">
 						<img src="/images/trash_16.png" border="0">
 					</a>
 				</td>
