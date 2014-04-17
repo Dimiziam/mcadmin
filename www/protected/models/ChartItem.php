@@ -113,21 +113,74 @@ class ChartItem extends InfoModel {
 	 */
 	public function bulckAdd($sourceId, $created, $items)
 	{
+		// Prepare names and titles
+		$names = $titles = array();
+		foreach ($items as $item) {
+			$names[] = '"' . addslashes($item['singer']) . '"';
+			$titles[] = '"' . addslashes($item['album']) . '"';
+		}
+		
+		// Try to find ids by singer and album
+		$ids = $this->getDbConnection()->createCommand(
+			'select singers.id as singer_id, albums.id as albums_id,
+				singers.name, singers.pseudonym, albums.title
+			from ' . Singer::model()->tableName() . ' singers
+				inner join ' . Album::model()->tableName() . ' albums on singers.id = albums.singer_id
+			where (singers.name in (' . join(',', $names) . ') or singers.pseudonym in (' . join(',', $names) . '))
+				and albums.title in (' . join(',', $titles) . ')'
+		)->queryAll();
+		
+		// Try to find singers ids
+		$singerIds = $this->getDbConnection()->createCommand(
+			'select singers.id as singer_id, singers.name, singers.pseudonym
+			from ' . Singer::model()->tableName() . ' singers
+			where singers.name in (' . join(',', $names) . ') or singers.pseudonym in (' . join(',', $names) . ')'
+		)->queryAll();
+		
 		// Prepare values
 		$values = array();
 		foreach ($items as $item) {
+			// Try to find singer and album ids
+			$singerId = 0;
+			$albumId = 0;
+			if (!empty($ids)) {
+				foreach ($ids as $id) {
+					// Check singer
+					if ($id['name'] == $item['singer'] || $id['pseudonym'] == $item['singer']) {
+						$singerId = $id['singer_id'];
+					}
+					
+					// Check album
+					if ($id['title'] == $item['album']) {
+						$singerId = $id['albums_id'];
+					}
+				}
+			}
+			
+			// Try to find singer id
+			if (empty($singerId) && !empty($singerIds)) {
+				foreach ($singerIds as $id) {
+					// Check singer
+					if ($id['name'] == $item['singer'] || $id['pseudonym'] == $item['singer']) {
+						$singerId = $id['singer_id'];
+					}
+				}
+			}
+			
 			$values[] = '(
 				' . (int) $sourceId . ', 
 				"' . addslashes($created) . '",
 				' . (int) $item['position'] . ',
 				"' . addslashes($item['singer']) . '",
-				"' . addslashes($item['album']) . '"
+				"' . addslashes($item['album']) . '",
+				' . (int) $singerId . ',
+				' . (int) $albumId . '
 			)';
 		}
 		
 		// Prepare command
 		$command = $this->getDbConnection()->createCommand(
-			'insert into ' . $this->tableName() . ' (source_id, created, position, singer, album) 
+			'insert into ' . $this->tableName() . ' (source_id, created, position, singer, album, singer_id, album_id) 
 			values ' . join(',', $values)
 		);
 		
