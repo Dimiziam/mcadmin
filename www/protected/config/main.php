@@ -119,6 +119,12 @@ $settings = array(
 		
 				// Album routs
 				'/<language:(' . implode('|', $i18n) . ')>/album/autocomplete/' => '/album/autocomplete/',
+		
+				// Page routes
+				'/<language:(' . implode('|', $i18n) . ')>/page/search/' => '/page/search/',
+				'/<language:(' . implode('|', $i18n) . ')>/page/add/<type:([^\.]+)>.html' => '/page/add/',
+				'/<language:(' . implode('|', $i18n) . ')>/page/edit/<lang:([^\.]+)>_<type:([^\_]+)>_<id:([^\.]+)>.html' => '/page/edit/',
+				'/<language:(' . implode('|', $i18n) . ')>/page/delete/<id:([^\.]+)>.html' => '/page/delete/',
 			)
 		),
 		'errorHandler' => array(
