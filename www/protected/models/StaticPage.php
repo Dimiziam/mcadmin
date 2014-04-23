@@ -51,7 +51,7 @@ class StaticPage extends InfoModel
 	{
 		return array(
 			// Required rules
-			array('alias, type', 'required', 'on' => 'create'),
+			array('alias', 'required', 'on' => 'update'),
 		);
 	}
 

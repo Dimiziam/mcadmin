@@ -51,7 +51,7 @@ class StaticPageLanguage extends InfoModel
 	{
 		return array(
 			// Required rules
-			array('language, title, annotation, page_text', 'required', 'on' => 'create'),
+			array('title, annotation, page_text', 'required', 'on' => 'create,update'),
 		);
 	}
 

@@ -19,6 +19,14 @@
 		<?php echo $translations['type'] . ': ' . $translations['type_' . $type]; ?>
 	</div>
 
+	<?php if (!$model->isNewRecord) { ?>
+		<div class="row">
+			<?php echo $form->labelEx($model, 'alias'); ?>
+			<?php echo $form->textField($model, 'alias', array('maxlength' => 255, 'size' => 70)); ?>
+			<?php echo $form->error($model, 'alias'); ?>
+		</div>
+	<?php } ?>
+
 	<div class="row">
 		<?php echo $form->labelEx($languageModel, 'title'); ?>
 		<?php echo $form->textField($languageModel, 'title', array('maxlength' => 255, 'size' => 70)); ?>
@@ -33,7 +41,14 @@
 	
 	<div class="row">
 		<?php echo $form->labelEx($languageModel, 'page_text'); ?><br>
-		<?php echo $form->textArea($languageModel, 'page_text', array('cols' => 70, 'rows' => 30)); ?>
+		<?php 
+			$this->widget('application.extensions.tinymce.ETinyMce', array(
+				'model' => $languageModel,
+				'attribute' => 'page_text',
+				'language' => 'ru',
+				'htmlOptions' => array('style'=>'width: 600px; height: 200px;')
+			));
+		?>
 		<?php echo $form->error($languageModel, 'page_text'); ?>
 	</div>
 

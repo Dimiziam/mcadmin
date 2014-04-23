@@ -137,6 +137,7 @@ class PageController extends Controller {
 		
 		if (isset($_POST['StaticPageLanguage'])) {
 			// Set attributes
+			$model->attributes = $_POST['StaticPage'];
 			$model->type = $type;
 			
 			// Set language attributes
