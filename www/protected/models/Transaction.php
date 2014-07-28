@@ -43,6 +43,32 @@ class Transaction extends InfoModel
 	}
 	
 	/**
+	 * Method return field rules
+	 * 
+	 * @return array validation rules for model attributes.
+	 */
+	public function rules()
+	{
+		return array(
+			// Required rules
+			array('type, amount', 'required', 'on' => 'add_money'),
+		);
+	}
+
+	/**
+	 * Method return attribute labels
+	 * 
+	 * @return array customized attribute labels (name=>label)
+	 */
+	public function attributeLabels()
+	{
+		return array(
+			'type' => MTLang::t('type', 'transaction'),
+			'amount' => MTLang::t('amount', 'transaction')
+		);
+	}
+	
+	/**
 	 * Method to search transactions
 	 * 
 	 * @param array $params

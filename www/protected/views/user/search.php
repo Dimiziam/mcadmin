@@ -104,6 +104,11 @@
 					</a>
 				</td>
 				<td>
+					<a href="<?php echo $this->createUrl('/transaction/add/', array('userId' => $item['id'])); ?>" title="<?php echo $translations['change_balance_link_title']; ?>">
+						<img src="/images/coins_add_16.png" border="0">
+					</a>
+				</td>
+				<td>
 					<a href="<?php echo $this->createUrl('/order/search/', array('SearchOrderForm[user_id]' => $item['id'])); ?>" title="<?php echo $translations['orders_link_title']; ?>">
 						<img src="/images/cart_16.png" border="0">
 					</a>

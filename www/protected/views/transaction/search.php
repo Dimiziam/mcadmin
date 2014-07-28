@@ -65,6 +65,7 @@
 		<tr>
 			<th>ID</th>
 			<th><?php echo $translations['email']; ?></th>
+			<th><?php echo $translations['billing']; ?></th>
 			<th><?php echo $translations['amount']; ?></th>
 			<th><?php echo $translations['status']; ?></th>
 			<th><?php echo $translations['date_start']; ?></th>
@@ -74,6 +75,7 @@
 			<tr>
 				<td><?php echo $item['id']; ?></td>
 				<td><?php echo $item['email']; ?></td>
+				<td><?php echo $translations['billing_' . $item['billing']]; ?></td>
 				<td><?php echo $item['type'] == 'add' ? '+' . $item['amount'] : '-' . $item['amount']; ?></td>
 				<td><?php echo $statuses[$item['status']]; ?></td>
 				<td><?php echo $item['date_start']; ?></td>

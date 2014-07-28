@@ -19,11 +19,56 @@ class TransactionController extends Controller {
 	{
 		return array(
 			array('allow',
-				'actions' => array('search'),
+				'actions' => array('search', 'add'),
 				'users' => array('@')
 			),
 			array('deny',
 				'users' => array('*'),
+			)
+		);
+	}
+	
+	/**
+	 * Action to add/sub money direct
+	 * 
+	 * @return void
+	 */
+	public function actionAdd($userId)
+	{
+		// Check user id
+		if (empty($userId)) {
+			$this->redirect(array('/transaction/search/'));
+		}
+		
+		// Find user by id
+		$user = User::model()->findByPk($userId);
+		if (empty($user)) {
+			$this->redirect(array('/transaction/search/'));
+		}
+		
+		// Get model
+		$model = new Transaction('add_money');
+
+		// Process action
+		if (isset($_POST['Transaction'])) {
+			// Fill model
+			$model->attributes = $_POST['Transaction'];
+			$model->user_id = $userId;
+			$model->status = 'done';
+			$model->billing = 'direct';
+			$model->date_start = $model->date_end = date('Y-m-d H:i:s', time());
+			
+			if ($model->save()) {
+				Yii::app()->user->setFlash('success', MTLang::t('message_1', 'transaction'));
+			} else {
+				Yii::app()->user->setFlash('error', MTLang::t('message_2', 'transaction'));
+			}
+		}
+
+		$this->render('add', 
+			array(
+				'user' => $user,
+				'model' => $model
 			)
 		);
 	}

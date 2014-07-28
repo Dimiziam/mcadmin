@@ -103,6 +103,7 @@ $settings = array(
 		
 				// Payments routes
 				'/<language:(' . implode('|', $i18n) . ')>/transaction/search/' => '/transaction/search/',
+				'/<language:(' . implode('|', $i18n) . ')>/transaction/add/<userId:([^\.]+)>.html' => '/transaction/add/',
 		
 				// Chart routes
 				'/<language:(' . implode('|', $i18n) . ')>/chart/add/' => '/chart/add/',
