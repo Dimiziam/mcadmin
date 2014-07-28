@@ -120,4 +120,47 @@ class Transaction extends InfoModel
 		
 		return $provider;
 	}
+	
+	/**
+	 * Method to cleare current model cache
+	 * 
+	 * @param int $userId
+	 * @return bool
+	 */
+	public function cleareCache($userId)
+	{
+		TRedis::instance('data')->deleteByTag('TRANSACTIONS_' . $userId);
+		User::model()->cleareCache($userId);
+	}
+	
+	/**
+	 * After delete hook
+	 * 
+	 * @return void
+	 */
+	public function afterDelete()
+	{
+		// Remove all cache
+		$this->cleareCache($this->user_id);
+	}
+	
+	/**
+	 * Method to save model
+	 * 
+	 * @param bool $runValidation
+	 * @param array $attributes
+	 */
+	public function save($runValidation = true, $attributes = null)
+	{
+		// Call parent method
+		$result = parent::save($runValidation, $attributes);
+		
+		// Check result
+		if ($result === true) {
+			// Remove all cache
+			$this->cleareCache($this->user_id);
+		}
+		
+		return $result;
+	}
 }
