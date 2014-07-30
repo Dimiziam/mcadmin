@@ -296,7 +296,7 @@ class MTCharts
 		$content = str_replace("’", "'", $content);
 		
 		// Parse
-		preg_match_all('$<a href="/mp3/\?song\=[0-9]+">\s*<span class="artist_name">([^\<\>]+)</span>\s*<br\s*/>\s*<span class="song_name">([^\<\>]+)</span>\s*</a>$is', $content, $matches);
+		preg_match_all('$<span class="artist_name">([^\<\>]+)</span></a><a href="/mp3/\?song=[0-9]+" title="[^\"]*"><span class="song_name">([^\<\>]+)</span></a>$is', $content, $matches);
 		if (empty($matches[1])) {
 			return false;
 		}
