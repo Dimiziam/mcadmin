@@ -20,19 +20,24 @@ class MTCharts
 	public static function getItems($sourceId)
 	{
 		// Get chart source by id
+		echo  $sourceId;
 		$source = ChartSource::model()->findByPk($sourceId);
+
+
+
 		if (empty($source)) {
 			return false;
 		}
-		
+
 		// Check URL
 		if (empty($source->url)) {
 			return false;
 		}
-		
+
 		// Parse url
 		$parts = parse_url($source->url);
-		
+
+
 		// Prepare host
 		$parts['host'] = str_replace('www.', '', $parts['host']);
 		

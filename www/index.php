@@ -1,7 +1,7 @@
 <?php
 // Enable to store all php error into log file
 error_reporting(E_ALL);
-ini_set('display_errors', 'off');
+ini_set('display_errors', 'on');
 ini_set('log_errors', 'on');
 ini_set('ignore_repeated_errors', 'on');
 ini_set('log_errors_max_len', 10240);

@@ -5,7 +5,19 @@ body
 	color: #555;
 	font: normal 10pt Arial,Helvetica,sans-serif;
 	background: #EFEFEF;
+	height: 100%;
+
 }
+
+.container {
+	position: relative;
+	min-height: 900px;
+	vertical-align:bottom;
+	margin:0 auto;
+	height:100%;
+}
+
+
 
 #page
 {
@@ -13,18 +25,30 @@ body
 	margin-bottom: 5px;
 	background: white;
 	border: 1px solid #C9E0ED;
+	height: 100%;
 }
+
+
+
 
 #header
 {
 	margin: 0;
 	padding: 0;
 	border-top: 3px solid #C9E0ED;
+	height: 10px;
 }
 
 #content
 {
     padding: 20px;
+}
+
+.content {
+	margin:0 auto -30px;
+	min-height:100%;
+	height:auto !important;
+	height:100%;
 }
 
 #sidebar
@@ -39,6 +63,10 @@ body
 	font-size: 0.8em;
 	text-align: center;
 	border-top: 1px solid #C9E0ED;
+	bottom:0px;
+	width:100%; /* cause of fixed pos */
+	position: fixed;
+
 }
 
 #logo

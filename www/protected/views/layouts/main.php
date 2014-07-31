@@ -44,26 +44,27 @@
 	<div id="header">
 		<div id="logo"><?php echo CHtml::encode(Yii::app()->name); ?></div>
 	</div><!-- header -->
+	<div class="content">
+		<!-- mainmenu -->
+		<div style='margin-bottom: 60px;'>
+		<?php
+			if (!Yii::app()->user->isGuest) {
+				$this->renderPartial('application.views.layouts.top_menu');
+			}
+		?>
+		</div>
+		<!-- / mainmenu -->
 
-	<!-- mainmenu -->
-	<div style='margin-bottom: 60px;'>
-	<?php 
-		if (!Yii::app()->user->isGuest) {
-			$this->renderPartial('application.views.layouts.top_menu');
-		}
-	?>
+		<?php if(isset($this->breadcrumbs)):?>
+			<?php $this->widget('zii.widgets.CBreadcrumbs', array(
+				'links'=>$this->breadcrumbs,
+			)); ?><!-- breadcrumbs -->
+		<?php endif?>
+
+		<?php echo $content; ?>
+
+		<div class="clear"></div>
 	</div>
-	<!-- / mainmenu -->
-	
-	<?php if(isset($this->breadcrumbs)):?>
-		<?php $this->widget('zii.widgets.CBreadcrumbs', array(
-			'links'=>$this->breadcrumbs,
-		)); ?><!-- breadcrumbs -->
-	<?php endif?>
-
-	<?php echo $content; ?>
-
-	<div class="clear"></div>
 
 	<div id="footer">
 		Copyright &copy; <?php echo date('Y'); ?> by My Company.<br/>

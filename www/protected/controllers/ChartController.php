@@ -168,7 +168,7 @@ class ChartController extends Controller {
 				$params['created'] = $model->year . '-' . $model->month . '-01';
 			}
 		}
-		
+
 		// Refresh chart
 		if (!empty($_REQUEST['need_refresh'])) {
 			$this->_refresh($id, $params['created']);

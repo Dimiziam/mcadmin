@@ -108,8 +108,9 @@ class ChartSource extends InfoModel {
 		$result = parent::save($runValidation, $attributes);
 		
 		// Check result
-		if ($result === true && !empty($this->id)) {
-			// Remove all cache
+
+		if ($result === true) {
+			// Remove all cache after each update
 			$this->cleareCache();
 		}
 		
