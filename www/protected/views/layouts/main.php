@@ -25,6 +25,13 @@
 		);
 	?>
 
+	<?php
+	// TODO: remove after tests
+
+	MTLang::instance()->cleareCache();
+
+	?>
+
  	<!-- Include superfish plugin -->
 	<link rel="stylesheet" media="screen" href="<?php echo Yii::app()->request->baseUrl; ?>/js/superfish/css/superfish.css" /> 
 	<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/superfish/js/hoverIntent.js"></script> 
@@ -46,7 +53,7 @@
 	</div><!-- header -->
 	<div class="content">
 		<!-- mainmenu -->
-		<div style='margin-bottom: 60px;'>
+		<div class="mainmenu">
 		<?php
 			if (!Yii::app()->user->isGuest) {
 				$this->renderPartial('application.views.layouts.top_menu');
@@ -54,7 +61,7 @@
 		?>
 		</div>
 		<!-- / mainmenu -->
-
+<br>
 		<?php if(isset($this->breadcrumbs)):?>
 			<?php $this->widget('zii.widgets.CBreadcrumbs', array(
 				'links'=>$this->breadcrumbs,
@@ -67,7 +74,7 @@
 	</div>
 
 	<div id="footer">
-		Copyright &copy; <?php echo date('Y'); ?> by My Company.<br/>
+		Copyright &copy; <?php echo date('Y'); ?> by TDG.<br/>
 		All Rights Reserved.<br/>
 	</div><!-- footer -->
 

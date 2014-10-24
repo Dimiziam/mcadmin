@@ -8,29 +8,31 @@
  * @author Tishenko Vladimir <vagrand@mail.ru>
  */
 return array(
-	// DB with all main info
-	'info_db' => array(
-			'connectionString' => 'mysql:host=localhost;dbname=mclub',
-			'emulatePrepare' => true,
-			'username' => 'mclub',
-			'password' => 'mclub',
-			'attributes' => array(
-				'charset' => 'utf8',
-				'enableProfiling' => true,
-				'tablePrefix' => null
-			)
-	),
-	
-	// Old MediaClub DB
-	'old_db' => array(
-			'connectionString' => 'mysql:host=localhost;dbname=mclub_old',
-			'emulatePrepare' => true,
-			'username' => 'mclub_old',
-			'password' => 'mclub_old',
-			'attributes' => array(
-				'charset' => 'utf8',
-				'enableProfiling' => true,
-				'tablePrefix' => null
-			)
-	),
+    // DB with all main info
+    'info_db' => array(
+        'connectionString' => 'mysql:host=127.0.0.1;dbname=mediaclub',
+        'emulatePrepare' => true,
+        'username' => 'ramzesdb',
+        'password' => 'qwepoi',
+        'attributes' => array(
+            'charset' => 'utf8',
+            'enableProfiling' => false,
+            'tablePrefix' => null
+        )
+    ),
+
+    // Old MediaClub DB
+    'old_db' => array(
+        'connectionString' => 'mysql:host=mclub.com.ua;dbname=tdg_mclub',
+        'emulatePrepare' => true,
+        'username' => 'mclub_reader',
+        'password' => '22323mclub_reader12212',
+        'attributes' => array(
+            'charset' => 'utf8',
+            'enableProfiling' => false,
+            'tablePrefix' => null
+        )
+    ),
+
+
 );

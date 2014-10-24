@@ -61,7 +61,7 @@ class User extends InfoModel {
 			array('email', 'uniqueEmail', 'on' => 'create'),
 			
 			// Safe rule
-			array('name, last_name, password, is_active, is_email_confirmed', 'safe', 'on' => 'create,update'),
+			array('name,is_affiliate, last_name, password, is_active, is_email_confirmed', 'safe', 'on' => 'create,update'),
 			array('email, user_id', 'safe', 'on' => 'search'),
 			
 			// Default rules
@@ -83,6 +83,7 @@ class User extends InfoModel {
 			'last_name' => MTLang::t('last_name', 'user'),
 			'is_active' => MTLang::t('is_active', 'user'),
 			'is_email_confirmed' => MTLang::t('is_email_confirmed', 'user'),
+			'is_affiliate' => MTLang::t('is_affiliate', 'user'),
 		);
 	}
 	
@@ -130,7 +131,8 @@ class User extends InfoModel {
 			// Remove all cache
 			$this->cleareCache($this->id);
 		}
-		
+
+
 		return $result;
 	}
 	
@@ -155,8 +157,9 @@ class User extends InfoModel {
 	{
 		// Create query command
 		$command = $this->getDbConnection()->createCommand(
-			'select SQL_CALC_FOUND_ROWS * 
-			from ' . $this->tableName() . '
+			'select SQL_CALC_FOUND_ROWS user.*, user1.email as email_affiliate
+			from ' . $this->tableName() . ' as user
+			left join ' . $this->tableName() . ' user1 on user.id=user1.affiliate_id
 			' . (!empty($params['id']) ? 'where id = :id' : '') . '
 			order by id desc
 			limit ' . ($this->getCurrentPage() * $this->getRowsPerPage()) . ', ' . $this->getRowsPerPage()
@@ -166,10 +169,12 @@ class User extends InfoModel {
 		if (!empty($params['id'])) {
 			$command->bindParam(":id", $params['id'], PDO::PARAM_INT);
 		}
-		
+
+		//echo $command->__toString();
+
 		// Try to find users
 		$users = $command->queryAll();
-		
+
 		// Check users
 		if (empty($users)) {
 			return false;

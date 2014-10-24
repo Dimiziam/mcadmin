@@ -74,7 +74,9 @@
 			<th><?php echo $translations['last_name']; ?></th>
 			<th><?php echo $translations['amount']; ?></th>
 			<th><?php echo $translations['is_active']; ?></th>
+			<th><?php echo $translations['is_affiliate']; ?></th>
 			<th><?php echo $translations['is_email_confirmed']; ?></th>
+			<th><?php echo $translations['email_affiliate']; ?></th>
 			<th><?php echo $translations['created']; ?></th>
 			<th colspan="3">&nbsp;</th>
 		</tr>
@@ -86,7 +88,9 @@
 				<td><?php echo $item['last_name']; ?></td>
 				<td><?php echo $item['amount']; ?></td>
 				<td id="user_status_<?php echo $item['id']; ?>"><?php echo $statuses[$item['is_active']]; ?></td>
+				<td><?php echo $statuses[$item['is_affiliate']]; ?></td>
 				<td><?php echo $statuses[$item['is_email_confirmed']]; ?></td>
+				<td><?php echo $item['email_affiliate']; ?></td>
 				<td><?php echo $item['created']; ?></td>
 				<td>
 					<a href="<?php echo $this->createUrl('/user/edit/', array('id' => $item['id'])); ?>" title="<?php echo $translations['edit_link_title']; ?>">

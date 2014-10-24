@@ -167,7 +167,8 @@ class UserController extends Controller {
 			} else {
 				$model->password = $oldPassword;
 			}
-			
+
+
 			if ($model->save()) {
 				$this->redirect(array('/user/search/'));
 			} else {
@@ -223,7 +224,8 @@ class UserController extends Controller {
 				}
 			}
 		}
-		
+
+
 		// Render view
 		$this->render('search', 
 			array(

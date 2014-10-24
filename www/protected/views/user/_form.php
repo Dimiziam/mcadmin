@@ -50,6 +50,13 @@
 		<?php echo $form->error($model, 'is_email_confirmed'); ?>
 	</div>
 
+	<div class="row">
+		<?php echo $form->labelEx($model, 'is_affiliate'); ?>
+		<?php echo $form->dropDownList($model, 'is_affiliate', array('yes' => MTLang::t('yes_value', 'persistence'), 'no' => MTLang::t('no_value', 'persistence'))); ?>
+		<?php echo $form->error($model, 'is_affiliate'); ?>
+	</div>
+
+
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? MTLang::t('add_button', 'persistence') : MTLang::t('save_button', 'persistence')); ?>
 	</div>
