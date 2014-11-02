@@ -24,13 +24,6 @@
 <div class="form">
 	
 	<div class="row">
-		<?php echo $translations['type']; ?>:
-		<?php 
-			echo $form->dropDownList($model, 'type', array('page' => $translations['type_page'], 'news' => $translations['type_news']));
-		?>
-	</div>
-	
-	<div class="row">
 		<?php echo $translations['language']; ?>:
 		<?php 
 			$model->language = !empty($model->language) ? $model->language : Yii::app()->language;

@@ -25,7 +25,8 @@ $items = array(
 		'label' => $translations['content'], 
 		'items' => array(
 			array('label' => $translations['charts'], 'url' => Yii::app()->getController()->createUrl('/chart/search/')),
-			array('label' => $translations['pages'], 'url' => Yii::app()->getController()->createUrl('/page/search/')),
+			array('label' => $translations['pages'], 'url' => Yii::app()->getController()->createUrl('/page/search/', array('type' => 'page'))),
+			array('label' => $translations['news'], 'url' => Yii::app()->getController()->createUrl('/page/search/', array('type' => 'news'))),
 		),
 	),
 	array(

@@ -12,6 +12,13 @@
 class StaticPage extends InfoModel
 {
 	/**
+	 * Variable to store current language
+	 * 
+	 * @var string
+	 */
+	public $language;
+	
+	/**
 	 * Returns the static model of the specified AR class.
 	 * 
 	 * @param string $className active record class name.
@@ -63,6 +70,7 @@ class StaticPage extends InfoModel
 	public function attributeLabels()
 	{
 		return array(
+			'language' => MTLang::t('language', 'static_page'),
 			'alias' => MTLang::t('alias', 'static_page'),
 			'type' => MTLang::t('type', 'static_page')
 		);

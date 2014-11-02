@@ -27,7 +27,7 @@ class SearchStaticPageForm extends StaticPage {
 	{
 		return array(
 			// Safe rule
-			array('type, language', 'safe', 'on' => 'search'),
+			array('language', 'safe', 'on' => 'search'),
 		);
 	}
 }

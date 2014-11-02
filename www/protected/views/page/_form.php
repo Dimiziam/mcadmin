@@ -11,13 +11,17 @@
 	<?php $this->renderPartial('application.views.include.messages'); ?>
 	<?php echo $form->errorSummary($model); ?>
 
-	<div class="row">
-		<?php echo $translations['language'] . ': ' . Yii::app()->params['languages'][$language]; ?>
-	</div>
-
-	<div class="row">
-		<?php echo $translations['type'] . ': ' . $translations['type_' . $type]; ?>
-	</div>
+	<?php if (!$model->isNewRecord) { ?>
+		<div class="row">
+			<?php echo $form->labelEx($model, 'language'); ?>
+			<?php echo $form->dropDownList($model, 'language', Yii::app()->params['languages'], array('id' => 'languages_select')); ?>
+			<?php echo $form->error($model, 'language'); ?>
+		</div>
+	<?php } else { ?>
+		<div class="row">
+			<?php echo $translations['language'] . ': ' . Yii::app()->params['languages'][$language]; ?>
+		</div>
+	<?php } ?>
 
 	<?php if (!$model->isNewRecord) { ?>
 		<div class="row">
@@ -33,11 +37,13 @@
 		<?php echo $form->error($languageModel, 'title'); ?>
 	</div>
 
-	<div class="row">
-		<?php echo $form->labelEx($languageModel, 'annotation'); ?><br>
-		<?php echo $form->textArea($languageModel, 'annotation', array('cols' => 70, 'rows' => 10)); ?>
-		<?php echo $form->error($languageModel, 'annotation'); ?>
-	</div>
+	<?php if ($type == 'news') { ?>
+		<div class="row">
+			<?php echo $form->labelEx($languageModel, 'annotation'); ?><br>
+			<?php echo $form->textArea($languageModel, 'annotation', array('cols' => 70, 'rows' => 10)); ?>
+			<?php echo $form->error($languageModel, 'annotation'); ?>
+		</div>
+	<?php } ?>
 	
 	<div class="row">
 		<?php echo $form->labelEx($languageModel, 'page_text'); ?><br>
@@ -59,3 +65,9 @@
 <?php $this->endWidget(); ?>
 
 </div>
+
+<script>
+$('#languages_select').change(function() {
+	window.location = '/' + global_language_code + '/page/edit/' + $(this).val() + '_<?php echo $type; ?>_<?php echo $model->id; ?>.html';
+});
+</script>

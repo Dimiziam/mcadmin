@@ -3,12 +3,12 @@
 $translations = MTLang::instance()->getGroup('static_page');
 
 $this->breadcrumbs = array(
-	$translations['pages_list'] => $this->createUrl('/page/search/'),
+	$translations['pages_list'] => $this->createUrl('/page/search/', array('type' => $type)),
 	MTLang::t('add_new', 'persistence')
 );
 
 $this->menu = array(
-	array('label' => $translations['pages_list'], 'url' => $this->createUrl('/page/search/'))
+	array('label' => $translations['pages_list'], 'url' => $this->createUrl('/page/search/', array('type' => $type)))
 );
 ?>
 

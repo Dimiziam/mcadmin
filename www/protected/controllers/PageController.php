@@ -70,8 +70,9 @@ class PageController extends Controller {
 	 */
 	public function actionAdd($type)
 	{
-		// get model
+		// Get model
 		$model = new StaticPage('create');
+		$model->language = Yii::app()->language;
 
 		// Get language model
 		$languageModel = new StaticPageLanguage('create');
@@ -92,7 +93,7 @@ class PageController extends Controller {
 				$languageModel->language = Yii::app()->language;
 				
 				if ($languageModel->save()) {
-					$this->redirect(array('/page/search/'));
+					$this->redirect($this->createUrl('/page/search/', array('type' => $type)));
 				} else {
 					$model->delete();
 					Yii::app()->user->setFlash('error', MTLang::t('message_2', 'static_page'));
@@ -122,6 +123,7 @@ class PageController extends Controller {
 	{
 		$model = $this->loadModel($id);
 		$model->scenario = 'update';
+		$model->language = $lang;
 		
 		// Get language model
 		$languageModel = StaticPageLanguage::model()->find(
@@ -147,7 +149,7 @@ class PageController extends Controller {
 			
 			// Save
 			if ($model->save() && $languageModel->save()) {
-				$this->redirect(array('/page/search/'));
+				$this->redirect($this->createUrl('/page/search/', array('type' => $type)));
 			} else {
 				Yii::app()->user->setFlash('error', MTLang::t('message_1', 'static_page'));
 			}
@@ -183,13 +185,14 @@ class PageController extends Controller {
 	/**
 	 * Action to search users
 	 * 
+	 * @param string $type
 	 * @return void
 	 */
-	public function actionSearch()
+	public function actionSearch($type)
 	{
 		$params = array(
 			'language' => Yii::app()->language,
-			'type' => 'page'
+			'type' => $type
 		);
 		
 		// Get user model
@@ -197,11 +200,6 @@ class PageController extends Controller {
 		
 		if (!empty($_REQUEST['SearchStaticPageForm'])) {
 			$model->attributes = $_REQUEST['SearchStaticPageForm'];
-			
-			// Add search by type
-			if (!empty($model->type)) {
-				$params['type'] = $model->type;
-			}
 			
 			// Add search by type
 			if (!empty($model->language)) {
