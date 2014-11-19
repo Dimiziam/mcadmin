@@ -12,6 +12,7 @@ $items = array(
 		'items' => array(
 			array('label' => $translations['administrators'], 'url' => Yii::app()->getController()->createUrl('/admin/search/')),
 			array('label' => $translations['users'], 'url' => Yii::app()->getController()->createUrl('/user/search/')),
+			array('label' => $translations['affiliate'], 'url' => Yii::app()->getController()->createUrl('/user/affiliate/')),
 		),
 	),
 	array(

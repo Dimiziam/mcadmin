@@ -16,8 +16,9 @@ return array(
         'password' => 'qwepoi',
         'attributes' => array(
             'charset' => 'utf8',
-            'enableProfiling' => false,
-            'tablePrefix' => null
+            'enableProfiling' => true,
+            'tablePrefix' => null,
+			'enableParamLogging'=>true
         )
     ),
 

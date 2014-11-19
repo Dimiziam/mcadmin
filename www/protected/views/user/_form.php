@@ -56,6 +56,8 @@
 		<?php echo $form->error($model, 'is_affiliate'); ?>
 	</div>
 
+	<?php echo $form->hiddenField($model,'f',array('value'=>$_GET['f']));?>
+
 
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? MTLang::t('add_button', 'persistence') : MTLang::t('save_button', 'persistence')); ?>

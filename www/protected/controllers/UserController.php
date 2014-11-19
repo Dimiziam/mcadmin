@@ -19,7 +19,7 @@ class UserController extends Controller {
 	{
 		return array(
 			array('allow',
-				'actions' => array('search', 'add', 'edit', 'delete', 'autocomplete'),
+				'actions' => array('search', 'add', 'edit', 'delete', 'autocomplete','affiliate','AffiliateList'),
 				'users' => array('@')
 			),
 			array('deny',
@@ -36,23 +36,37 @@ class UserController extends Controller {
 	 */
 	public function actionAutocomplete()
 	{
-		// Prepare criteria
-		$criteria = new CDbCriteria;
-		$criteria->condition = "email LIKE :email";
-		$criteria->params = array(":email" => $_GET['q'] . "%");
-		$criteria->limit = $_GET['limit'];
-		
-		// Find users
-		$users = User::model()->findAll($criteria);
-		if (empty($users)) {
-			exit;
+
+		if(Yii::app()->request->isAjaxRequest && isset($_GET['q'])) {
+
+
+			// Prepare criteria
+			$criteria = new CDbCriteria;
+			//if we come from affiliate
+
+			if (!empty($_GET['f']) && ($_GET['f']=='affiliate')) {
+				$criteria->condition = "email LIKE :email and is_affiliate='yes'";
+			}
+			else {
+				$criteria->condition = "email LIKE :email";
+			}
+
+			$criteria->params = array(":email" => $_GET['q'] . "%");
+			$criteria->limit = $_GET['limit'];
+
+			// Find users
+			$users = User::model()->findAll($criteria);
+			if (empty($users)) {
+				exit;
+			}
+
+			// Send user
+			foreach ($users as $user) {
+				echo $user->email . '|' . $user->id . "\n";
+			}
+
 		}
-		
-		// Send user
-		foreach ($users as $user) {
-			echo $user->email . '|' . $user->id . "\n";
-		}
-		
+
 		Yii::app()->end();
 	}
 	
@@ -101,7 +115,7 @@ class UserController extends Controller {
 		}
 		
 		$this->sendJson($result);
-	}
+}
 	
 	/**
 	 * Action to add new user
@@ -145,7 +159,9 @@ class UserController extends Controller {
 	{
 		$model = $this->loadModel($id);
 		$model->scenario = 'update';
-		
+		$model->f = Yii::app()->request->getParam('f');
+
+
 		if (isset($_POST['User'])) {
 			// Store old password
 			$oldPassword = $model->password;
@@ -169,11 +185,21 @@ class UserController extends Controller {
 			}
 
 
+
 			if ($model->save()) {
-				$this->redirect(array('/user/search/'));
+
+				if ($model->f=='affiliate') {
+					$this->redirect(array('/user/affiliate/'));
+				}
+					else {
+						$this->redirect(array('/user/search/'));
+					}
 			} else {
 				Yii::app()->user->setFlash('error', MTLang::t('message_1', 'user'));
+
 			}
+
+
 		}
 
 		$this->render('edit', array('model' => $model));
@@ -225,7 +251,6 @@ class UserController extends Controller {
 			}
 		}
 
-
 		// Render view
 		$this->render('search', 
 			array(
@@ -234,4 +259,44 @@ class UserController extends Controller {
 			)
 		);
 	}
+
+	/**
+	 * method to view new affiliates
+	 */
+
+	public function actionAffiliate() {
+
+		$params['is_affiliate']='yes';
+
+		// Render view
+		$this->render('affiliate',
+			array(
+				'users' => User::model()->search($params)
+			)
+		);
+
+
+	}
+
+	/**
+	 * Method to view all affiliated users
+	 * @param $id
+	 */
+
+	public function actionAffiliateList($id) {
+		// get list affiliate users
+
+		$params['affiliate_id']= (int)$id;
+
+		$this->render('affiliatelist',
+			array(
+				'users' => User::model()->search($params),
+				'affiliate_user' => User::model()->search(array('id'=>(int)$id))
+			)
+		);
+
+
+	}
+
+
 }

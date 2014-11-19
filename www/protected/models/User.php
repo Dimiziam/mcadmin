@@ -17,6 +17,15 @@ class User extends InfoModel {
 	 * @var int
 	 */
 	public $user_id;
+
+
+	/**
+	 * Variable to store returt controller action
+	 *
+	 * @var string
+	 */
+
+	public $f;
 	
 	/**
 	 * Returns the static model of the specified AR class.
@@ -84,6 +93,8 @@ class User extends InfoModel {
 			'is_active' => MTLang::t('is_active', 'user'),
 			'is_email_confirmed' => MTLang::t('is_email_confirmed', 'user'),
 			'is_affiliate' => MTLang::t('is_affiliate', 'user'),
+
+
 		);
 	}
 	
@@ -155,22 +166,42 @@ class User extends InfoModel {
 	 */
 	public function search($params)
 	{
+
+		// old
 		// Create query command
+		/*
 		$command = $this->getDbConnection()->createCommand(
 			'select SQL_CALC_FOUND_ROWS user.*, user1.email as email_affiliate
 			from ' . $this->tableName() . ' as user
 			left join ' . $this->tableName() . ' user1 on user.id=user1.affiliate_id
 			' . (!empty($params['id']) ? 'where id = :id' : '') . '
+			' . (!empty($params['affiliate_request']) ? 'where id = :id' : '') . '
 			order by id desc
 			limit ' . ($this->getCurrentPage() * $this->getRowsPerPage()) . ', ' . $this->getRowsPerPage()
 		);
-		
+		*/
+
+		$command = $this->getDbConnection()->createCommand()
+			->select(" user.*, user1.email as email_affiliate, (SELECT COUNT(id) FROM users u WHERE u.affiliate_id = user.id) AS total_affiliated_users",'SQL_CALC_FOUND_ROWS')
+			->from( $this->tableName() . ' as user')
+			->leftJoin( $this->tableName() . ' user1' ,'user1.id=user.affiliate_id')
+			->order('total_affiliated_users desc')
+			->limit( $this->getRowsPerPage(),$this->getCurrentPage() * $this->getRowsPerPage());
+
+
 		// Bind params
 		if (!empty($params['id'])) {
-			$command->bindParam(":id", $params['id'], PDO::PARAM_INT);
+			$command->where('user.id=:id',array(":id"=>$params['id']));
 		}
 
-		//echo $command->__toString();
+		if (!empty($params['is_affiliate'])) {
+			$command->andWhere('user.is_affiliate=:yes', array("yes"=>"yes"));
+		}
+
+		if (!empty($params['affiliate_id'])) {
+			$command->andWhere('user.affiliate_id=:affiliate_id', array("affiliate_id"=>intval($params['affiliate_id'])));
+		}
+
 
 		// Try to find users
 		$users = $command->queryAll();
@@ -196,4 +227,7 @@ class User extends InfoModel {
 		
 		return $provider;
 	}
+
+
+
 }

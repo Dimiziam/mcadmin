@@ -96,7 +96,14 @@ $settings = array(
 				'/<language:(' . implode('|', $i18n) . ')>/user/delete/<id:([^\.]+)>.html' => '/user/delete/',
 				'/<language:(' . implode('|', $i18n) . ')>/user/payments/<id:([^\.]+)>.html' => '/user/payments/',
 				'/<language:(' . implode('|', $i18n) . ')>/user/autocomplete/' => '/user/autocomplete/',
-		
+
+
+				// Affiliate routes
+				'/<language:(' . implode('|', $i18n) . ')>/user/affiliate/' => '/user/affiliate/',
+				'/<language:(' . implode('|', $i18n) . ')>/user/affiliatelist/<id:\d+>' => '/user/affiliatelist/',
+				'/<language:(' . implode('|', $i18n) . ')>/user/affiliateListOrders/<id:\d+>' => '/user/affiliateListOrders/',
+
+
 				// Order routes
 				'/<language:(' . implode('|', $i18n) . ')>/order/search/' => '/order/search/',
 				'/<language:(' . implode('|', $i18n) . ')>/order/songs/<id:([^\.]+)>.html' => '/order/songs/',
@@ -136,6 +143,9 @@ $settings = array(
 			'class' => 'CLogRouter',
 			'enabled' => YII_DEBUG,
 			'routes' => array(
+
+				'class' => 'ext.phpconsole.PhpConsoleLogRoute',
+
 				array(
 					'class' => 'CFileLogRoute',
 					'levels' => 'error, warning',
@@ -145,10 +155,10 @@ $settings = array(
 				),
 				//off locale problem
 				// TODO: fix it;
-				array(
-						'class'=>'application.extensions.yii-debug-toolbar.YiiDebugToolbarRoute',
-						'ipFilters'=>array('192.168.70.25','195.138.70.86'),
-				)
+//				array(
+//						'class'=>'application.extensions.yii-debug-toolbar.YiiDebugToolbarRoute',
+//						'ipFilters'=>array('192.168.70.25','195.138.70.86'),
+//				)
 			)
 		),
 	),
@@ -206,7 +216,7 @@ $settings = array(
 		
 		// Auth cookies settings
 		'cookies' => array(
-			'prefix' => 'mclub_',
+			'prefix' => 'mclubadmin_',
 			'life_time' => 3600,
 			'hash_rebuild_period' => 600,
 		
