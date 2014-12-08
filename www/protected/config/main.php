@@ -101,7 +101,8 @@ $settings = array(
 				// Affiliate routes
 				'/<language:(' . implode('|', $i18n) . ')>/user/affiliate/' => '/user/affiliate/',
 				'/<language:(' . implode('|', $i18n) . ')>/user/affiliatelist/<id:\d+>' => '/user/affiliatelist/',
-				'/<language:(' . implode('|', $i18n) . ')>/user/affiliateListOrders/<id:\d+>' => '/user/affiliateListOrders/',
+
+
 
 
 				// Order routes
@@ -111,6 +112,7 @@ $settings = array(
 				// Payments routes
 				'/<language:(' . implode('|', $i18n) . ')>/transaction/search/' => '/transaction/search/',
 				'/<language:(' . implode('|', $i18n) . ')>/transaction/add/<userId:([^\.]+)>.html' => '/transaction/add/',
+				'/<language:(' . implode('|', $i18n) . ')>/transaction/affiliate/<id:\d+>' => '/transaction/affiliate/',
 		
 				// Chart routes
 				'/<language:(' . implode('|', $i18n) . ')>/chart/add/' => '/chart/add/',

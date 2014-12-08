@@ -11,12 +11,23 @@
 )); ?>
 
 <div class="form">
-	
+
+	<?php if (!empty($f) and $f=='affiliate') {
+
+		$this->breadcrumbs = array(
+			MTLang::t('affiliate_list','user').": " => $this->createUrl('/user/affiliatelist/',array('id'=>$model->id)) ,
+			$model->email
+		);
+
+
+	} else {
+	?>
 	<div class="row">
 		<?php echo $translations['transaction_id']; ?>:
 		<?php echo $form->textField($model, 'id'); ?>
 	</div>
-	
+
+	<?php }?>
 	<div class="row">
 		<?php echo $translations['user_email']; ?>:
 		<?php 

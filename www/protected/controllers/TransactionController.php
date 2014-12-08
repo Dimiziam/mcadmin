@@ -19,7 +19,7 @@ class TransactionController extends Controller {
 	{
 		return array(
 			array('allow',
-				'actions' => array('search', 'add'),
+				'actions' => array('search', 'add','affiliate'),
 				'users' => array('@')
 			),
 			array('deny',
@@ -72,7 +72,46 @@ class TransactionController extends Controller {
 			)
 		);
 	}
-	
+
+	/**
+	 * method to get all affiliate transaction by user id
+	 * @param $id int userid
+	 */
+
+	public function actionAffiliate($id){
+
+		$email = Yii::app()->request->getParam('email');
+		$user_id = Yii::app()->request->getParam('SearchTransactionForm');
+		$user_id = (int)$user_id['user_id'];
+
+
+		// data from form
+		if (!empty($email) && !empty($user_id)) {
+			$user = User::model()->findByPk($user_id);
+		}
+		else {
+		// Get user by id by url
+			$user = User::model()->findByPk($id);
+		}
+		// Set user email
+		if (!empty($user)) {
+			$params['user_id'] = $user->id;
+			$params['billing'] = 'affiliate';
+		}
+
+
+// Render view
+		$this->render('search',
+			array(
+				'model' => $user,
+				'f'=>'affiliate',
+				'transactions' => Transaction::model()->search($params)
+			)
+		);
+
+	}
+
+
 	/**
 	 * Action to search transactions
 	 * 

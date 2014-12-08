@@ -162,6 +162,9 @@ class UserController extends Controller {
 		$model->f = Yii::app()->request->getParam('f');
 
 
+
+
+
 		if (isset($_POST['User'])) {
 			// Store old password
 			$oldPassword = $model->password;

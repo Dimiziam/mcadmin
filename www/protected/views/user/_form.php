@@ -56,7 +56,7 @@
 		<?php echo $form->error($model, 'is_affiliate'); ?>
 	</div>
 
-	<?php echo $form->hiddenField($model,'f',array('value'=>$_GET['f']));?>
+	<?php echo $form->hiddenField($model,'f',array('value'=>$model->f));?>
 
 
 	<div class="row buttons">

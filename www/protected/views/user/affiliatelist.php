@@ -1,8 +1,17 @@
 <?php
 // Get user translations
 $translations = MTLang::instance()->getGroup('user');
+
+$affiliate_user = $affiliate_user->rawData;
+
+
+$this->breadcrumbs = array(
+	$translations['affiliate_h2'] => $this->createUrl('/user/affiliate/') ,
+	$affiliate_user[0]['email']
+);
+
 ?>
-<h2><?php echo $translations['affiliate_h2']; ?></h2>
+<h2><?php echo $translations['affiliate_list']; ?></h2>
 <?php
 $this->widget('application.components.widgets.WPager', array('provider' => $users));
 
@@ -17,7 +26,7 @@ $items = $users->getData();
 		'no' => '<b>' . MTLang::t('no_value', 'persistence') . '</b>'
 	);
 
-	$affiliate_user = $affiliate_user->rawData;
+
 ?>
 
 
@@ -27,7 +36,7 @@ $items = $users->getData();
 		<b><?php echo $translations['affiliatedUDS']; ?> <?php echo $affiliate_user[0]['affiliate_amount'];?></b>
 
 
-			&nbsp; <a href="<?php echo $this->createUrl('/user/affiliateListOrders/', array( 'id'=>$affiliate_user[0]['id'])); ?>" title="<?php echo $translations['affiliate_orders']; ?>">
+			&nbsp; <a href="<?php echo $this->createUrl('/transaction/affiliate/', array( 'id'=>$affiliate_user[0]['id'])); ?>" title="<?php echo $translations['affiliate_orders']; ?>">
 					<img src="/images/list_16.png" border="0">
 				</a>
 
@@ -65,14 +74,6 @@ $items = $users->getData();
 			<td><?php echo $statuses[$item['is_affiliate']]; ?></td>
 			<td><?php echo $statuses[$item['is_email_confirmed']]; ?></td>
 			<td><?php echo $item['created']; ?></td>
-
-
-			<td>
-				<a href="<?php echo $this->createUrl('/user/edit/', array('id' => $item['id'],'f'=>'affiliate')) ?>" title="<?php echo $translations['edit_link_title']; ?>">
-					<img src="/images/edit_16.png" border="0">
-				</a>
-			</td>
-
 		</tr>
 	<?php } ?>
 </table>

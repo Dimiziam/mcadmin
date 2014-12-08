@@ -83,7 +83,8 @@ class Transaction extends InfoModel
 				inner join ' . User::model()->tableName() . ' users on users.id = transactions.user_id
 			where 1 
 				' . (!empty($params['id']) ? ' and transactions.id = :id' : '') . '
-				' . (!empty($params['user_id']) ? ' and transactions.user_id = :user_id' : '') . '
+				' . (!empty($params['user_id']) ? ' and transactions.user_id = :user_id ' : '') . '
+				' . (!empty($params['billing']) ? ' and transactions.billing = :affiliate ' : '') . '
 			order by transactions.id desc
 			limit ' . ($this->getCurrentPage() * $this->getRowsPerPage()) . ', ' . $this->getRowsPerPage()
 		);
@@ -95,7 +96,12 @@ class Transaction extends InfoModel
 		if (!empty($params['user_id'])) {
 			$command->bindParam(":user_id", $params['user_id'], PDO::PARAM_STR);
 		}
-		
+
+		if (!empty($params['billing'])) {
+			$command->bindParam(":affiliate", $params['billing'], PDO::PARAM_STR);
+		}
+
+
 		// Try to find transactions
 		$transactions = $command->queryAll();
 		
@@ -142,6 +148,7 @@ class Transaction extends InfoModel
 	{
 		// Remove all cache
 		$this->cleareCache($this->user_id);
+
 	}
 	
 	/**
