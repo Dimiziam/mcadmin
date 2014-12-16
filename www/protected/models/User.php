@@ -70,7 +70,7 @@ class User extends InfoModel {
 			array('email', 'uniqueEmail', 'on' => 'create'),
 			
 			// Safe rule
-			array('name,is_affiliate, last_name, password, is_active, is_email_confirmed', 'safe', 'on' => 'create,update'),
+			array('name,is_affiliate, last_name, password, is_active, is_email_confirmed, download_all', 'safe', 'on' => 'create,update'),
 			array('email, user_id', 'safe', 'on' => 'search'),
 			
 			// Default rules

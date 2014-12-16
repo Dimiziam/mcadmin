@@ -73,8 +73,9 @@
 			<th><?php echo $translations['name']; ?></th>
 			<th><?php echo $translations['last_name']; ?></th>
 			<th><?php echo $translations['amount']; ?></th>
-			<th><?php echo $translations['is_active']; ?></th>
+			<!-- <th><?php echo $translations['is_active']; ?></th> -->
 			<th><?php echo $translations['is_affiliate']; ?></th>
+			<th><?php echo $translations['download_all']; ?></th>
 			<th><?php echo $translations['is_email_confirmed']; ?></th>
 			<th><?php echo $translations['email_affiliate']; ?></th>
 			<th><?php echo $translations['created']; ?></th>
@@ -87,8 +88,9 @@
 				<td><?php echo $item['name']; ?></td>
 				<td><?php echo $item['last_name']; ?></td>
 				<td><?php echo $item['amount']; ?></td>
-				<td id="user_status_<?php echo $item['id']; ?>"><?php echo $statuses[$item['is_active']]; ?></td>
+				<!-- <td id="user_status_<?php echo $item['id']; ?>"><?php echo $statuses[$item['is_active']]; ?></td> -->
 				<td><?php echo $statuses[$item['is_affiliate']]; ?></td>
+				<td><?php echo $statuses[$item['download_all']]; ?></td>
 				<td><?php echo $statuses[$item['is_email_confirmed']]; ?></td>
 				<td><?php echo $item['email_affiliate']; ?></td>
 				<td><?php echo $item['created']; ?></td>

@@ -39,9 +39,9 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model, 'is_active'); ?>
-		<?php echo $form->dropDownList($model, 'is_active', array('yes' => MTLang::t('yes_value', 'persistence'), 'no' => MTLang::t('no_value', 'persistence'))); ?>
-		<?php echo $form->error($model, 'is_active'); ?>
+		<?php echo $form->labelEx($model, 'download_all'); ?>
+		<?php echo $form->dropDownList($model, 'download_all', array('yes' => MTLang::t('yes_value', 'persistence'), 'no' => MTLang::t('no_value', 'persistence'))); ?>
+		<?php echo $form->error($model, 'download_all'); ?>
 	</div>
 
 	<div class="row">
