@@ -79,6 +79,10 @@
 			<th><?php echo $translations['is_email_confirmed']; ?></th>
 			<th><?php echo $translations['email_affiliate']; ?></th>
 			<th><?php echo $translations['created']; ?></th>
+			<th><?php echo $translations['ip_register']; ?></th>
+			<th><?php echo $translations['last_ip_login']; ?></th>
+			<th><?php echo $translations['last_login_time']; ?></th>
+
 			<th colspan="3">&nbsp;</th>
 		</tr>
 		<?php foreach ($items as $item) { ?>
@@ -94,6 +98,10 @@
 				<td><?php echo $statuses[$item['is_email_confirmed']]; ?></td>
 				<td><?php echo $item['email_affiliate']; ?></td>
 				<td><?php echo $item['created']; ?></td>
+				<td><?php echo $item['ip_register']; ?></td>
+				<td><?php echo $item['last_ip_login']; ?></td>
+				<td><?php echo $item['last_login_time'] ? date("d.m.Y H:i",$item['last_login_time']): ""; ?></td>
+
 				<td>
 					<a href="<?php echo $this->createUrl('/user/edit/', array('id' => $item['id'])); ?>" title="<?php echo $translations['edit_link_title']; ?>">
 						<img src="/images/edit_16.png" border="0">
@@ -126,4 +134,4 @@
 	<h2><?php echo $translations['users_not_found']; ?></h2>
 <?php } ?>
 	
-<?php $this->endWidget(); ?>
+<?php $this->endWidget();?>

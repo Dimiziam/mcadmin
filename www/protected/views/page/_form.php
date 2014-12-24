@@ -52,7 +52,8 @@
 				'model' => $languageModel,
 				'attribute' => 'page_text',
 				'language' => 'ru',
-				'htmlOptions' => array('style'=>'width: 600px; height: 200px;')
+				'editorTemplate'=>'full',
+				'htmlOptions' => array('style'=>'width: 600px; height: 600px;')
 			));
 		?>
 		<?php echo $form->error($languageModel, 'page_text'); ?>
