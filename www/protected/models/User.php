@@ -185,7 +185,7 @@ class User extends InfoModel {
 			->select(" user.*, user1.email as email_affiliate, (SELECT COUNT(id) FROM users u WHERE u.affiliate_id = user.id) AS total_affiliated_users",'SQL_CALC_FOUND_ROWS')
 			->from( $this->tableName() . ' as user')
 			->leftJoin( $this->tableName() . ' user1' ,'user1.id=user.affiliate_id')
-			->order('total_affiliated_users desc')
+			->order('id desc')
 			->limit( $this->getRowsPerPage(),$this->getCurrentPage() * $this->getRowsPerPage());
 
 
