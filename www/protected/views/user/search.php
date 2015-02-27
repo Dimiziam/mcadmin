@@ -80,6 +80,7 @@
 			<th><?php echo $translations['email_affiliate']; ?></th>
 			<th><?php echo $translations['created']; ?></th>
 			<th><?php echo $translations['ip_register']; ?></th>
+			<th><?php echo $translations['country_code']; ?></th>
 			<th><?php echo $translations['last_ip_login']; ?></th>
 			<th><?php echo $translations['last_login_time']; ?></th>
 
@@ -99,6 +100,7 @@
 				<td><?php echo $item['email_affiliate']; ?></td>
 				<td><?php echo $item['created']; ?></td>
 				<td><?php echo $item['ip_register']; ?></td>
+				<td><?php echo $item['country_code']; ?></td>
 				<td><?php echo $item['last_ip_login']; ?></td>
 				<td><?php echo $item['last_login_time'] ? date("d.m.Y H:i",$item['last_login_time']): ""; ?></td>
 
