@@ -30,7 +30,13 @@ body
 
 
 
+.list_table {
+	width:40%!important;
+}
+.list_table th {
 
+
+}
 #header
 {
 	margin: 0;

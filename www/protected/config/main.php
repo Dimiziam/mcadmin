@@ -184,6 +184,7 @@ $settings = array(
 		'albumr_cover' => '/images/alb/',
 		'static_images_url' => 'http://mclub.com.ua',
 		'mailer' =>	'noreply@mediaclub.com',
+		'url_main_site' =>'http://www.mediaclub.com/',
 
 		// Pager settings
 		'pager' => array(

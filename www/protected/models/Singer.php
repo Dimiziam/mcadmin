@@ -41,4 +41,38 @@ class Singer extends InfoModel
 	{
 		return 'id';
 	}
+
+	/**
+	 * Method return singer info by id
+	 *
+	 * @param int $id
+	 * @return mixed
+	 */
+	public function getById($id)
+	{
+		// Try to get singer from cache
+		$singer = TRedis::instance('data')->get('singer_' . $id);
+
+		if (empty($singer)) {
+			// Get singer from DB
+			$singer = $this->getDbConnection()
+				->createCommand('select * from ' . $this->tableName() . ' where id = :id')
+				->bindParam(":id", $id, PDO::PARAM_INT)
+				->queryRow();
+			if (empty($singer)) {
+				return false;
+			}
+			// Store singer into cache
+			TRedis::instance('data')->setByTag('SINGERS', 'singer_' . $id, $singer);
+		}
+
+		// add singer info to runtime cache
+		if (!MTCache::instance('singer')->test($id)) {
+			MTCache::instance('singer')->set($id,$singer);
+		}
+
+
+		return $singer;
+	}
+
 }
