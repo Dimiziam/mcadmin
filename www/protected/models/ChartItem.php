@@ -1,30 +1,32 @@
 <?php
+
 /**
  * ChartItem
- * 
+ *
  * Model for table chart_items
- * 
+ *
  * @package MediaClub
  * @subpackage models
  * @copyright (C) 2014 point.od.ua <support@point.od.ua>
  * @author Tishenko Vladimir <vagrand@mail.ru>
  */
-class ChartItem extends InfoModel {
-	
+class ChartItem extends InfoModel
+{
+
 	/**
 	 * Returns the static model of the specified AR class.
-	 * 
+	 *
 	 * @param string $className active record class name.
 	 * @return Players the static model class
 	 */
-	public static function model($className=__CLASS__)
+	public static function model($className = __CLASS__)
 	{
 		return parent::model($className);
 	}
 
 	/**
 	 * Method return DB table name
-	 * 
+	 *
 	 * @return string the associated database table name
 	 */
 	public function tableName()
@@ -34,7 +36,7 @@ class ChartItem extends InfoModel {
 
 	/**
 	 * Method return field rules
-	 * 
+	 *
 	 * @return array validation rules for model attributes.
 	 */
 	public function rules()
@@ -42,7 +44,7 @@ class ChartItem extends InfoModel {
 		return array(
 			// Required rules
 			array('singer_id, album_id, position', 'required', 'on' => 'create,update'),
-			
+
 			// Safe rule
 			array('singer, album', 'safe', 'on' => 'create,update'),
 		);
@@ -50,7 +52,7 @@ class ChartItem extends InfoModel {
 
 	/**
 	 * Method return attribute labels
-	 * 
+	 *
 	 * @return array customized attribute labels (name=>label)
 	 */
 	public function attributeLabels()
@@ -61,10 +63,10 @@ class ChartItem extends InfoModel {
 			'position' => MTLang::t('position', 'chart'),
 		);
 	}
-	
+
 	/**
 	 * After delete hook
-	 * 
+	 *
 	 * @return void
 	 */
 	public function afterDelete()
@@ -72,10 +74,10 @@ class ChartItem extends InfoModel {
 		// Remove all cache
 		$this->cleareCache();
 	}
-	
+
 	/**
 	 * Method to save model
-	 * 
+	 *
 	 * @param bool $runValidation
 	 * @param array $attributes
 	 */
@@ -83,29 +85,29 @@ class ChartItem extends InfoModel {
 	{
 		// Call parent method
 		$result = parent::save($runValidation, $attributes);
-		
+
 		// Check result
 		if ($result === true && !empty($this->id)) {
 			// Remove all cache
 			$this->cleareCache();
 		}
-		
+
 		return $result;
 	}
-	
+
 	/**
 	 * Method to cleare current model cache
-	 * 
+	 *
 	 * @return bool
 	 */
 	public function cleareCache()
 	{
 		return TRedis::instance('charts')->deleteByTag('CHARTS');
 	}
-	
+
 	/**
 	 * Method to add new items
-	 * 
+	 *
 	 * @param int $sourceId
 	 * @param string $created
 	 * @param array $items
@@ -119,24 +121,33 @@ class ChartItem extends InfoModel {
 			$names[] = '"' . addslashes($item['singer']) . '"';
 			$titles[] = '"' . addslashes($item['album']) . '"';
 		}
-		
+
 		// Try to find ids by singer and album
+		/* this  bad Idea
 		$ids = $this->getDbConnection()->createCommand(
-			'select singers.id as singer_id, albums.id as albums_id,
+			'SELECT singers.id AS singer_id, albums.id AS albums_id,
 				singers.name, singers.pseudonym, albums.title
-			from ' . Singer::model()->tableName() . ' singers
-				inner join ' . Album::model()->tableName() . ' albums on singers.id = albums.singer_id
-			where (singers.name in (' . join(',', $names) . ') or singers.pseudonym in (' . join(',', $names) . '))
-				and albums.title in (' . join(',', $titles) . ')'
-		)->queryAll();
-		
+			FROM ' . Singer::model()->tableName() . ' singers
+				INNER JOIN ' . Album::model()->tableName() . ' albums ON singers.id = albums.singer_id
+			WHERE (singers.name IN (' . join(',', $names) . ') OR singers.pseudonym IN (' . join(',', $names) . '))
+				AND albums.title IN (' . join(',', $titles) . ')'
+		);
+		echo $ids->getText();
+		$ids = $ids->queryAll();
+		*/
+		// now we search onlu singers
+		// search singers
 		// Try to find singers ids
 		$singerIds = $this->getDbConnection()->createCommand(
-			'select singers.id as singer_id, singers.name, singers.pseudonym
-			from ' . Singer::model()->tableName() . ' singers
-			where singers.name in (' . join(',', $names) . ') or singers.pseudonym in (' . join(',', $names) . ')'
+			'SELECT singers.id AS singer_id, singers.name, singers.pseudonym
+			FROM ' . Singer::model()->tableName() . ' singers
+			WHERE singers.name IN (' . join(',', $names) . ') OR singers.pseudonym IN (' . join(',', $names) . ')'
 		)->queryAll();
-		
+
+
+
+
+
 		// Prepare values
 		$values = array();
 		foreach ($items as $item) {
@@ -149,14 +160,14 @@ class ChartItem extends InfoModel {
 					if ($id['name'] == $item['singer'] || $id['pseudonym'] == $item['singer']) {
 						$singerId = $id['singer_id'];
 					}
-					
+
 					// Check album
 					if ($id['title'] == $item['album']) {
 						$singerId = $id['albums_id'];
 					}
 				}
 			}
-			
+
 			// Try to find singer id
 			if (empty($singerId) && !empty($singerIds)) {
 				foreach ($singerIds as $id) {
@@ -166,22 +177,22 @@ class ChartItem extends InfoModel {
 					}
 				}
 			}
-			
+
 			$values[] = '(
-				' . (int) $sourceId . ', 
+				' . (int)$sourceId . ',
 				"' . addslashes($created) . '",
-				' . (int) $item['position'] . ',
+				' . (int)$item['position'] . ',
 				"' . addslashes($item['singer']) . '",
 				"' . addslashes($item['album']) . '",
-				' . (int) $singerId . ',
-				' . (int) $albumId . '
+				' . (int)$singerId . ',
+				' . (int)$albumId . '
 			)';
 		}
 		
 		// Prepare command
 		$command = $this->getDbConnection()->createCommand(
-			'insert into ' . $this->tableName() . ' (source_id, created, position, singer, album, singer_id, album_id) 
-			values ' . join(',', $values)
+			'INSERT INTO ' . $this->tableName() . ' (source_id, created, position, singer, album, singer_id, album_id)
+			VALUES ' . join(',', $values)
 		);
 		
 		// Add
@@ -194,10 +205,10 @@ class ChartItem extends InfoModel {
 		
 		return true;
 	}
-	
+
 	/**
 	 * Method to delete all items by source id
-	 * 
+	 *
 	 * @param int $sourceId
 	 * @param string $created
 	 * @return bool
@@ -206,31 +217,31 @@ class ChartItem extends InfoModel {
 	{
 		// Prepare command
 		$command = $this->getDbConnection()->createCommand(
-			'delete from ' . $this->tableName() . '
-			where source_id = :sourceId
+			'DELETE FROM ' . $this->tableName() . '
+			WHERE source_id = :sourceId
 				' . (!empty($created) ? ' and created = :created' : '')
 		);
-		
+
 		// Bind params
 		$command->bindParam(':sourceId', $sourceId, PDO::PARAM_INT);
 		if (!empty($created)) {
 			$command->bindParam(':created', $created, PDO::PARAM_STR);
 		}
-		
+
 		// Delete
 		if ($command->execute() === false) {
 			return false;
 		}
-		
+
 		// Cleare cache
 		$this->cleareCache();
-		
+
 		return true;
 	}
-	
+
 	/**
 	 * Method to search chart items
-	 * 
+	 *
 	 * @param int $sourceId
 	 * @param array $params
 	 * @return mixed
@@ -239,42 +250,42 @@ class ChartItem extends InfoModel {
 	{
 		// Create query command
 		$command = $this->getDbConnection()->createCommand(
-			'select SQL_CALC_FOUND_ROWS * 
-			from ' . $this->tableName() . '
-			where source_id = :sourceId
+			'SELECT SQL_CALC_FOUND_ROWS *
+			FROM ' . $this->tableName() . '
+			WHERE source_id = :sourceId
 			' . (!empty($params['created']) ? 'and created = :created' : '') . '
-			order by position
-			limit ' . ($this->getCurrentPage() * $this->getRowsPerPage()) . ', ' . $this->getRowsPerPage()
+			ORDER BY position
+			LIMIT ' . ($this->getCurrentPage() * $this->getRowsPerPage()) . ', ' . $this->getRowsPerPage()
 		);
-		
+
 		// Bind params
 		$command->bindParam(":sourceId", $sourceId, PDO::PARAM_INT);
 		if (!empty($params['created'])) {
 			$command->bindParam(":created", $params['created'], PDO::PARAM_STR);
 		}
-		
+
 		// Try to find chart items
 		$items = $command->queryAll();
-		
+
 		// Check items
 		if (empty($items)) {
 			return false;
 		}
-		
+
 		// Get nuber of found rows
 		$foundRows = $this->getDbConnection()->createCommand('SELECT found_rows() as totalRows')->queryScalar();
-		
+
 		// Get data provider
-		$provider = new MTArrayDataProvider($items, 
+		$provider = new MTArrayDataProvider($items,
 			array(
 				'totalItemCount' => $foundRows,
 				'pagination' => array('pageSize' => $this->getRowsPerPage()),
 			)
 		);
-		
+
 		// Set offset
 		$provider->setOffset(0);
-		
+
 		return $provider;
 	}
 }

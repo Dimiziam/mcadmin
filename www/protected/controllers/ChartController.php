@@ -330,8 +330,9 @@ class ChartController extends Controller {
 	/**
 	 * Method return loaded model by id
 	 * 
-	 * @param integer the ID of the model to be loaded
-	 * @return CActiveRecord
+	 * @param $id int integer the ID of the model to be loaded
+	 * @throws CHttpException not_found
+	 * @return CActiveRecord $model
 	 */
 	public function loadModel($id)
 	{
