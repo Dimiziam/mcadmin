@@ -145,9 +145,6 @@ class ChartItem extends InfoModel
 		)->queryAll();
 
 
-
-
-
 		// Prepare values
 		$values = array();
 		foreach ($items as $item) {

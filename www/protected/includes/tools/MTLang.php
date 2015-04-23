@@ -70,6 +70,7 @@ class MTLang
 	 */
 	public function getGroup($group, $language = null)
 	{
+		$this->cleareCache();
 		// Prepare language alias
 		$language = !empty($language) ? $language : Yii::app()->params['currentLanguage'];
 		

@@ -102,7 +102,8 @@ $settings = array(
 				'/<language:(' . implode('|', $i18n) . ')>/user/affiliate/' => '/user/affiliate/',
 				'/<language:(' . implode('|', $i18n) . ')>/user/affiliatelist/<id:\d+>' => '/user/affiliatelist/',
 
-
+				//Reports
+				'/<language:(' . implode('|', $i18n) . ')>/report/osa/' => '/report/osa/',
 
 
 				// Order routes
