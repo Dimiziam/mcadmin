@@ -68,6 +68,7 @@ $translations = MTLang::instance()->getGroup('report');
 	$this->endWidget();
 
 	if (!empty($osaReportData)) {
+		$total=0;
 		$osaReportDatas = $osaReportData->getData()
 	?>
 
