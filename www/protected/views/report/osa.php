@@ -39,7 +39,7 @@ $translations = MTLang::instance()->getGroup('report');
 
 		$this->widget('zii.widgets.jui.CJuiDatePicker', array(
 			'name' => 'dateTo',
-			'value' => $dateFrom,
+			'value' => $dateTo,
 			// additional javascript options for the date picker plugin
 			'options' => array(
 				'showAnim' => 'fold',
