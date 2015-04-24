@@ -78,8 +78,8 @@ class Report extends InfoModel
 			$command->join("users u", "u.id = os.user_id");
 			$command->join("owners o", "o.id = os.album_owner_id");
 			$command->join("songs sg", " sg.id = os.song_id")
-				//->where("u.developer='no' AND o.rule_number=0")
-				//->andWhere($criteria->condition, $criteria->params)
+				->where("u.developer='no' AND o.rule_number=0")
+				->andWhere($criteria->condition, $criteria->params)
 				->limit($this->getRowsPerPage(), ($this->getCurrentPage() * $this->getRowsPerPage()))
 				->order("os.created ASC")
 				->group("os.song_id");
