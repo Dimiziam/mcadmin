@@ -75,6 +75,7 @@ $translations = MTLang::instance()->getGroup('report');
 	<table class="list_table">
 		<tr>
 			<th><?php echo$translations['created']; ?></th>
+			<th><?php echo$translations['email']; ?></th>
 			<th><?php echo $translations['singer_name']; ?></th>
 			<th><?php echo $translations['song_title']; ?></th>
 			<th><?php echo $translations['lable']; ?></th>
@@ -82,9 +83,12 @@ $translations = MTLang::instance()->getGroup('report');
 			<th><?php echo $translations['downloaded']; ?></th>
 			<th><?php echo $translations['cost']; ?></th>
 		</tr>
-		<?php  foreach ($osaReportDatas as $item) { ?>
+		<?php  foreach ($osaReportDatas as $item) {
+			$total +=$item['cost'];
+			?>
 			<tr>
 				<td nowrap><?php echo  date("Y-m-d",strtotime($item['created'])); ?></td>
+				<td nowrap><?php echo $item['email']; ?></td>
 				<td nowrap><?php echo $item['singer_name']; ?></td>
 				<td nowrap><?php echo $item['song_title']; ?></td>
 				<td nowrap><?php echo $item['lable']; ?></td>
@@ -94,6 +98,10 @@ $translations = MTLang::instance()->getGroup('report');
 
 			</tr>
 		<?php }  ?>
+		<tr>
+			<td colspan="7"></td>
+			<td ><?php echo $total?></td>
+		</tr>
 	</table>
 	<?php } ?>
 
