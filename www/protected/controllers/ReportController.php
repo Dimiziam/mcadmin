@@ -1,4 +1,5 @@
 <?php
+
 /**
  * ReportClass
  * Class to work with repors
@@ -6,9 +7,8 @@
  * Date: 23.04.2015
  * @author Roman Shtempeliuk <deRamzes@gmail.com>
  */
- 
-
-class ReportController extends Controller {
+class ReportController extends Controller
+{
 
 	/**
 	 * Specifies the access control rules.
@@ -19,7 +19,7 @@ class ReportController extends Controller {
 	{
 		return array(
 			array('allow',
-				'actions' => array('search', 'add', 'edit', 'delete','index','osa'),
+				'actions' => array('search', 'add', 'edit', 'delete', 'index', 'osa'),
 				'users' => array('@')
 			),
 			array('deny',
@@ -27,22 +27,25 @@ class ReportController extends Controller {
 			)
 		);
 	}
+
 	// index action
-	public function actionIndex($report='osa') {
-
-
+	public function actionIndex($report = 'osa')
+	{
 		$dateFrom = Yii::app()->request->getParam('dateFrom');
-		$dateTo= Yii::app()->request->getParam('dateTo');
-		$osaReportData = Report::model()->getOsaReport($dateFrom,$dateTo);
-		$this->render('osa');
+		$dateTo = Yii::app()->request->getParam('dateTo');
+		$osaReportData = Report::model()->getOsaReport($dateFrom, $dateTo);
+		$this->render('osa', array(
+				'osaReportData' => $osaReportData,
+				'dateFrom' => $dateFrom,
+				'dateTo' => $dateTo,
+			)
+		);
 
 	}
 
 
-
-
-
-	public function actionOsa() {
+	public function actionOsa()
+	{
 
 
 		$this->actionIndex('osa');

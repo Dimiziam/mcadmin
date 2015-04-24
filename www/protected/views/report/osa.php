@@ -18,30 +18,37 @@ $translations = MTLang::instance()->getGroup('report');
 
 		<?php echo $translations['date_from']; ?>:
 		<?php
-		$this->widget('zii.widgets.jui.CJuiDatePicker',array(
-			'name'=>'dateFrom',
+		$this->widget('zii.widgets.jui.CJuiDatePicker', array(
+			'name' => 'dateFrom',
+			'value' => $dateFrom,
 			// additional javascript options for the date picker plugin
-			'options'=>array(
-				'showAnim'=>'fold',
-				'dateFormat'=>'yy-mm-dd'
+			'options' => array(
+				'showAnim' => 'fold',
+				'dateFormat' => 'yy-mm-dd',
+				'changeMonth' => true,
+				'changeYear' => true,
 			),
-			'htmlOptions'=>array(
-				'style'=>'height:20px;'
+			'htmlOptions' => array(
+				'style' => 'height:20px;',
 			),
 		));
 		?>
 		&nbsp;
 		<?php echo $translations['date_to']; ?>:
 		<?php
-		$this->widget('zii.widgets.jui.CJuiDatePicker',array(
-			'name'=>'dateTo',
+
+		$this->widget('zii.widgets.jui.CJuiDatePicker', array(
+			'name' => 'dateTo',
+			'value' => $dateFrom,
 			// additional javascript options for the date picker plugin
-			'options'=>array(
-				'showAnim'=>'fold',
-				'dateFormat'=>'yy-mm-dd'
+			'options' => array(
+				'showAnim' => 'fold',
+				'dateFormat' => 'yy-mm-dd',
+				'changeMonth' => true,
+				'changeYear' => true,
 			),
-			'htmlOptions'=>array(
-				'style'=>'height:20px;'
+			'htmlOptions' => array(
+				'style' => 'height:20px;'
 			),
 		));
 		?>
@@ -51,6 +58,43 @@ $translations = MTLang::instance()->getGroup('report');
 		<input type="submit" value="<?php echo MTLang::t('find_button', 'persistence'); ?>">
 	</div>
 
-	<?php $this->endWidget(); ?>
+
+
+	<?php
+	// Add pager widget
+
+	$this->widget('application.components.widgets.WPager', array('provider' => $osaReportData));
+
+	$this->endWidget();
+
+	if (!empty($osaReportData)) {
+		$osaReportDatas = $osaReportData->getData()
+	?>
+
+
+	<table class="list_table">
+		<tr>
+			<th><?php echo$translations['created']; ?></th>
+			<th><?php echo $translations['singer_name']; ?></th>
+			<th><?php echo $translations['song_title']; ?></th>
+			<th><?php echo $translations['lable']; ?></th>
+			<th><?php echo $translations['rule_number']; ?></th>
+			<th><?php echo $translations['downloaded']; ?></th>
+			<th><?php echo $translations['cost']; ?></th>
+		</tr>
+		<?php  foreach ($osaReportDatas as $item) { ?>
+			<tr>
+				<td nowrap><?php echo  date("Y-m-d",strtotime($item['created'])); ?></td>
+				<td nowrap><?php echo $item['singer_name']; ?></td>
+				<td nowrap><?php echo $item['song_title']; ?></td>
+				<td nowrap><?php echo $item['lable']; ?></td>
+				<td><?php echo $item['rule_number']; ?></td>
+				<td><?php echo $item['download']; ?></td>
+				<td><?php echo $item['cost']; ?></td>
+
+			</tr>
+		<?php }  ?>
+	</table>
+	<?php } ?>
 
 </div>

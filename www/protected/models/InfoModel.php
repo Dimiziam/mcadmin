@@ -17,12 +17,31 @@ class InfoModel extends CActiveRecord
 	 * @var array
 	 */
 	private $_resultMessage = array();
-	
+	private $defaultPerPage=20;
+
+
+	public function __construct() {
+		//set default
+		$this->defaultPerPage=Yii::app()->params['pager']['rpp'];
+	}
+
+
+	/**
+	 * @param int $defaultPerPage
+	 */
+	public function setDefaultPerPage($defaultPerPage)
+	{
+		$this->defaultPerPage = $defaultPerPage;
+	}
+
+
+
 	/**
 	 * Method return current row per page
 	 * 
 	 * @return int
 	 */
+
 	public function getCurrentPage()
 	{
 		return !empty($_POST[Yii::app()->params['pager']['variable']['current']]) ? (int) $_POST[Yii::app()->params['pager']['variable']['current']] - 1 : 0;
@@ -38,7 +57,7 @@ class InfoModel extends CActiveRecord
 		if (!empty($_POST[Yii::app()->params['pager']['variable']['rpp']])) { 
 			return (int) $_POST[Yii::app()->params['pager']['variable']['rpp']];
 		} else {
-			return !empty(Yii::app()->params['pager']['rpp']) ? Yii::app()->params['pager']['rpp'] : 20;
+			return  $this->defaultPerPage;
 		}
 	}
 	

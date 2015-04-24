@@ -47,6 +47,9 @@ class Report extends InfoModel
 	 */
 	public function getOsaReport($dateFrom, $dateTo)
 	{
+		//if in config not set
+		// do not word now
+		//$this->setDefaultPerPage(2000);
 
 		// validate date
 		$dateFrom = CDateTimeParser::parse($dateFrom, $this->format, array('month' => 1, 'day' => 1, 'hour' => 0, 'minute' => 0, 'second' => 0));
@@ -60,7 +63,7 @@ class Report extends InfoModel
 
 			// get downloaded albums by date
 			$command = $this->getDbConnection()
-				->createCommand()->select("os.*,
+				->createCommand()->select(" SQL_CALC_FOUND_ROWS os.*,
 									s.name AS singer_name,
 									sg.name AS song_title,
 									u.email,
@@ -74,26 +77,34 @@ class Report extends InfoModel
 			$command->join("singers s", "s.id = os.singer_id");
 			$command->join("users u", "u.id = os.user_id");
 			$command->join("owners o", "o.id = os.album_owner_id");
-			$command->join("songs sg", " sg.id = os.song_id");
-			$command->where("u.developer='no' AND o.rule_number=0")
-				->andWhere($criteria->condition, $criteria->params)
+			$command->join("songs sg", " sg.id = os.song_id")
+				//->where("u.developer='no' AND o.rule_number=0")
+				//->andWhere($criteria->condition, $criteria->params)
+				->limit($this->getRowsPerPage(), ($this->getCurrentPage() * $this->getRowsPerPage()))
+				->order("os.created ASC")
 				->group("os.song_id");
 
-			echo $command->getText();
-			$aa = $command->queryAll();
+			// Try to find orders
+			$reportData = $command->queryAll();
 
+			// Check orders
+			if (empty($reportData)) {
+				return false;
+			}
 
-			$aa = new CSqlDataProvider($command, array(
-				'keyField' => 'id',
-				'params' => $command->params));
+			// Get nuber of found rows
+			$foundRows = $this->getDbConnection()->createCommand('SELECT found_rows() as totalRows')->queryScalar();
 
-			$rrr = $aa->getData();
-
-			pc::debug($rrr);
-
-
-
-
+			// Get data provider
+			$provider = new MTArrayDataProvider($reportData,
+				array(
+					'totalItemCount' => $foundRows,
+					'pagination' => array('pageSize' => $this->getRowsPerPage()),
+				)
+			);
+			// Set offset
+			$provider->setOffset(0);
+			return $provider;
 		}
 		return false;
 
