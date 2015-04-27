@@ -56,6 +56,7 @@ $translations = MTLang::instance()->getGroup('report');
 
 	<div class="row buttons">
 		<input type="submit" value="<?php echo MTLang::t('find_button', 'persistence'); ?>">
+		<input type="submit" value="<?php echo MTLang::t('download_report', 'persistence'); ?>" name="getReport">
 	</div>
 
 
@@ -100,8 +101,9 @@ $translations = MTLang::instance()->getGroup('report');
 			</tr>
 		<?php }  ?>
 		<tr>
-			<td colspan="7"></td>
-			<td ><?php echo $total?></td>
+			<td colspan="6"></td>
+			<td nowrap><?php echo $translations['total_on_this_page'];?></td>
+			<td><b><?php echo $total?></b></td>
 		</tr>
 	</table>
 	<?php } ?>

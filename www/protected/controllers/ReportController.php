@@ -31,9 +31,17 @@ class ReportController extends Controller
 	// index action
 	public function actionIndex($report = 'osa')
 	{
+
 		$dateFrom = Yii::app()->request->getParam('dateFrom');
 		$dateTo = Yii::app()->request->getParam('dateTo');
+
 		$osaReportData = Report::model()->getOsaReport($dateFrom, $dateTo);
+		$getReport = Yii::app()->request->getParam('getReport');
+
+		if (!empty($getReport)) {
+			Report::model()->getOsaReportAsCSV($dateFrom, $dateTo);
+		}
+
 		$this->render('osa', array(
 				'osaReportData' => $osaReportData,
 				'dateFrom' => $dateFrom,
@@ -46,7 +54,6 @@ class ReportController extends Controller
 
 	public function actionOsa()
 	{
-
 
 		$this->actionIndex('osa');
 	}
