@@ -99,7 +99,6 @@ class Report extends InfoModel
 		$command = $this->_prepareRepQuery(false);
 		$items = $command->queryAll();
 
-
 		$csvFileName = 'Report_OSA+' . $this->dateFrom . '_to_' . $this->dateTo . ".csv";
 
 
@@ -136,6 +135,7 @@ class Report extends InfoModel
 
 		echo $outPutDada;
 
+
 		Yii::app()->end();
 	}
 
@@ -149,10 +149,14 @@ class Report extends InfoModel
 	 */
 	private function _validate($dateFrom, $dateTo)
 	{
-		$this->dateFrom = CDateTimeParser::parse($dateFrom, $this->format, array('month' => 1, 'day' => 1, 'hour' => 0, 'minute' => 0, 'second' => 0));
-		$this->dateTo = CDateTimeParser::parse($dateTo, $this->format, array('month' => 1, 'day' => 1, 'hour' => 0, 'minute' => 0, 'second' => 0));
+		$dateFrom = CDateTimeParser::parse($dateFrom, $this->format, array('month' => 1, 'day' => 1, 'hour' => 0, 'minute' => 0, 'second' => 0));
+		$dateTo = CDateTimeParser::parse($dateTo, $this->format, array('month' => 1, 'day' => 1, 'hour' => 0, 'minute' => 0, 'second' => 0));
 
-		if ($this->dateFrom && $this->dateTo) {
+		if ($dateFrom && $dateTo) {
+
+			$this->dateFrom = date("Y-m-d", $dateFrom);
+			$this->dateTo = date("Y-m-d", $dateTo);
+
 			return true;
 		}
 
@@ -171,7 +175,7 @@ class Report extends InfoModel
 		// prepare query
 		// between criteria
 		$criteria = new CDbCriteria();
-		$criteria->addBetweenCondition('os.created', date("Y-m-d", $this->dateFrom), date("Y-m-d", $this->dateTo));
+		$criteria->addBetweenCondition('os.created', $this->dateFrom, $this->dateTo);
 		// get downloaded albums by date
 		$command = $this->getDbConnection()
 			->createCommand()->select(" SQL_CALC_FOUND_ROWS os.*,
