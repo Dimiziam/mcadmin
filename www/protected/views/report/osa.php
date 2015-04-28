@@ -122,8 +122,10 @@ $translations = MTLang::instance()->getGroup('report');
 			<?php } ?>
 			<tr>
 				<td colspan="7"></td>
-				<td nowrap><?php echo $translations['total_on_this_page']; ?></td>
-				<td><b><?php echo $total ?></b></td>
+				<td nowrap><?php echo $translations['total_on_this_page'].":".$total ?> </td>
+				<td nowrap>OSA:<b><?php echo $payment_to_osa ?></b></td>
+
+
 			</tr>
 		</table>
 	<?php } ?>
