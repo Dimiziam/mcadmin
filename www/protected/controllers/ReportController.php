@@ -39,6 +39,7 @@ class ReportController extends Controller
 		$getReport = Yii::app()->request->getParam('getReport');
 
 		if (!empty($getReport)) {
+			$this->logOff();
 			Report::model()->getOsaReportAsCSV($dateFrom, $dateTo);
 		}
 

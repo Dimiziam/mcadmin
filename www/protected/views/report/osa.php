@@ -52,6 +52,7 @@ $translations = MTLang::instance()->getGroup('report');
 			),
 		));
 		?>
+		currency: <input type="text" name="currency" value="<?php echo Yii::app()->request->getParam('currency'); ?>">
 	</div>
 
 	<div class="row buttons">
@@ -69,43 +70,65 @@ $translations = MTLang::instance()->getGroup('report');
 	$this->endWidget();
 
 	if (!empty($osaReportData)) {
-		$total=0;
+		$total = 0;
+		$payment_to_osa=0;
 		$osaReportDatas = $osaReportData->getData()
-	?>
+		?>
 
 
-	<table class="list_table">
-		<tr>
-			<th><?php echo$translations['created']; ?></th>
-			<th><?php echo$translations['email']; ?></th>
-			<th><?php echo $translations['singer_name']; ?></th>
-			<th><?php echo $translations['song_title']; ?></th>
-			<th><?php echo $translations['lable']; ?></th>
-			<th><?php echo $translations['rule_number']; ?></th>
-			<th><?php echo $translations['downloaded']; ?></th>
-			<th><?php echo $translations['cost']; ?></th>
-		</tr>
-		<?php  foreach ($osaReportDatas as $item) {
-			$total +=$item['cost'];
-			?>
+		<table class="table table-striped">
 			<tr>
-				<td nowrap><?php echo  date("Y-m-d",strtotime($item['created'])); ?></td>
-				<td nowrap><?php echo $item['email']; ?></td>
-				<td nowrap><?php echo $item['singer_name']; ?></td>
-				<td nowrap><?php echo $item['song_title']; ?></td>
-				<td nowrap><?php echo $item['lable']; ?></td>
-				<td><?php echo $item['rule_number']; ?></td>
-				<td><?php echo $item['download']; ?></td>
-				<td><?php echo $item['cost']; ?></td>
-
+				<th>#</th>
+				<th><?php echo $translations['created']; ?></th>
+				<th><?php echo $translations['email']; ?></th>
+				<th><?php echo $translations['singer_name']; ?></th>
+				<th><?php echo $translations['song_title']; ?></th>
+				<th><?php echo $translations['lable']; ?></th>
+				<th><?php echo $translations['rule_number']; ?></th>
+				<th><?php echo $translations['price']; ?></th>
+				<th><?php echo $translations['downloaded']; ?></th>
+				<th><?php echo $translations['cost']; ?></th>
+				<th><?php echo $translations['AO_jednotka']; ?></th>
+				<th><?php echo $translations['payment_to_osa']; ?></th>
 			</tr>
-		<?php }  ?>
-		<tr>
-			<td colspan="6"></td>
-			<td nowrap><?php echo $translations['total_on_this_page'];?></td>
-			<td><b><?php echo $total?></b></td>
-		</tr>
-	</table>
+			<?php foreach ($osaReportDatas as $item) {
+				$total += round($item['cost'] * Yii::app()->request->getParam('currency'), 2);
+				?>
+				<tr>
+					<td><?php echo $item['id']; ?></td>
+					<td nowrap><?php echo date("Y-m-d", strtotime($item['created'])); ?></td>
+					<td nowrap><?php echo $item['email']; ?></td>
+					<td nowrap><?php echo $item['singer_name']; ?></td>
+					<td nowrap><?php echo $item['song_title']; ?></td>
+					<td nowrap><?php echo $item['lable']; ?></td>
+					<td><?php echo $item['rule_number']; ?></td>
+					<td><?php echo $price = round($item['price'] * Yii::app()->request->getParam('currency'), 2); ?></td>
+					<td><?php echo $item['download']; ?></td>
+					<td><?php echo $cost=round($item['cost'] * Yii::app()->request->getParam('currency'), 2); ?></td>
+					<td><?php echo $to_pay = $price * Yii::app()->params['AO_ednotka']; ?></td>
+					<td>
+						<?php
+						if ($to_pay < Yii::app()->params['AO_minimup']) {
+							echo $new_pay = round(Yii::app()->params['AO_minimup'] * $item['download'],2);
+						} else {
+							echo $new_pay =round($to_pay * $item['download']);
+						}
+
+						$payment_to_osa +=$new_pay;
+						?>
+					</td>
+
+				</tr>
+			<?php } ?>
+			<tr>
+				<td colspan="7"></td>
+				<td nowrap><?php echo $translations['total_on_this_page']; ?></td>
+				<td><b><?php echo $total ?></b></td>
+			</tr>
+		</table>
 	<?php } ?>
 
 </div>
+
+
+

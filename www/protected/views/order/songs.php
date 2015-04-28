@@ -15,7 +15,7 @@
 		[];
 
 ?>
-	<table class="list_table">
+	<table class="table table-striped">
 		<?php 
 			$currentAlbum = '';
 			$singerInfo='';

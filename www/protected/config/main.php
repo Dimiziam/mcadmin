@@ -208,6 +208,11 @@ $settings = array(
 			"4" => array("price" => 0.2, 'geo' => "Tenet"),
 			"5" => array("price" => 0,   'geo' => "Free"),
 		),
+		// minimum payment CKZ
+		'AO_minimup'=>2,
+		// payment persent from one track
+		'AO_ednotka'=>0.08,
+
 
 		// Album types
 		'album_types' => array(

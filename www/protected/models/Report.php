@@ -94,19 +94,29 @@ class Report extends InfoModel
 
 	public function getOsaReportAsCSV($dateFrom, $dateTo)
 	{
+
 		$this->_validate($dateFrom, $dateTo);
 
 		$command = $this->_prepareRepQuery(false);
 		$items = $command->queryAll();
 
 		$csvFileName = 'Report_OSA+' . $this->dateFrom . '_to_' . $this->dateTo . ".csv";
-
-
-		$headerFilds = "OBDOBI;DRUH_SOUBORU;ISRC;ID_OSA;TITUL;AUTHOR_LIST;ALBUM;VYDAVATEL;INTERPPRET;NO_DOWNLOADS;KONC_CENA;TRZBA_CELKEM_AO_JEDNOTKA;AO_MINIMUM;AO_CELKEM\n";
-
+		//hedaer filds
+		$headerFilds = MTLang::t("reportCSVHeader", "report") . "\n";
 		$outPutDada = $headerFilds;
 
 		foreach ($items as $item) {
+
+			$price = round($item['price'] * Yii::app()->request->getParam('currency'), 2);
+			$cost = round($item['cost'] * Yii::app()->request->getParam('currency'), 2);
+			$to_pay = $price * Yii::app()->params['AO_ednotka'];
+
+			if ($to_pay < Yii::app()->params['AO_minimup']) {
+				$new_pay = Yii::app()->params['AO_minimup'] * $item['download'];
+			} else {
+				$new_pay = $price * $item['download'];
+			}
+
 
 			$outPutDada .= date("Y-m-d", strtotime($item['created'])) . ";"
 				. "skladba" . ";"
@@ -118,11 +128,11 @@ class Report extends InfoModel
 				. $item['lable'] . ";"
 				. $item['singer_name'] . ";"
 				. $item['download'] . ";"
-				. $item['price'] . ";"
-				. $item['cost'] . ";"
-				. "-" . ";"
-				. "-" . ";"
-				. "-" . "\n";
+				. "\"" . number_format($price, 2, ',','') . "\"" . ";"
+				. "\"" . number_format($cost, 2, ',','') . "\"" . ";"
+				. "\"" . number_format($to_pay, 2, ',','') . "\"" . ";"
+				. Yii::app()->params['AO_minimup'] . ";"
+				. "\"" . number_format($new_pay, 2, ',','') . "\"" . "\n";
 
 		}
 

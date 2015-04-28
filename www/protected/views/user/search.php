@@ -66,7 +66,7 @@
 		// Add pager widget
 		$this->widget('application.components.widgets.WPager', array('provider' => $users));
 ?>
-	<table class="list_table">
+	<table class="table table-striped">
 		<tr>
 			<th>ID</th>
 			<th><?php echo $translations['email']; ?></th>

@@ -82,7 +82,7 @@
 		// Add pager widget
 		$this->widget('application.components.widgets.WPager', array('provider' => $items));
 ?>
-	<table style="width: 300px;" class="list_table">
+	<table style="width: 300px;" class="table table-striped">
 		<tr>
 			<th>ID</th>
 			<th><?php echo $translations['position']; ?></th>
