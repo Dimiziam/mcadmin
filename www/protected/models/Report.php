@@ -128,11 +128,11 @@ class Report extends InfoModel
 				. $item['lable'] . ";"
 				. $item['singer_name'] . ";"
 				. $item['download'] . ";"
-				. "\"" . number_format($price, 2, ',','') . "\"" . ";"
-				. "\"" . number_format($cost, 2, ',','') . "\"" . ";"
-				. "\"" . number_format($to_pay, 2, ',','') . "\"" . ";"
-				. Yii::app()->params['AO_minimup'] . ";"
-				. "\"" . number_format($new_pay, 2, ',','') . "\"" . "\n";
+				. "\"" . number_format($price, 2, '.', '') . "\"" . ";"
+				. "\"" . number_format($cost, 2, '.', '') . "\"" . ";"
+				. "\"" . number_format($to_pay, 2, '.', '') . "\"" . ";"
+				. "\"" . number_format(Yii::app()->params['AO_minimup'], 2, '.', '') . "\"" . ";"
+				. "\"" . number_format($new_pay, 2, '.', '') . "\"" . "\n";
 
 		}
 
