@@ -122,11 +122,13 @@ class TransactionController extends Controller {
 		$params = array();
 		
 		// Get user model
-		$model = new SearchTransactionForm('search');
-		
+		$model = new SearchTransactionForm("search");
+		$model->scenario='search';
+
 		if (!empty($_REQUEST['SearchTransactionForm'])) {
 			$model->attributes = $_REQUEST['SearchTransactionForm'];
-			
+
+			$params['billing'] =  $model->billing;
 			// Add search by id
 			if (!empty($model->id)) {
 				$params['id'] = $model->id;
@@ -145,7 +147,7 @@ class TransactionController extends Controller {
 				}
 			}
 		}
-		
+
 		// Render view
 		$this->render('search', 
 			array(

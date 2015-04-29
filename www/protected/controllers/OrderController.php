@@ -56,6 +56,7 @@ class OrderController extends Controller {
 		
 		// Get user model
 		$model = new SearchOrderForm('search');
+		$model->scenario='search';
 		
 		if (!empty($_REQUEST['SearchOrderForm'])) {
 			$model->attributes = $_REQUEST['SearchOrderForm'];

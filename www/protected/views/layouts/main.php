@@ -21,13 +21,14 @@
 	<!-- Optional theme -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
 
-	<!-- Latest compiled and minified JavaScript -->
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
 
 	<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery.min.js"></script>
 	<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/main.js"></script>
 	<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/tools.js"></script>
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
 	<?php 
 		Yii::app()->clientScript->scriptMap=array(
 			'jquery.js'=>false,
@@ -37,7 +38,6 @@
 
 	<?php
 	// TODO: remove after tests
-
 	MTLang::instance()->cleareCache();
 
 	?>
