@@ -46,7 +46,26 @@ class InfoModel extends CActiveRecord
 	{
 		return !empty($_POST[Yii::app()->params['pager']['variable']['current']]) ? (int) $_POST[Yii::app()->params['pager']['variable']['current']] - 1 : 0;
 	}
-	
+
+	/**
+	 * Method to get Enum list from field
+	 * @param $attr field in db
+	 * @return array enum values
+	 */
+
+	public function getEnumList($attr)
+	{
+		$model = $this;
+		preg_match('/\((.*)\)/', $model->tableSchema->columns[$attr]->dbType, $matches);
+		foreach (explode(',', $matches[1]) as $value) {
+			$value = str_replace("'", null, $value);
+			$values[$value] = Yii::t('enumItem', $value);
+		}
+		return $values;
+
+	}
+
+
 	/**
 	 * Method return current row per page
 	 * 
