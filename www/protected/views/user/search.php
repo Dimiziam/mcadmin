@@ -42,7 +42,7 @@ $this->menu = array(
 					'methodChain' => '.result(function(event,item){$("#SearchUserForm_id").attr("value", item[1]);})'
 				)
 			);
-			echo CHtml::hiddenField('SearchUserForm[id]', !empty($model->id) ? $model->id : 0,array('id'=>'SearchUserForm_id'));
+			echo CHtml::hiddenField('SearchUserForm[id]', !empty($model->id) ? $model->id : 0, array('id' => 'SearchUserForm_id'));
 			?>
 		</div>
 
@@ -96,7 +96,7 @@ if (!empty($users)) {
 				<td><?php echo $item['id']; ?></td>
 				<td><?php echo $item['email']; ?></td>
 				<td><?php echo $item['name']; ?><br><?php echo $item['last_name']; ?></td>
-				<td><?php echo $item['amount']>0 ? '<b>' . $item["amount"] . ' </b>':$item["amount"]; ?></td>
+				<td><?php echo $item['amount'] > 0 ? '<b>' . $item["amount"] . ' </b>' : $item["amount"]; ?></td>
 				<!-- <td id="user_status_<?php echo $item['id']; ?>"><?php echo $statuses[$item['is_active']]; ?></td> -->
 				<td nowrap><?php echo $translations['is_affiliate']; ?>
 					:&nbsp;<?php echo $statuses[$item['is_affiliate']]; ?><br>
@@ -128,7 +128,7 @@ if (!empty($users)) {
 					</a>
 				</td>
 				<td>
-					<a href="<?php echo $this->createUrl('/transaction/search/', array('SearchTransactionForm[user_id]' => $item['id'])); ?>"
+					<a href="<?php echo $this->createUrl('/transaction/search/', array('SearchTransactionForm[user_id]' => $item['id'], 'SearchTransactionForm[billing]' => 'paypal')); ?>"
 					   title="<?php echo $translations['payments_link_title']; ?>">
 						<img src="/images/coins_16.png" border="0">
 					</a>

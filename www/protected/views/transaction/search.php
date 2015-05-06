@@ -101,9 +101,9 @@ if (!empty($transactions)) {
 						<img src="/images/edit_16.png" border="0">
 					</a>
 					&nbsp;
-					<a href="<?php echo $this->createUrl('/transaction/add/', array('userId' => $item['user_id'])); ?>"
-					   title="<?php echo $translationsUser['change_balance_link_title']; ?>">
-						<img src="/images/coins_add_16.png" border="0">
+					<a href="<?php echo $this->createUrl('/transaction/search/', array('SearchTransactionForm[user_id]' => $item['user_id'], 'SearchTransactionForm[billing]' => 'paypal')); ?>"
+					   title="<?php echo $translationsUser['payments_link_title']; ?>">
+						<img src="/images/coins_16.png" border="0">
 					</a>
 					&nbsp;
 					<?php if ($item['order_id'] > 0) { ?>
