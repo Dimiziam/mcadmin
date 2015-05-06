@@ -23,23 +23,24 @@
 
 
 
-	<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery.min.js"></script>
+	<!-- <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery.min.js"></script> -->
+	 <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+	<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+
+	<!-- <script src="http://code.jquery.com/jquery-migrate-1.2.1.js"></script>-->
 	<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/main.js"></script>
 	<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/tools.js"></script>
 	<!-- Latest compiled and minified JavaScript -->
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-
-	<?php 
+	 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+	<?php
 		Yii::app()->clientScript->scriptMap=array(
 			'jquery.js'=>false,
 			'jquery.min.js'=>false,
 		);
 	?>
-
 	<?php
 	// TODO: remove after tests
 	MTLang::instance()->cleareCache();
-
 	?>
 
  	<!-- Include superfish plugin -->
@@ -48,7 +49,6 @@
 	<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/superfish/js/superfish.js"></script> 
 
 	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
-	
 	<script>
 		var global_language_code = '<?php echo Yii::app()->params['currentLanguage']; ?>';
 	</script>

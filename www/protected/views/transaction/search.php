@@ -2,6 +2,8 @@
 // Get transaction translations
 $translations = MTLang::instance()->getGroup('transaction');
 
+//
+$translationsUser = MTLang::instance()->getGroup('user');
 // Get order translations
 $orderTranslations = MTLang::instance()->getGroup('order');
 ?>
@@ -24,7 +26,7 @@ $orderTranslations = MTLang::instance()->getGroup('order');
 			?>
 			<div class="row form-inline">
 				<?php echo $translations['transaction_id']; ?>:
-				<?php echo $form->textField($model, 'id',array("class"=>"form-control")); ?>
+				<?php echo $form->textField($model, 'id', array("class" => "form-control")); ?>
 			</div>
 
 		<?php } ?>
@@ -41,17 +43,16 @@ $orderTranslations = MTLang::instance()->getGroup('order');
 					'max' => 10,
 					'htmlOptions' => array(
 						'size' => 50,
-						'class' =>'form-control'
+						'class' => 'form-control'
 					),
 					'methodChain' => '.result(function(event,item){$("#SearchTransactionForm_user_id").attr("value", item[1]);})'
 				)
 			);
 			echo "&nbsp;";
 			echo CHtml::dropDownList('SearchTransactionForm[billing]',
-					$model->billing, $model->getEnumList('billing'),
-				array("class"=>"form-control")
+				$model->billing, $model->getEnumList('billing'),
+				array("class" => "form-control")
 			);
-
 			echo CHtml::hiddenField('SearchTransactionForm[user_id]', !empty($model->user_id) ? $model->user_id : 0);
 			?>
 		</div>
@@ -79,8 +80,8 @@ if (!empty($transactions)) {
 			<th><?php echo $translations['billing']; ?></th>
 			<th><?php echo $translations['amount']; ?></th>
 			<th><?php echo $translations['status']; ?></th>
-			<th><?php echo $translations['date_start']; ?></th>
-			<th><?php echo $translations['date_end']; ?></th>
+			<th><?php echo $translations['date_start']; ?><br><?php echo $translations['date_end']; ?></th>
+			<th></th>
 		</tr>
 		<?php foreach ($items as $item) { ?>
 			<tr>
@@ -89,8 +90,34 @@ if (!empty($transactions)) {
 				<td><?php echo $translations['billing_' . $item['billing']]; ?></td>
 				<td><?php echo $item['type'] == 'add' ? '+' . $item['amount'] : '-' . $item['amount']; ?></td>
 				<td><?php echo $orderTranslations['status_' . $item['status']]; ?></td>
-				<td><?php echo $item['date_start']; ?></td>
-				<td><?php echo $item['date_end']; ?></td>
+				<td>
+					<?php echo $item['date_start']; ?><br>
+					<?php echo $item['date_end']; ?>
+				</td>
+				<td>
+
+					<a href="<?php echo $this->createUrl('/user/edit/', array('id' => $item['user_id'])); ?>"
+					   title="<?php echo $translationsUser['edit_link_title']; ?>">
+						<img src="/images/edit_16.png" border="0">
+					</a>
+					&nbsp;
+					<a href="<?php echo $this->createUrl('/transaction/add/', array('userId' => $item['user_id'])); ?>"
+					   title="<?php echo $translationsUser['change_balance_link_title']; ?>">
+						<img src="/images/coins_add_16.png" border="0">
+					</a>
+					&nbsp;
+					<?php if ($item['order_id'] > 0) { ?>
+						<a href="<?php echo $this->createUrl('/order/search/', array('SearchOrderForm[id]' => $item['order_id'])); ?>"
+						   title="<?php echo $translationsUser['orders_link_title']; ?>">
+							<img src="/images/cart_16.png" border="0">
+						</a>
+						&nbsp;
+					<?php } ?>
+
+
+				</td>
+
+
 			</tr>
 		<?php } ?>
 	</table>

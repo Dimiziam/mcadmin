@@ -165,3 +165,25 @@ function user_delete(userId)
 		}
 	);
 }
+
+
+$(document).ready(function() {
+
+	if ($('#email').length=0) {
+		$('#email').val("");
+	}
+
+	$('#email').change(function() {
+
+		if ( $( this ).val() <=2) {
+			$('#SearchTransactionForm_user_id').val("");
+			$('#SearchUserForm_id').val("");
+
+			$('#email').val("");
+
+		}
+	});
+
+
+
+});

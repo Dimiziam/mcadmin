@@ -17,13 +17,7 @@ class InfoModel extends CActiveRecord
 	 * @var array
 	 */
 	private $_resultMessage = array();
-	private $defaultPerPage=20;
-
-
-	public function __construct() {
-		//set default
-		$this->defaultPerPage=Yii::app()->params['pager']['rpp'];
-	}
+	private $defaultPerPage=40;
 
 
 	/**
