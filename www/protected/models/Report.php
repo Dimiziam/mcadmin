@@ -46,6 +46,58 @@ class Report extends InfoModel
 	}
 
 
+	public function getPayPalReport($dateFrom, $dateTo)
+	{
+
+		if ($this->_validate($dateFrom, $dateTo)) {
+
+			// paypalPayments
+
+			// prepare query
+			// between criteria
+			$criteria = new CDbCriteria();
+			$criteria->addBetweenCondition('os.date_start', $this->dateFrom, $this->dateTo);
+			// get downloaded albums by date
+			$command = $this->getDbConnection()
+				->createCommand()->select(" SQL_CALC_FOUND_ROWS tr.* ,u.*");
+
+			$command->from("transactions tr");
+			$command->join("users u", "u.id = tr.user_id")
+				->where("tr.status='done'")
+				->andWhere($criteria->condition, $criteria->params);
+
+			// if we need limit, default yes
+			$command->limit($this->getRowsPerPage(), ($this->getCurrentPage() * $this->getRowsPerPage()));
+
+			$command->order("tr.date_start ASC");
+
+
+			$reportData = $command->queryAll();
+
+			// Check orders
+			if (empty($reportData)) {
+				return false;
+			}
+
+			// Get nuber of found rows
+			$foundRows = $this->getDbConnection()->createCommand('SELECT found_rows() as totalRows')->queryScalar();
+
+			// Get data provider
+			$provider = new MTArrayDataProvider($reportData,
+				array(
+					'totalItemCount' => $foundRows,
+					'pagination' => array('pageSize' => $this->getRowsPerPage()),
+				)
+			);
+			// Set offset
+			$provider->setOffset(0);
+			return $provider;
+		}
+		return false;
+
+	}
+
+
 	/**
 	 * Method to get OsaReport
 	 */
@@ -174,7 +226,7 @@ class Report extends InfoModel
 	}
 
 	/**
-	 * Method to prepare Query for report
+	 * Method to prepare Query for Osa report
 	 * @param bool $needLimit if need limit default true
 	 * @return CDbCommand
 	 */

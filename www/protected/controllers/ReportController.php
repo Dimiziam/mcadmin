@@ -19,7 +19,7 @@ class ReportController extends Controller
 	{
 		return array(
 			array('allow',
-				'actions' => array('search', 'add', 'edit', 'delete', 'index', 'osa'),
+				'actions' => array('paypal', 'index', 'osa'),
 				'users' => array('@')
 			),
 			array('deny',
@@ -35,29 +35,53 @@ class ReportController extends Controller
 		$dateFrom = Yii::app()->request->getParam('dateFrom');
 		$dateTo = Yii::app()->request->getParam('dateTo');
 
-		$osaReportData = Report::model()->getOsaReport($dateFrom, $dateTo);
-		$getReport = Yii::app()->request->getParam('getReport');
+		if ($report == 'osa') {
 
-		if (!empty($getReport)) {
-			$this->logOff();
-			Report::model()->getOsaReportAsCSV($dateFrom, $dateTo);
+			$getReport = Yii::app()->request->getParam('getReport');
+
+			if (!empty($getReport)) {
+				$this->logOff();
+				Report::model()->getOsaReportAsCSV($dateFrom, $dateTo);
+				return false;
+			}
+
+			$osaReportData = Report::model()->getOsaReport($dateFrom, $dateTo);
+			$this->render('osa', array(
+					'osaReportData' => $osaReportData,
+					'dateFrom' => $dateFrom,
+					'dateTo' => $dateTo,
+				)
+			);
+
+			return false;
 		}
 
-		$this->render('osa', array(
-				'osaReportData' => $osaReportData,
-				'dateFrom' => $dateFrom,
-				'dateTo' => $dateTo,
-			)
-		);
+		if ($report=='paypal') {
+
+			$paypalReportData = Report::model()->getPayPalReport($dateFrom, $dateTo);
+
+			pc::debug($paypalReportData);
+			$this->render('osa', array(
+					'paypalReportData' => $paypalReportData,
+					'dateFrom' => $dateFrom,
+					'dateTo' => $dateTo,
+				)
+			);
+
+			return false;
+		}
+
 
 	}
 
 
 	public function actionOsa()
 	{
-
 		$this->actionIndex('osa');
 	}
 
-
+	public function actionPaypal()
+	{
+		$this->actionIndex('paypal');
+	}
 } 

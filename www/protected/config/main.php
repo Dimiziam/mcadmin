@@ -104,6 +104,7 @@ $settings = array(
 
 				//Reports
 				'/<language:(' . implode('|', $i18n) . ')>/report/osa/' => '/report/osa/',
+				'/<language:(' . implode('|', $i18n) . ')>/report/paypal/' => '/report/paypal/',
 
 
 				// Order routes
