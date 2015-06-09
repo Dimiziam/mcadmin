@@ -61,7 +61,7 @@ class ReportController extends Controller
 			$paypalReportData = Report::model()->getPayPalReport($dateFrom, $dateTo);
 
 			pc::debug($paypalReportData);
-			$this->render('osa', array(
+			$this->render('paypal', array(
 					'paypalReportData' => $paypalReportData,
 					'dateFrom' => $dateFrom,
 					'dateTo' => $dateTo,

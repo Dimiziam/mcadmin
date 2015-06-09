@@ -52,78 +52,81 @@ $translations = MTLang::instance()->getGroup('report');
 			),
 		));
 		?>
-		currency: <input type="text" name="currency" value="<?php echo Yii::app()->request->getParam('currency'); ?>">
 	</div>
 
 	<div class="row buttons">
 		<input type="submit" value="<?php echo MTLang::t('find_button', 'persistence'); ?>">
-		<input type="submit" value="<?php echo MTLang::t('download_report', 'persistence'); ?>" name="getReport">
+		<!-- <input type="submit" value="<?php echo MTLang::t('download_report', 'persistence'); ?>" name="getReport"> -->
 	</div>
-
 
 
 	<?php
 	// Add pager widget
 
-	$this->widget('application.components.widgets.WPager', array('provider' => $osaReportData));
+	$this->widget('application.components.widgets.WPager', array('provider' => $paypalReportData));
 
 	$this->endWidget();
 
-	if (!empty($osaReportData)) {
+	if (!empty($paypalReportData)) {
 		$total = 0;
-		$payment_to_osa=0;
-		$osaReportDatas = $osaReportData->getData()
+
+		$ReportData = $paypalReportData->getData()
 		?>
 
 
 		<table class="table table-striped">
 			<tr>
-				<th>#</th>
-				<th><?php echo $translations['created']; ?></th>
-				<th><?php echo $translations['email']; ?></th>
-				<th><?php echo $translations['singer_name']; ?></th>
-				<th><?php echo $translations['song_title']; ?></th>
-				<th><?php echo $translations['lable']; ?></th>
-				<th><?php echo $translations['rule_number']; ?></th>
-				<th><?php echo $translations['price']; ?></th>
-				<th><?php echo $translations['downloaded']; ?></th>
-				<th><?php echo $translations['cost']; ?></th>
-				<th><?php echo $translations['AO_jednotka']; ?></th>
-				<th><?php echo $translations['payment_to_osa']; ?></th>
+				<th rowspan="2">#</th>
+				<th rowspan="2"><?php echo $translations['created']; ?></th>
+				<th rowspan="2"<?php echo $translations['email']; ?></th>
+				<th rowspan="2"><?php echo $translations['name']; ?></th>
+				<th rowspan="2"><?php echo $translations['county_code']; ?></th>
+				<th colspan="5" style="text-align: center;"><?php echo $translations['paypal']; ?></th>
 			</tr>
-			<?php foreach ($osaReportDatas as $item) {
-				$total += round($item['cost'] * Yii::app()->request->getParam('currency'), 2);
+			<tr>
+				<td><?php echo $translations['paymentid']; ?></td>
+				<td><?php echo $translations['email']; ?></td>
+				<td><?php echo $translations['name']; ?></td>
+				<td><?php echo $translations['county_code']; ?></td>
+				<td><?php echo $translations['amount']; ?></td>
+			</tr>
+			<?php foreach ($ReportData as $item) {
+				$total += round($item['amount']);
 				?>
 				<tr>
 					<td><?php echo $item['id']; ?></td>
-					<td nowrap><?php echo date("Y-m-d", strtotime($item['created'])); ?></td>
+					<td nowrap><?php echo date("Y-m-d", strtotime($item['date_end'])); ?></td>
 					<td nowrap><?php echo $item['email']; ?></td>
-					<td nowrap><?php echo $item['singer_name']; ?></td>
-					<td nowrap><?php echo $item['song_title']; ?></td>
-					<td nowrap><?php echo $item['lable']; ?></td>
-					<td><?php echo $item['rule_number']; ?></td>
-					<td><?php echo $price = round($item['price'] * Yii::app()->request->getParam('currency'), 2); ?></td>
-					<td><?php echo $item['download']; ?></td>
-					<td><?php echo $cost=round($item['cost'] * Yii::app()->request->getParam('currency'), 2); ?></td>
-					<td><?php echo $to_pay = $price * Yii::app()->params['AO_ednotka']; ?></td>
-					<td>
-						<?php
-						if ($to_pay < Yii::app()->params['AO_minimup']) {
-							echo $new_pay = round(Yii::app()->params['AO_minimup'] * $item['download'],2);
-						} else {
-							echo $new_pay =round($to_pay * $item['download']);
-						}
+					<td nowrap><?php echo $item['name']; ?><br>
+					<?php echo $item['last_name']; ?></td>
+					<td nowrap><?php echo $item['country_code']; ?></td>
 
-						$payment_to_osa +=$new_pay;
-						?>
-					</td>
+					<?php
+					$paypaInfo = unserialize($item['info']);
+
+					if (!empty($paypaInfo['detailPayment'])) {
+						echo '<td>'.$paypaInfo['paymentId'].'</td>';
+						echo '<td>'.$paypaInfo['detailPayment']['email'].'</td>';
+						echo '<td>'.$paypaInfo['detailPayment']['first_name'].'<br>';
+						echo $paypaInfo['detailPayment']['last_name'].'</td>';
+						echo '<td>'.$paypaInfo['detailPayment']['county_code'].'</td>';
+						echo '<td>'.$paypaInfo['detailPayment']['amount'].'</td>';
+					}
+					else {?>
+						<td><?php echo $paypaInfo['paymentId'];?></td>
+						<td colspan="4">&nbsp;</td>
+					<?php }
+
+					?>
+
+
 
 				</tr>
 			<?php } ?>
 			<tr>
-				<td colspan="7"></td>
-				<td nowrap><?php echo $translations['total_on_this_page'].":".$total ?> </td>
-				<td nowrap>OSA:<b><?php echo $payment_to_osa ?></b></td>
+
+				<td nowrap colspan="10"><?php echo $translations['total_on_this_page'] . ":" . $total ?> </td>
+
 
 
 			</tr>
@@ -131,6 +134,9 @@ $translations = MTLang::instance()->getGroup('report');
 	<?php } ?>
 
 </div>
+
+
+
 
 
 

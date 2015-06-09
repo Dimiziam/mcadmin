@@ -56,14 +56,23 @@ class Report extends InfoModel
 			// prepare query
 			// between criteria
 			$criteria = new CDbCriteria();
-			$criteria->addBetweenCondition('os.date_start', $this->dateFrom, $this->dateTo);
+			$criteria->addBetweenCondition('tr.date_start', $this->dateFrom, $this->dateTo);
 			// get downloaded albums by date
 			$command = $this->getDbConnection()
-				->createCommand()->select(" SQL_CALC_FOUND_ROWS tr.* ,u.*");
+				->createCommand()->select("tr.id,
+										  tr.date_end,
+										  tr.status,
+										  tr.info,
+										  tr.amount,
+										  u.email,
+										  u.name,
+										  u.last_name,
+										  u.country_code", 'SQL_CALC_FOUND_ROWS');
 
 			$command->from("transactions tr");
-			$command->join("users u", "u.id = tr.user_id")
+			$command->leftJoin("users u", "u.id = tr.user_id")
 				->where("tr.status='done'")
+				->andWhere("tr.billing='paypal'")
 				->andWhere($criteria->condition, $criteria->params);
 
 			// if we need limit, default yes
@@ -110,7 +119,7 @@ class Report extends InfoModel
 		if ($this->_validate($dateFrom, $dateTo)) {
 
 			// Try to find orders
-			$command = $this->_prepareRepQuery();
+			$command = $this->_prepareOsaQuery();
 
 			$reportData = $command->queryAll();
 
@@ -149,7 +158,7 @@ class Report extends InfoModel
 
 		$this->_validate($dateFrom, $dateTo);
 
-		$command = $this->_prepareRepQuery(false);
+		$command = $this->_prepareOsaQuery(false);
 		$items = $command->queryAll();
 
 		$csvFileName = 'Report_OSA+' . $this->dateFrom . '_to_' . $this->dateTo . ".csv";
@@ -231,7 +240,7 @@ class Report extends InfoModel
 	 * @return CDbCommand
 	 */
 
-	private function _prepareRepQuery($needLimit = true)
+	private function _prepareOsaQuery($needLimit = true)
 	{
 
 		// prepare query
@@ -270,6 +279,8 @@ class Report extends InfoModel
 		$command->order("os.created ASC")
 			->group("os.song_id");
 		return $command;
+
+
 	}
 
 

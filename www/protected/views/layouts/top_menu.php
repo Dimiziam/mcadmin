@@ -33,7 +33,10 @@ $items = array(
 	array(
 		'label' => $translations['report'],
 		'items' => array(
-			array('label' => $translations['osa_report'], 'url' => Yii::app()->getController()->createUrl('/report/osa/'))),
+			array('label' => $translations['osa_report'], 'url' => Yii::app()->getController()->createUrl('/report/osa/')),
+			array('label' => $translations['paypal_report'], 'url' => Yii::app()->getController()->createUrl('/report/paypal/'))
+		),
+
 	),
 	array(
 		'label' => $translations['exit'] . ' (' . $userInfo['login'] . ')', 'url' => Yii::app()->getController()->createUrl('/admin/logout/')
