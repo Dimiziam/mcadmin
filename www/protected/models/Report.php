@@ -197,10 +197,12 @@ class Report extends InfoModel
 
 		}
 
+
+		$outPutDada = mb_convert_encoding($outPutDada, "windows-1251", "utf-8");
 		// header
 		header("Cache-Control: public");
 		header("Content-Description: File Transfer");
-		header("Content-Disposition: attachment; filename=" . $csvFileName);
+		header("Content-Disposition: attachm`ent; filename=" . $csvFileName);
 		header("Content-Type: application/octet-stream");
 		header("Content-Transfer-Encoding: binary");
 
