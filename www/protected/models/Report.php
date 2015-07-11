@@ -186,7 +186,7 @@ class Report extends InfoModel
 				. "\"" . $item['song_title'] .  "\"" . ";"
 				. "-" . ";"
 				. "\"" . $item['album_title'] .  "\"" .  ";"
-				. "\"" . $item['lable'] . ";"
+				. "\"" . $item['lable'] . "\"" . ";"
 				. "\"" . $item['singer_name'] . "\"" . ";"
 				. $item['download'] . ";"
 				. "\"" . number_format($price, 2, '.', '') . "\"" . ";"
