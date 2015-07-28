@@ -198,7 +198,7 @@ class Report extends InfoModel
 		}
 
 
-		$outPutDada = html_entity_decode(mb_convert_encoding($outPutDada, "windows-1251", "utf-8"));
+		$outPutDada = html_entity_decode(mb_convert_encoding($outPutDada, "windows-1251", "utf-8"),ENT_HTML401,'UTF-8');
 		// header
 		header("Cache-Control: public");
 		header("Content-Description: File Transfer");
