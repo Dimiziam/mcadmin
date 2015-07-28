@@ -179,12 +179,12 @@ class Report extends InfoModel
 			}
 
 
-			$outPutDada .= date("Y-m-d", strtotime($item['created'])) . ";"
+			$outPutDada .= date("Ym", strtotime($item['created'])) . ";"
 				. "skladba" . ";"
-				. "-" . ";"
-				. "-" . ";"
+				. "" . ";"
+				. "" . ";"
 				. "\"" . $item['song_title'] .  "\"" . ";"
-				. "-" . ";"
+				. "" . ";"
 				. "\"" . $item['album_title'] .  "\"" .  ";"
 				. "\"" . $item['lable'] . "\"" . ";"
 				. "\"" . $item['singer_name'] . "\"" . ";"
