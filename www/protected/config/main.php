@@ -106,6 +106,15 @@ $settings = array(
 				'/<language:(' . implode('|', $i18n) . ')>/report/osa/' => '/report/osa/',
 				'/<language:(' . implode('|', $i18n) . ')>/report/paypal/' => '/report/paypal/',
 
+				//SEO singer
+				'/<language:(' . implode('|', $i18n) . ')>/singerSeo/' => '/singerSeo/',
+				'/<language:(' . implode('|', $i18n) . ')>/singerSeo/add' => '/singerSeo/add',
+				'/<language:(' . implode('|', $i18n) . ')>/singerSeo/search' => '/singerSeo/search',
+				'/<language:(' . implode('|', $i18n) . ')>/singerSeo/autocomplete/' => '/singerSeo/autocomplete/',
+
+				// SEO Album
+				'/<language:(' . implode('|', $i18n) . ')>/albumSeo/' => '/albumSeo/',
+
 
 				// Order routes
 				'/<language:(' . implode('|', $i18n) . ')>/order/search/' => '/order/search/',

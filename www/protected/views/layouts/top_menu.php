@@ -39,6 +39,14 @@ $items = array(
 
 	),
 	array(
+		'label' => $translations['seo'],
+		'items' => array(
+			array('label' => $translations['seo_singer'], 'url' => Yii::app()->getController()->createUrl('/singerSeo/')),
+			array('label' => $translations['seo_album'], 'url' => Yii::app()->getController()->createUrl('/albumSeo/'))
+		),
+
+	),
+	array(
 		'label' => $translations['exit'] . ' (' . $userInfo['login'] . ')', 'url' => Yii::app()->getController()->createUrl('/admin/logout/')
 	)
 );
