@@ -48,7 +48,8 @@ $this->menu = array(
 				)
 			);
 
-			echo CHtml::hiddenField('SearchSingerSeoForm[singer_id]', !empty($model->singer_id) ? $model->singer_id : 0);
+			//echo CHtml::hiddenField('SearchSingerSeoForm[singer_id]', !empty($model->singer_id) ? $model->singer_id : 0);
+			echo CHtml::hiddenField('SearchSingerSeoForm[singer_id]');
 			?>
 		</div>
 
@@ -82,9 +83,11 @@ if (!empty($singersSeo)) {
 				<td><?php echo $item['singer_id']; ?></td>
 				<td><?php echo $item['name']; ?></td>
 				<td>
+					<b>title:</b><?php echo $item['title']; ?><br>
 					<b>keywords:</b><?php echo $item['keywords']; ?><br>
 					<b>description:</b><?php echo $item['description']; ?><br>
 					<b>seo_text:</b><?php echo $item['text_seo']; ?><br>
+
 				</td>
 
 

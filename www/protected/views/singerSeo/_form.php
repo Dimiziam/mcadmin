@@ -57,6 +57,13 @@
 	<?php echo $form->error($model, 'title'); ?>
 </div>
 
+
+<div class="row">
+	<?php echo $form->labelEx($model, 'keywords'); ?>
+	<?php echo $form->textField($model, 'keywords', array('maxlength' => 255, 'size' => 70)); ?>
+	<?php echo $form->error($model, 'keywords'); ?>
+</div>
+
 <div class="row">
 	<?php echo $form->labelEx($model, 'description'); ?>
 	<?php echo $form->textField($model, 'description', array('maxlength' => 255, 'size' => 70)); ?>

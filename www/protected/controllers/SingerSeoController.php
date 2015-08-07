@@ -71,13 +71,20 @@ class SingerSeoController extends Controller
 
 		if (isset($_POST['SingerSeo'])) {
 			$model->attributes = $_POST['SingerSeo'];
+			pc::debug($model->attributes);
 			if ($model->save()) {
-				//$this->redirect($this->createUrl('/singerSeo/search/'));
+				$this->redirect($this->createUrl('/singerSeo/search/'));
 				Yii::app()->end();
 			}
 		}
 		$this->render('add', array('model' => $model));
 
+	}
+
+
+	public function actionEdit($id)
+	{
+		echo 123;
 	}
 
 
@@ -92,23 +99,22 @@ class SingerSeoController extends Controller
 
 		// Get user model
 		$model = new SingerSeo('search');
-/*
-		if (!empty($_REQUEST['SingerSeo'])) {
-			$model->attributes = $_REQUEST['SingerSeo'];
+		//pc::debug($_REQUEST['SingerSeo']);
+		if (!empty($_REQUEST['SearchSingerSeoForm'])) {
+			$model->attributes = $_REQUEST['SearchSingerSeoForm'];
+			$params['singer_id'] = $model->singer_id;
 
+			/*
 			// Add search by id
-			if (!empty($model->id)) {
-				$params['id'] = $model->id;
-				// Get user by id
-				$user = User::model()->findByPk($model->id);
-
-				// Set user email
-				if (!empty($user)) {
-					$model->email = $user->email;
-				}
+			if (!empty($model->singer_id)) {
+				$params['singer_id'] = $model->singer_id;
+				// Get singer by id
+				$singerSeo = SingerSeo::model()->findByAttributes(array('singer_id' => $model->singer_id));
+				pc::debug($singerSeo);
 			}
+		*/
 		}
-*/
+
 		// Render view
 		$this->render('search',
 			array(

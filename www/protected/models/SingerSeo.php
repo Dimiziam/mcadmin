@@ -98,7 +98,7 @@ class SingerSeo extends InfoModel
 	}
 
 
-	public function search($parems) {
+	public function search($params) {
 
 		$command = $this->getDbConnection()->createCommand()
 			->select("singerSeo.*, singer.name",'SQL_CALC_FOUND_ROWS')
@@ -109,8 +109,9 @@ class SingerSeo extends InfoModel
 
 
 		// Bind params
-		if (!empty($params['id'])) {
-			$command->where('singerSeo.singer_id=:id',array(":id"=>$params['id']));
+		if (!empty($params['singer_id'])) {
+			pc::debug($params);
+			$command->where('singerSeo.singer_id=:singer_id',array(":singer_id"=>$params['singer_id']));
 		}
 
 

@@ -111,6 +111,7 @@ $settings = array(
 				'/<language:(' . implode('|', $i18n) . ')>/singerSeo/add' => '/singerSeo/add',
 				'/<language:(' . implode('|', $i18n) . ')>/singerSeo/search' => '/singerSeo/search',
 				'/<language:(' . implode('|', $i18n) . ')>/singerSeo/autocomplete/' => '/singerSeo/autocomplete/',
+				'/<language:(' . implode('|', $i18n) . ')>/singerSeo/edit/<id:([^\.]+)>.html' => '/singerSeo/edit/',
 
 				// SEO Album
 				'/<language:(' . implode('|', $i18n) . ')>/albumSeo/' => '/albumSeo/',
