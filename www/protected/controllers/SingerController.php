@@ -20,7 +20,8 @@ class SingerController extends Controller {
 		return array(
 			array('allow',
 				'actions' => array('autocomplete'),
-				'users' => array('@')
+				'users' => array('@'),
+				'roles'=>array('admin'),
 			),
 			array('deny',
 				'users' => array('*'),

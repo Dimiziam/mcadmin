@@ -23,7 +23,8 @@ class ChartController extends Controller {
 					'search', 'add', 'edit', 'delete', 'autocomplete',
 					'items', 'itemAdd', 'itemEdit', 'itemDelete'
 				),
-				'users' => array('@')
+				'users' => array('@'),
+				'roles'=>array('admin','seo'),
 			),
 			array('deny',
 				'users' => array('*'),

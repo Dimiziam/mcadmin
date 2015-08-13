@@ -53,7 +53,7 @@ class SingerSeo extends InfoModel
 			array('title, keywords', 'length', 'max' => 255, 'on' => 'create,update'),
 
 			//safe
-			array('description,text_seo,keywords', 'safe', 'on' => 'create'),
+			array('description,text_seo,keywords', 'safe', 'on' => 'create,update'),
 			//
 			array('singer_id', 'safe', 'on' => 'search'),
 
@@ -98,20 +98,21 @@ class SingerSeo extends InfoModel
 	}
 
 
-	public function search($params) {
+	public function search($params)
+	{
 
 		$command = $this->getDbConnection()->createCommand()
-			->select("singerSeo.*, singer.name",'SQL_CALC_FOUND_ROWS')
-			->from( $this->tableName() . ' as singerSeo')
-			->leftJoin( Singer::model()->tableName() . ' singer' ,'singer.id=singerSeo.singer_id')
+			->select("singerSeo.*, singer.name", 'SQL_CALC_FOUND_ROWS')
+			->from($this->tableName() . ' as singerSeo')
+			->leftJoin(Singer::model()->tableName() . ' singer', 'singer.id=singerSeo.singer_id')
 			//->order('id desc')
-			->limit( $this->getRowsPerPage(),$this->getCurrentPage() * $this->getRowsPerPage());
+			->limit($this->getRowsPerPage(), $this->getCurrentPage() * $this->getRowsPerPage());
 
 
 		// Bind params
 		if (!empty($params['singer_id'])) {
 			pc::debug($params);
-			$command->where('singerSeo.singer_id=:singer_id',array(":singer_id"=>$params['singer_id']));
+			$command->where('singerSeo.singer_id=:singer_id', array(":singer_id" => $params['singer_id']));
 		}
 
 
@@ -138,8 +139,52 @@ class SingerSeo extends InfoModel
 		$provider->setOffset(0);
 
 		return $provider;
-		
+
 
 	}
+
+	/**
+	 * After delete hook
+	 *
+	 * @return void
+	 */
+	public function afterDelete()
+	{
+		// Remove all cache
+		$this->cleareCache();
+	}
+
+
+	/**
+	 * Method to save model
+	 *
+	 * @param bool $runValidation
+	 * @param array $attributes
+	 */
+	public function save($runValidation = true, $attributes = null)
+	{
+		// Call parent method
+		$result = parent::save($runValidation, $attributes);
+
+		// Check result
+		if ($result === true && !empty($this->id)) {
+			// Remove all cache
+			$this->cleareCache();
+		}
+
+		return $result;
+	}
+
+
+	/**
+	 * Method to cleare current model cache
+	 *
+	 * @return bool
+	 */
+	public function cleareCache()
+	{
+		return TRedis::instance('data')->deleteByTag('SINGERSEO');
+	}
+
 
 }

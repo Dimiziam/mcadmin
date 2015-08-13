@@ -20,7 +20,8 @@ class ReportController extends Controller
 		return array(
 			array('allow',
 				'actions' => array('paypal', 'index', 'osa'),
-				'users' => array('@')
+				'users' => array('@'),
+				'roles'=>array('admin'),
 			),
 			array('deny',
 				'users' => array('*'),

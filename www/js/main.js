@@ -1,30 +1,29 @@
 /**
  * Method to delete chart
- * 
+ *
  * @param int chartId
  * @return bool
  */
-function page_delete(pageId)
-{
+function page_delete(pageId) {
 	if (!confirm(global_messages['pages']['delete_confirm'])) {
 		return false;
 	}
-	
+
 	// Send AJAX request
 	$.ajax(
 		{
 			url: '/' + global_language_code + '/page/delete/' + pageId + '.html',
 			dataType: "json",
-			success: function(response) {
+			success: function (response) {
 				if (response.status == 'error') {
 					alert(response.message);
 				} else {
-					$('#page_' + pageId).fadeOut("slow", function(){
+					$('#page_' + pageId).fadeOut("slow", function () {
 						$('#page_' + pageId).remove();
 					});
 				}
 			},
-			error: function() {
+			error: function () {
 				alert(global_messages['pages']['delete_error']);
 			}
 		}
@@ -33,31 +32,30 @@ function page_delete(pageId)
 
 /**
  * Method to delete chart item
- * 
+ *
  * @param int chartId
  * @return bool
  */
-function chart_item_delete(itemId)
-{
+function chart_item_delete(itemId) {
 	if (!confirm(global_messages['chart_item']['delete_confirm'])) {
 		return false;
 	}
-	
+
 	// Send AJAX request
 	$.ajax(
 		{
 			url: '/' + global_language_code + '/chart/item_delete/' + itemId + '.html',
 			dataType: "json",
-			success: function(response) {
+			success: function (response) {
 				if (response.status == 'error') {
 					alert(response.message);
 				} else {
-					$('#chart_item_' + itemId).fadeOut("slow", function(){
+					$('#chart_item_' + itemId).fadeOut("slow", function () {
 						$('#chart_item_' + itemId).remove();
 					});
 				}
 			},
-			error: function() {
+			error: function () {
 				alert(global_messages['chart_item']['delete_error']);
 			}
 		}
@@ -66,31 +64,30 @@ function chart_item_delete(itemId)
 
 /**
  * Method to delete chart
- * 
+ *
  * @param int chartId
  * @return bool
  */
-function chart_delete(chartId)
-{
+function chart_delete(chartId) {
 	if (!confirm(global_messages['chart']['delete_confirm'])) {
 		return false;
 	}
-	
+
 	// Send AJAX request
 	$.ajax(
 		{
 			url: '/' + global_language_code + '/chart/delete/' + chartId + '.html',
 			dataType: "json",
-			success: function(response) {
+			success: function (response) {
 				if (response.status == 'error') {
 					alert(response.message);
 				} else {
-					$('#chart_' + chartId).fadeOut("slow", function(){
+					$('#chart_' + chartId).fadeOut("slow", function () {
 						$('#chart_' + chartId).remove();
 					});
 				}
 			},
-			error: function() {
+			error: function () {
 				alert(global_messages['chart']['delete_error']);
 			}
 		}
@@ -99,31 +96,30 @@ function chart_delete(chartId)
 
 /**
  * Method to delete admin
- * 
+ *
  * @param int adminId
  * @return bool
  */
-function admin_delete(adminId)
-{
+function admin_delete(adminId) {
 	if (!confirm(global_messages['admin']['delete_confirm'])) {
 		return false;
 	}
-	
+
 	// Send AJAX request
 	$.ajax(
 		{
 			url: '/' + global_language_code + '/admin/delete/' + adminId + '.html',
 			dataType: "json",
-			success: function(response) {
+			success: function (response) {
 				if (response.status == 'error') {
 					alert(response.message);
 				} else {
-					$('#admin_' + adminId).fadeOut("slow", function(){
+					$('#admin_' + adminId).fadeOut("slow", function () {
 						$('#admin_' + adminId).remove();
 					});
 				}
 			},
-			error: function() {
+			error: function () {
 				alert(global_messages['admin']['delete_error']);
 			}
 		}
@@ -131,27 +127,88 @@ function admin_delete(adminId)
 }
 
 /**
+ * method to delete SingerSeo info
+ * @param singerSeoId
+ * @returns {boolean}
+ */
+function singerSeo_delete(singerSeoId) {
+
+	if (!confirm(global_messages['singerSeo']['delete_confirm'])) {
+		return false;
+	}
+	// Send AJAX request
+	$.ajax(
+		{
+			url: '/' + global_language_code + '/singerSeo/delete/' + singerSeoId + '.html',
+			dataType: "json",
+			success: function (response) {
+				if (response.status == 'error') {
+					alert(response.message);
+				} else {
+					$('#singerSeo_' + singerSeoId).fadeOut("slow", function () {
+						$('#singerSeo_' + singerSeoId).remove();
+					});
+				}
+			},
+			error: function () {
+				alert(global_messages['singerSeo']['delete_error']);
+			}
+		}
+	);
+}
+
+/**
+ * method to delete Album info
+ * @param singerSeoId
+ * @returns {boolean}
+ */
+function albumSeo_delete(albumSeoId) {
+
+	if (!confirm(global_messages['singerSeo']['delete_confirm'])) {
+		return false;
+	}
+	// Send AJAX request
+	$.ajax(
+		{
+			url: '/' + global_language_code + '/singerSeo/delete/' + albumSeoId + '.html',
+			dataType: "json",
+			success: function (response) {
+				if (response.status == 'error') {
+					alert(response.message);
+				} else {
+					$('#albumSeo_' + albumSeoId).fadeOut("slow", function () {
+						$('#albumSeo_' + albumSeoId).remove();
+					});
+				}
+			},
+			error: function () {
+				alert(global_messages['albumSeo']['delete_error']);
+			}
+		}
+	);
+}
+
+/**
  * Method to delete user
- * 
+ *
  * @param int userId
  * @return bool
  */
-function user_delete(userId)
-{
+function user_delete(userId) {
 	if (!confirm(global_messages['user']['delete_confirm'])) {
 		return false;
 	}
-	
+
 	// Send AJAX request
 	$.ajax(
 		{
 			url: '/' + global_language_code + '/user/delete/' + userId + '.html',
 			dataType: "json",
-			success: function(response) {
+			success: function (response) {
 				if (response.status == 'error') {
 					alert(response.message);
 				} else if (response.status == 'deleted') {
-					$('#user_' + userId).fadeOut("slow", function(){
+					$('#user_' + userId).fadeOut("slow", function () {
 						$('#user_' + userId).remove();
 					});
 				} else if (response.status == 'disabled') {
@@ -159,7 +216,7 @@ function user_delete(userId)
 					alert(global_messages['user']['disabled_message']);
 				}
 			},
-			error: function() {
+			error: function () {
 				alert(global_messages['user']['delete_error']);
 			}
 		}
@@ -167,15 +224,15 @@ function user_delete(userId)
 }
 
 
-$(document).ready(function() {
+$(document).ready(function () {
 
-	if ($('#email').length=0) {
+	if ($('#email').length = 0) {
 		$('#email').val("");
 	}
 
-	$('#email').change(function() {
+	$('#email').change(function () {
 
-		if ( $( this ).val() <=2) {
+		if ($(this).val() <= 2) {
 			$('#SearchTransactionForm_user_id').val("");
 			$('#SearchUserForm_id').val("");
 
@@ -183,7 +240,6 @@ $(document).ready(function() {
 
 		}
 	});
-
 
 
 });

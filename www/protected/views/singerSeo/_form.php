@@ -35,7 +35,7 @@
 				'methodChain' => '.result(function(event,item){$("#SingerSeo_singer_id").attr("value", item[1]);})'
 			)
 		);
-		//echo CHtml::hiddenField('SearchUserForm[id]', !empty($model->id) ? $model->id : 0, array('id' => 'SearchUserForm_id'));
+		echo CHtml::hiddenField('SingerSeo[id]', !empty($model->id) ? $model->id : 0, array('id' => 'SingerSeo_id'));
 		?>
 	</div>
 

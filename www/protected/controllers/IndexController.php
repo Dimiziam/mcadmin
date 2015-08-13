@@ -21,8 +21,17 @@ class IndexController extends Controller
 		return array(
 			array('allow',
 				'actions' => array('index'),
-				'users' => array('@')
+				'users' => array('@'),
+				'roles'=>array('admin','seo'),
+
 			),
+			array('allow',
+				'actions' => array('error'),
+				'users' => array('*'),
+
+
+			),
+
 			array('deny',
 				'users' => array('*'),
 			)
@@ -37,6 +46,19 @@ class IndexController extends Controller
 	public function actionIndex()
 	{
 		$this->render('index');
+	}
+
+
+	public function actionError()
+	{
+
+
+		if($error=Yii::app()->errorHandler->error) {
+
+			$this->render('index', array("error"=>$error));
+
+		}
+
 	}
 
 }

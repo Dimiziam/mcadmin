@@ -42,7 +42,8 @@ class MCUserIdentity extends CUserIdentity
 		} else {
 			// Store admin id
 			$this->_id = $admin->id;
-			
+
+
 			// Set success status
 			$this->errorCode = self::ERROR_NONE;
 			

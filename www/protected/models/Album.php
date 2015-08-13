@@ -41,4 +41,32 @@ class Album extends InfoModel
 	{
 		return 'id';
 	}
+
+	/**
+	 * method to search album name by part of string
+	 * @param $q search strin
+	 * @param $l limits
+	 * @throws CDbException
+	 * @return array albums from database
+	 */
+
+	public function search($q,$l) {
+		$albums = $this->getDbConnection()->createCommand("
+			SELECT a.id as id,a.title,s.name sname from " . Album::model()->tableName() . " as a
+			left join singers as s on s.id=a.singer_id
+			where a.title LIKE :name
+			LIMIT :limit
+			");
+		$q = '%'.$q.'%';
+		$albums->bindParam(':name', $q , PDO::PARAM_STR);
+
+		$albums->bindParam(':limit', $l , PDO::PARAM_INT);
+
+
+		$albums = $albums->queryAll();
+		pc::debug($albums);
+		return $albums;
+	}
+
+
 }

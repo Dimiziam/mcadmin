@@ -17,7 +17,7 @@ $this->menu = array(
 
 	<script>
 		var global_messages = {
-			'admin': {
+			'singerSeo': {
 				'delete_confirm': "<?php echo $translations['delete_confirm']; ?>",
 				'delete_error': "<?php echo $translations['message_3']; ?>"
 			}
@@ -78,7 +78,7 @@ if (!empty($singersSeo)) {
 			<th  width="20px">&nbsp;</th>
 		</tr>
 		<?php foreach ($items as $item) { ?>
-			<tr id="admin_<?php echo $item['id']; ?>">
+			<tr id="singerSeo_<?php echo $item['id']; ?>">
 				<td><?php echo $item['id']; ?></td>
 				<td><?php echo $item['singer_id']; ?></td>
 				<td><?php echo $item['name']; ?></td>
@@ -98,7 +98,7 @@ if (!empty($singersSeo)) {
 					</a>
 				</td>
 				<td>
-					<a href="JavaScript: void(0);" onClick="admin_delete(<?php echo $item['id']; ?>);"
+					<a href="JavaScript: void(0);" onClick="singerSeo_delete(<?php echo $item['id']; ?>);"
 					   title="<?php echo $translations['delete_link_title']; ?>">
 						<img src="/images/trash_16.png" border="0">
 					</a>

@@ -20,7 +20,8 @@ class TransactionController extends Controller {
 		return array(
 			array('allow',
 				'actions' => array('search', 'add','affiliate'),
-				'users' => array('@')
+				'users' => array('@'),
+				'roles'=>array('admin'),
 			),
 			array('deny',
 				'users' => array('*'),

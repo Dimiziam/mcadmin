@@ -10,7 +10,9 @@
  * @author Tishenko Vladimir <vagrand@mail.ru>
  */
 class MCWebUser extends CWebUser {
-	
+
+	private $_model = null;
+
 	/**
 	 * Method to cleare cache for current admin
 	 * 
@@ -35,4 +37,22 @@ class MCWebUser extends CWebUser {
 		
 		return Admin::model()->getById($this->getId());
 	}
+
+
+
+
+	function getRole() {
+		if($user = $this->getModel()){
+			// в таблице User есть поле role
+			return $user->role;
+		}
+	}
+
+	private function getModel(){
+		if (!$this->isGuest && $this->_model === null){
+			$this->_model = Admin::model()->findByPk($this->id, array('select' => 'role'));
+		}
+		return $this->_model;
+	}
+
 }

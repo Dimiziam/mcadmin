@@ -59,6 +59,12 @@ $settings = array(
 			'enableCookieValidation' => true,
 			'enableCsrfValidation' => true,
 		),
+		'authManager' => array(
+			// Будем использовать свой менеджер авторизации
+			'class' => 'MCPhpAuthManager',
+			// Роль по умолчанию. Все, кто не админы, модераторы и юзеры — гости.
+			'defaultRoles' => array('guest'),
+		),
 		'user' => array(
 			// Disable cookie-based authentication
 			'allowAutoLogin' => false,
@@ -112,9 +118,15 @@ $settings = array(
 				'/<language:(' . implode('|', $i18n) . ')>/singerSeo/search' => '/singerSeo/search',
 				'/<language:(' . implode('|', $i18n) . ')>/singerSeo/autocomplete/' => '/singerSeo/autocomplete/',
 				'/<language:(' . implode('|', $i18n) . ')>/singerSeo/edit/<id:([^\.]+)>.html' => '/singerSeo/edit/',
+				'/<language:(' . implode('|', $i18n) . ')>/singerSeo/delete/<id:([^\.]+)>.html' => '/singerSeo/delete/',
 
-				// SEO Album
+				//SEO album
 				'/<language:(' . implode('|', $i18n) . ')>/albumSeo/' => '/albumSeo/',
+				'/<language:(' . implode('|', $i18n) . ')>/albumSeo/add' => '/albumSeo/add',
+				'/<language:(' . implode('|', $i18n) . ')>/albumSeo/search' => '/albumSeo/search',
+				'/<language:(' . implode('|', $i18n) . ')>/albumSeo/autocomplete/' => '/albumSeo/autocomplete/',
+				'/<language:(' . implode('|', $i18n) . ')>/albumSeo/edit/<id:([^\.]+)>.html' => '/albumSeo/edit/',
+				'/<language:(' . implode('|', $i18n) . ')>/albumSeo/delete/<id:([^\.]+)>.html' => '/albumSeo/delete/',
 
 
 				// Order routes

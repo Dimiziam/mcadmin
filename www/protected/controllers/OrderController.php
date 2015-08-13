@@ -20,7 +20,8 @@ class OrderController extends Controller {
 		return array(
 			array('allow',
 				'actions' => array('search', 'songs'),
-				'users' => array('@')
+				'users' => array('@'),
+				'roles'=>array('admin'),
 			),
 			array('deny',
 				'users' => array('*'),

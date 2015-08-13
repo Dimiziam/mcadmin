@@ -49,7 +49,7 @@ class MCUserHashIdentity extends CUserIdentity
 	{
 		// Find admin by id
 		$admin = Admin::model()->findByPk($this->_id);
-		
+
 		// Check admin
 		if (empty($admin)) {
 			$this->errorCode = self::ERROR_USERNAME_INVALID;
@@ -62,7 +62,7 @@ class MCUserHashIdentity extends CUserIdentity
 		} else {
 			// Store admin id
 			$this->_id = $admin->id;
-			
+
 			// Set success status
 			$this->errorCode = self::ERROR_NONE;
 			

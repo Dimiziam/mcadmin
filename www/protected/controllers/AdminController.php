@@ -19,12 +19,17 @@ class AdminController extends Controller {
 	{
 		return array(
 			array('allow',
-				'actions' => array('logout', 'search', 'add', 'edit', 'delete', 'autocomplete'),
-				'users' => array('@')
+				'actions' => array('search', 'add', 'edit', 'delete', 'autocomplete'),
+				'users' => array('@'),
+				'roles'=>array('admin'),
 			),
 			array('allow',
 				'actions' => array('signin'),
 				'users' => array('?')
+			),
+			array('allow',
+				'actions' => array('logout'),
+				'users' => array('@')
 			),
 			array('deny',
 				'users' => array('*'),

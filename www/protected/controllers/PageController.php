@@ -24,6 +24,7 @@ class PageController extends Controller {
 			),
 			array('deny',
 				'users' => array('*'),
+				'roles'=>array('admin'),
 			)
 		);
 	}

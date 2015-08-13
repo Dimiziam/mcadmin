@@ -22,7 +22,8 @@ class SingerSeoController extends Controller
 		return array(
 			array('allow',
 				'actions' => array('search', 'add', 'edit', 'delete', 'autocomplete'),
-				'users' => array('@')
+				'users' => array('@'),
+				'roles'=>array('admin','seo'),
 			),
 			array('deny',
 				'users' => array('*'),
@@ -81,12 +82,67 @@ class SingerSeoController extends Controller
 
 	}
 
-
+	/**
+	 * action to edit singer seo
+	 * @param $id
+	 */
 	public function actionEdit($id)
 	{
-		echo 123;
+
+
+		$model = SingerSeo::model()->findByPk($id);
+		$model->scenario = 'update';
+
+		if (isset($_POST['SingerSeo'])) {
+
+			// Set attributes
+			$model->attributes = $_POST['SingerSeo'];
+
+			if ($model->save()) {
+				$this->redirect(array('/singerSeo/search/'));
+			} else {
+				Yii::app()->user->setFlash('error', MTLang::t('message_1', 'admin'));
+			}
+		}
+		$this->render('edit', array('model' => $model));
+
+
 	}
 
+	/**
+	 * Action to delete singerSeo inf
+	 *
+	 * @param int $id
+	 * @return void
+	 */
+	public function actionDelete($id)
+	{
+		// Prepare result
+		$result = new stdClass;
+		$result->status = 'error';
+
+		// Check id
+		if (empty($id)) {
+			$result->message = MTLang::t('no_id', 'seo');
+			$this->sendJson($result);
+		}
+
+		// Get admin model
+		$model = SingerSeo::model()->findByPk($id);
+		if (empty($model)) {
+			$result->message = MTLang::t('not_found', 'seo');
+			$this->sendJson($result);
+		}
+
+		// Delete
+		if ($model->delete()) {
+			$result->status = 'deleted';
+		} else {
+			$result->message = MTLang::t('message_3', 'seo');
+		}
+
+		$this->sendJson($result);
+	}
 
 	/**
 	 * Action to search users
