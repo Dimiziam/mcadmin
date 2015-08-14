@@ -72,7 +72,7 @@ class SingerSeoController extends Controller
 
 		if (isset($_POST['SingerSeo'])) {
 			$model->attributes = $_POST['SingerSeo'];
-			pc::debug($model->attributes);
+			//pc::debug($model->attributes);
 			if ($model->save()) {
 				$this->redirect($this->createUrl('/singerSeo/search/'));
 				Yii::app()->end();
