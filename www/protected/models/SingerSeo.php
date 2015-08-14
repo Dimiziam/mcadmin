@@ -111,7 +111,7 @@ class SingerSeo extends InfoModel
 
 		// Bind params
 		if (!empty($params['singer_id'])) {
-			pc::debug($params);
+			//pc::debug($params);
 			$command->where('singerSeo.singer_id=:singer_id', array(":singer_id" => $params['singer_id']));
 		}
 
