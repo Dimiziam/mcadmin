@@ -71,17 +71,29 @@ if (!empty($albumsSeo)) {
 	<table style="width: 100%;" class="table table-striped">
 		<tr>
 			<th width="30px">ID</th>
-			<th width="20px"><?php echo $translations['album_id']; ?></th>
-			<th width="150px"><?php echo $translations['album_name']; ?></th>
+			<th width="30px"><?php echo $translations['album_id']; ?></th>
+			<th width="200px"><?php echo $translations['album_name']; ?></th>
 			<th><?php echo $translations['info']; ?></th>
-			<th  width="20px">&nbsp;</th>
-			<th  width="20px">&nbsp;</th>
+			<th width="20px">&nbsp;</th>
+			<th width="20px">&nbsp;</th>
 		</tr>
 		<?php foreach ($items as $item) { ?>
 			<tr id="albumSeo_<?php echo $item['id']; ?>">
 				<td><?php echo $item['id']; ?></td>
 				<td><?php echo $item['album_id']; ?></td>
-				<td><?php echo $item['name']; ?></td>
+				<td>
+					Album:
+					<a target="_blank"
+					   href="<?php echo Yii::app()->params['url_main_site']; ?>en/album/<?php echo $item['album_id']; ?>">
+						<?php echo $item['name']; ?>
+					</a>
+					<br>
+					Singer:
+					<a target="_blank"
+					   href="<?php echo  Yii::app()->params['url_main_site'];?>en/singer/<?php echo $item['singer_id'];?>">
+						<?php echo $item['sname']; ?><br>
+					</a>
+				</td>
 				<td>
 					<b>title:</b><?php echo $item['title']; ?><br>
 					<b>keywords:</b><?php echo $item['keywords']; ?><br>

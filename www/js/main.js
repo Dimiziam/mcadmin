@@ -164,13 +164,13 @@ function singerSeo_delete(singerSeoId) {
  */
 function albumSeo_delete(albumSeoId) {
 
-	if (!confirm(global_messages['singerSeo']['delete_confirm'])) {
+	if (!confirm(global_messages['albumSeo']['delete_confirm'])) {
 		return false;
 	}
 	// Send AJAX request
 	$.ajax(
 		{
-			url: '/' + global_language_code + '/singerSeo/delete/' + albumSeoId + '.html',
+			url: '/' + global_language_code + '/albumSeo/delete/' + albumSeoId + '.html',
 			dataType: "json",
 			success: function (response) {
 				if (response.status == 'error') {

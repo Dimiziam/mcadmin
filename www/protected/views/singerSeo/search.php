@@ -81,7 +81,11 @@ if (!empty($singersSeo)) {
 			<tr id="singerSeo_<?php echo $item['id']; ?>">
 				<td><?php echo $item['id']; ?></td>
 				<td><?php echo $item['singer_id']; ?></td>
-				<td><?php echo $item['name']; ?></td>
+				<td><a target="_blank"
+					   href="<?php echo  Yii::app()->params['url_main_site'];?>en/singer/<?php echo $item['singer_id'];?>">
+						<?php echo $item['name']; ?>
+					</a>
+				</td>
 				<td>
 					<b>title:</b><?php echo $item['title']; ?><br>
 					<b>keywords:</b><?php echo $item['keywords']; ?><br>

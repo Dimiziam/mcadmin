@@ -102,9 +102,10 @@ class AlbumSeo extends InfoModel
 	{
 
 		$command = $this->getDbConnection()->createCommand()
-			->select("albumSeo.*, album.title as name", 'SQL_CALC_FOUND_ROWS')
+			->select("albumSeo.*, album.title as name,singer.name sname, singer.id singer_id, album.id album_id", 'SQL_CALC_FOUND_ROWS')
 			->from($this->tableName() . ' as albumSeo')
 			->leftJoin(Album::model()->tableName() . ' album', 'album.id=albumSeo.album_id')
+			->leftJoin(Singer::model()->tableName() . ' singer', 'singer.id=album.singer_id')
 			//->order('id desc')
 			->limit($this->getRowsPerPage(), $this->getCurrentPage() * $this->getRowsPerPage());
 
@@ -118,7 +119,7 @@ class AlbumSeo extends InfoModel
 		$albums = $command->queryAll();
 
 		// Check users
-		if (empty($singers)) {
+		if (empty($albums)) {
 			return false;
 		}
 

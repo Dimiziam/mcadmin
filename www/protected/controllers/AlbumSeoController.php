@@ -64,7 +64,6 @@ class AlbumSeoController extends Controller
 
 		if (isset($_POST['AlbumSeo'])) {
 			$model->attributes = $_POST['AlbumSeo'];
-			pc::debug($model->attributes);
 			if ($model->save()) {
 				$this->redirect($this->createUrl('/albumSeo/search/'));
 				Yii::app()->end();

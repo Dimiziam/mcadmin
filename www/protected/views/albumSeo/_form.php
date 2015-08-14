@@ -32,10 +32,10 @@
 				'htmlOptions' => array(
 					'size' => 50
 				),
-				'methodChain' => '.result(function(event,item){$("#albumSeo_album_id").attr("value", item[1]);})'
+				'methodChain' => '.result(function(event,item){$("#AlbumSeo_album_id").attr("value", item[1]);})'
 			)
 		);
-		echo CHtml::hiddenField('albumSeo[id]', !empty($model->id) ? $model->id : 0, array('id' => 'albumSeo_id'));
+		//echo CHtml::hiddenField('albumSeo[id]', !empty($model->id) ? $model->id : 0, array('id' => 'albumSeo_album_id'));
 		?>
 	</div>
 

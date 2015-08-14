@@ -22,6 +22,6 @@ $this->menu = array(
 );
 ?>
 
-<h1><?php echo $translations['edit_new_seo']; ?></h1>
+<h1><?php echo $translations['edit_new_album_seo']; ?></h1>
 
 <?php echo $this->renderPartial('_form', array('model' => $model, 'translations' => $translations)); ?>

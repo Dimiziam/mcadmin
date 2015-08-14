@@ -64,7 +64,6 @@ class Album extends InfoModel
 
 
 		$albums = $albums->queryAll();
-		pc::debug($albums);
 		return $albums;
 	}
 
