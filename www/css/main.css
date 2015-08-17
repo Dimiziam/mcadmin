@@ -273,3 +273,8 @@ div.search-form
 .bold {
 	font-weight: bold;
 }
+
+
+.row_label label{
+	float:left;
+}

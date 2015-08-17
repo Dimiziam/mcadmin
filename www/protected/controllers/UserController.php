@@ -229,13 +229,18 @@ class UserController extends Controller
 	public function actionSearch()
 	{
 		$params = array();
-
 		// Get user model
 		$model = new SearchUserForm('search');
 
+
+
+		//pc::debug($_REQUEST);
 		if (!empty($_REQUEST['SearchUserForm'])) {
 			$model->attributes = $_REQUEST['SearchUserForm'];
 
+			if(!empty($_REQUEST['SearchUserForm']['show_download_all'])) {
+				$params['show_download_all']=true;
+			}
 
 			// Add search by id
 			if (!empty($model->id)) {
@@ -248,6 +253,7 @@ class UserController extends Controller
 					$model->email = $user->email;
 				}
 			}
+
 		}
 
 		// Render view

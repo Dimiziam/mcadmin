@@ -93,7 +93,7 @@ class User extends InfoModel {
 			'is_active' => MTLang::t('is_active', 'user'),
 			'is_email_confirmed' => MTLang::t('is_email_confirmed', 'user'),
 			'is_affiliate' => MTLang::t('is_affiliate', 'user'),
-
+			'show_download_all' => MTLang::t('show_download_all', 'user'),
 
 		);
 	}
@@ -202,6 +202,10 @@ class User extends InfoModel {
 			$command->andWhere('user.affiliate_id=:affiliate_id', array("affiliate_id"=>intval($params['affiliate_id'])));
 		}
 
+
+		if (!empty($params['show_download_all'])) {
+			$command->andWhere('user.download_all=:download_all', array("download_all"=>'yes'));
+		}
 
 		// Try to find users
 		$users = $command->queryAll();

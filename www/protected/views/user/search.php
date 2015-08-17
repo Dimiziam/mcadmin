@@ -45,6 +45,12 @@ $this->menu = array(
 			echo CHtml::hiddenField('SearchUserForm[id]', !empty($model->id) ? $model->id : 0, array('id' => 'SearchUserForm_id'));
 			?>
 		</div>
+		<div class="row_label">
+			<?php echo $form->labelEx($model, 'show_download_all'); ?>&nbsp;
+			<?php echo $form->checkBox($model,'show_download_all'); ?>
+			<?php echo $form->error($model, 'show_download_all'); ?>
+		</div>
+
 
 		<div class="row buttons">
 			<input type="submit" value="<?php echo MTLang::t('find_button', 'persistence'); ?>"
@@ -100,7 +106,11 @@ if (!empty($users)) {
 				<!-- <td id="user_status_<?php echo $item['id']; ?>"><?php echo $statuses[$item['is_active']]; ?></td> -->
 				<td nowrap><?php echo $translations['is_affiliate']; ?>
 					:&nbsp;<?php echo $statuses[$item['is_affiliate']]; ?><br>
-					<span class="green bold"><?php echo $translations['download_all']; ?>:&nbsp;<?php echo $statuses[$item['download_all']]; ?></span>
+					<span <?php
+							if ($item['download_all']==='yes') {
+								echo "class='green bold'";
+							}
+					?>><?php echo $translations['download_all']; ?>:&nbsp;<?php echo $statuses[$item['download_all']]; ?></span>
 					<br>
 					<?php echo $translations['is_email_confirmed']; ?>
 					:&nbsp;<?php echo $statuses[$item['is_email_confirmed']]; ?></td>

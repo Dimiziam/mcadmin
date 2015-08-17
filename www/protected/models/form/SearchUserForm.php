@@ -11,16 +11,24 @@
  */
 class SearchUserForm extends User {
 
+
+	public $show_download_all;
+
+
 	/**
 	 * Method return field rules
 	 * 
 	 * @return array validation rules for model attributes.
 	 */
+
 	public function rules()
 	{
 		return array(
 			// Safe rule
-			array('id, email', 'safe', 'on' => 'search'),
+			array('id, email, show_download_all', 'safe', 'on' => 'search'),
 		);
 	}
+
+
+
 }
