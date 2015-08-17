@@ -266,3 +266,10 @@ div.search-form
 .mainmenu {
 	display: table;
 }
+
+.green {
+	color: green;
+}
+.bold {
+	font-weight: bold;
+}

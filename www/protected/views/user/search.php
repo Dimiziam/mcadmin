@@ -100,7 +100,7 @@ if (!empty($users)) {
 				<!-- <td id="user_status_<?php echo $item['id']; ?>"><?php echo $statuses[$item['is_active']]; ?></td> -->
 				<td nowrap><?php echo $translations['is_affiliate']; ?>
 					:&nbsp;<?php echo $statuses[$item['is_affiliate']]; ?><br>
-					<?php echo $translations['download_all']; ?>:&nbsp;<?php echo $statuses[$item['download_all']]; ?>
+					<span class="green bold"><?php echo $translations['download_all']; ?>:&nbsp;<?php echo $statuses[$item['download_all']]; ?></span>
 					<br>
 					<?php echo $translations['is_email_confirmed']; ?>
 					:&nbsp;<?php echo $statuses[$item['is_email_confirmed']]; ?></td>
