@@ -23,7 +23,7 @@ class UserController extends Controller
 			array('allow',
 				'actions' => array('search', 'add', 'edit', 'delete', 'autocomplete', 'affiliate', 'AffiliateList'),
 				'users' => array('@'),
-				'roles'=>array('admin'),
+				'roles' => array('admin'),
 			),
 			array('deny',
 				'users' => array('*'),
@@ -151,6 +151,7 @@ class UserController extends Controller
 		$this->render('add', array('model' => $model));
 	}
 
+
 	/**
 	 * Action to edit user
 	 *
@@ -160,6 +161,7 @@ class UserController extends Controller
 	public function actionEdit($id)
 	{
 		$model = $this->loadModel($id);
+
 		$model->scenario = 'update';
 		$model->f = Yii::app()->request->getParam('f');
 
@@ -201,7 +203,8 @@ class UserController extends Controller
 
 		}
 
-		$this->render('edit', array('model' => $model));
+		$this->render('edit', array('model' => $model,
+									'payments' => Transaction::model()->successfulTransaction($model->id)));
 	}
 
 	/**
@@ -233,13 +236,12 @@ class UserController extends Controller
 		$model = new SearchUserForm('search');
 
 
-
 		//pc::debug($_REQUEST);
 		if (!empty($_REQUEST['SearchUserForm'])) {
 			$model->attributes = $_REQUEST['SearchUserForm'];
 
-			if(!empty($_REQUEST['SearchUserForm']['show_download_all'])) {
-				$params['show_download_all']=true;
+			if (!empty($_REQUEST['SearchUserForm']['show_download_all'])) {
+				$params['show_download_all'] = true;
 			}
 
 			// Add search by id

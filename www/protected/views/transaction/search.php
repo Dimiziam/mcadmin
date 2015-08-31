@@ -86,7 +86,12 @@ if (!empty($transactions)) {
 		<?php foreach ($items as $item) { ?>
 			<tr>
 				<td><?php echo $item['id']; ?></td>
-				<td><?php echo $item['email']; ?></td>
+				<td>
+					<?php echo $item['email']; ?><br>
+					<?php echo $item['country_code']; ?>,
+					<span class="bold 	<?php if ($item['download_all']=='yes') echo " green";?>
+					"><?php echo $item['download_all']; ?></span><br>
+				</td>
 				<td><?php echo $translations['billing_' . $item['billing']]; ?></td>
 				<td><?php echo $item['type'] == 'add' ? '+' . $item['amount'] : '-' . $item['amount']; ?></td>
 				<td><?php echo $orderTranslations['status_' . $item['status']]; ?></td>

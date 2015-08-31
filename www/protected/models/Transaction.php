@@ -82,13 +82,13 @@ class Transaction extends InfoModel
 
 		// Create query command
 		$command = $this->getDbConnection()->createCommand(
-			'SELECT SQL_CALC_FOUND_ROWS transactions.*, users.email
+			'SELECT SQL_CALC_FOUND_ROWS transactions.*, users.email,users.download_all,users.country_code
 			FROM ' . $this->tableName() . ' transactions
 				INNER JOIN ' . User::model()->tableName() . ' users ON users.id = transactions.user_id
 			WHERE 1
 				' . (!empty($params['id']) ? ' and transactions.id = :id' : '') . '
 				' . (!empty($params['user_id']) ? ' and transactions.user_id = :user_id ' : '') . '
-				' . (!empty($params['billing']) ? ' and transactions.billing = :affiliate ' : '') . '
+				' . (!empty($params['billing']) ? ' and transactions.billing = :billing ' : '') . '
 			ORDER BY transactions.id DESC
 			LIMIT ' . ($this->getCurrentPage() * $this->getRowsPerPage()) . ', ' . $this->getRowsPerPage()
 		);
@@ -102,11 +102,8 @@ class Transaction extends InfoModel
 		}
 
 		if (!empty($params['billing'])) {
-			$command->bindParam(":affiliate", $params['billing'], PDO::PARAM_STR);
+			$command->bindParam(":billing", $params['billing'], PDO::PARAM_STR);
 		}
-
-
-
 
 
 		// Try to find transactions
@@ -132,6 +129,38 @@ class Transaction extends InfoModel
 		$provider->setOffset(0);
 
 		return $provider;
+	}
+
+	/**
+	 * Return total succsessful transaction
+	 * @param $userId
+	 * @return array
+	 */
+	public function successfulTransaction($userId) {
+		$transaction=array();
+
+		$command = $this->getDbConnection()->createCommand(
+			'SELECT billing, count(*) as total
+			FROM ' . $this->tableName() . ' transactions
+			WHERE 	user_id = :user_id
+					and type=:type
+					and status=:status
+					and billing!=:billing
+			GROUP by billing
+			');
+
+		//params
+		$type='add';
+		$status='done';
+		$billing='direct';
+
+		$command->bindParam(":user_id", $userId, PDO::PARAM_INT);
+		$command->bindParam(":type", $type, PDO::PARAM_STR);
+		$command->bindParam(":status", $status, PDO::PARAM_STR);
+		$command->bindParam(":billing", $billing, PDO::PARAM_STR);
+
+
+		return $command->queryAll();;
 	}
 
 	/**

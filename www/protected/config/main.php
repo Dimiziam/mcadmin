@@ -221,7 +221,9 @@ $settings = array(
 	
 		// royalty for track price
 		'royalty'=> 0.12,
-	
+		//default billing in Payment paypal,payu,direct
+		'default_view_billing' =>'paypal',
+
 		// traf price
 		'track_price' => array(
 			"0" => array("price" => 0.2, 'geo' => "World"),

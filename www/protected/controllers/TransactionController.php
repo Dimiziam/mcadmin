@@ -126,6 +126,7 @@ class TransactionController extends Controller {
 		$model = new SearchTransactionForm("search");
 		$model->scenario='search';
 
+
 		if (!empty($_REQUEST['SearchTransactionForm'])) {
 			$model->attributes = $_REQUEST['SearchTransactionForm'];
 
@@ -147,6 +148,11 @@ class TransactionController extends Controller {
 					$model->email = $user->email;
 				}
 			}
+		}
+		else {
+			//set default billing
+			$model->billing = $params['billing'] =  Yii::app()->params['default_view_billing'];
+
 		}
 
 		// Render view

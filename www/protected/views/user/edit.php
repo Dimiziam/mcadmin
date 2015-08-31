@@ -18,7 +18,7 @@ else {
 
 }
 
-pc::debug($model->f);
+
 $this->menu = array(
 	array('label' => MTLang::t('add_new', 'persistence'), 'url' => $this->createUrl('/user/add/')),
 	array('label' => $translations['users_list'], 'url' => $this->createUrl('/user/search/'))
@@ -26,5 +26,21 @@ $this->menu = array(
 ?>
 
 <h1><?php echo $translations['edit_user']; ?>: <?php echo $model->email; ?></h1>
+
+<h3><?php echo MTLang::instance()->t('country_code','transaction').': '.$model->country_code?><br>
+<?php echo MTLang::instance()->t('amount','transaction');?>: <?php echo $model->amount?> </h3>
+
+
+
+<?php echo MTLang::instance()->t('billing_total_succsessful','transaction');?><br>
+<?php
+if (!empty($payments)) {
+	foreach ($payments as $item) {
+		echo MTLang::instance()->t('billing_' . $item['billing'],'transaction') . ': '.$item['total'];
+		echo "<br>";
+	}
+}
+?>
+<br>
 
 <?php echo $this->renderPartial('_form', array('model' => $model, 'translations' => $translations)); ?>
