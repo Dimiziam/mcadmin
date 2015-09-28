@@ -122,7 +122,9 @@ if (!empty($users)) {
 				</td>
 				<td>
 					<?php echo $item['ip_register']; ?><br>
-					<?php echo $item['last_ip_login']; ?>
+					<?php echo $item['last_ip_login']; ?><br>
+					<?php echo $item['http_referer']; ?>
+
 				</td>
 				<td><?php echo $item['country_code']; ?></td>
 				<td>
