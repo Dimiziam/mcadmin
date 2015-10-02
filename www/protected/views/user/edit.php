@@ -41,6 +41,8 @@ if (!empty($payments)) {
 	}
 }
 ?>
+	<br>
+<?php echo $translations['http_referer'] . ' <b>' . $model->http_referer; ?></b>
 <br>
-
+<br>
 <?php echo $this->renderPartial('_form', array('model' => $model, 'translations' => $translations)); ?>
