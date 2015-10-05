@@ -278,3 +278,14 @@ div.search-form
 .row_label label{
 	float:left;
 }
+
+
+
+.morecontent span {
+	display: none;
+}
+.comment {
+	width: 400px;
+	background-color: #f0f0f0;
+	margin: 10px;
+}
