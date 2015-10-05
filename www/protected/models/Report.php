@@ -180,7 +180,7 @@ class Report extends InfoModel
 
 
 			$outPutDada .= date("Ym", strtotime($item['created'])) . ";"
-				. "skladba" . ";"
+				. "SKLADBA" . ";"
 				. "" . ";"
 				. "" . ";"
 				. "\"" . $item['song_title'] .  "\"" . ";"
