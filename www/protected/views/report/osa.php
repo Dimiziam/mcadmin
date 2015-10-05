@@ -101,7 +101,7 @@ $translations = MTLang::instance()->getGroup('report');
 					<td nowrap><?php echo $item['singer_name']; ?></td>
 					<td nowrap><?php echo $item['song_title']; ?></td>
 					<td nowrap><?php echo $item['lable']; ?></td>
-					<td><?php echo $item['rule_number']; ?></td>
+					<td><?php echo $item['rule_number']; ?><br><?php echo $item['permit_from']; ?></td>
 					<td><?php echo $price = round($item['price'] * Yii::app()->request->getParam('currency'), 2); ?></td>
 					<td><?php echo $item['download']; ?></td>
 					<td><?php echo $cost=round($item['cost'] * Yii::app()->request->getParam('currency'), 2); ?></td>

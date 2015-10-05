@@ -260,6 +260,7 @@ class Report extends InfoModel
 									u.download_all,
 									o.name AS lable,
 									o.rule_number,
+									s.permit_from,
 									os.price as price,
 									count(os.id) AS download,
 									sum(price) AS cost");
@@ -270,7 +271,7 @@ class Report extends InfoModel
 		$command->join("albums albm", "albm.id = os.album_id");
 
 		$command->join("songs sg", " sg.id = os.song_id")
-			->where("u.developer='no' AND o.rule_number=0")
+			->where("u.developer='no' AND o.rule_number=0 and s.permit_from=0")
 			->andWhere($criteria->condition, $criteria->params);
 
 		// if we need limit, default yes
