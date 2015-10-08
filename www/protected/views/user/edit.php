@@ -42,7 +42,12 @@ if (!empty($payments)) {
 }
 ?>
 	<br>
-<?php echo $translations['http_referer'] . ' <b>' . $model->http_referer; ?></b>
+
+<?php echo $translations['http_referer'] . ' <b>' . $model->http_referer; ?></b><br>
+<?php echo $translations['registered'] . ' <b>' . $model->created; ?></b><br>
+<?php if  (!(empty($model->last_login_time))) {?>
+    <?php echo $translations['last_login'] . ' <b>' . date("Y-m-d H:i:s",$model->last_login_time); ?></b>
+<?php }?>
 <br>
 <br>
 <?php echo $this->renderPartial('_form', array('model' => $model, 'translations' => $translations)); ?>
