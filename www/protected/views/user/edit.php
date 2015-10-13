@@ -48,7 +48,7 @@ if (!empty($payments)) {
 	<br><br>
 
 <?php if (!empty($model->http_referer))  {?>
-	<?php echo $translations['http_referer'] . ' <b><a href="'.$model->http_referer.'" target="_blank">' . substr($model->http_referer,0,100) ?></a></b><br>
+	<?php echo $translations['http_referer'] . ' <b><a href="'.$model->http_referer.'" target="_blank">' . substr($model->http_referer,0,70) ?></a></b><br>
 <?php  }?>
 <?php echo $translations['registered'] . ' <b>' . $model->created; ?></b><br>
 
