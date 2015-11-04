@@ -53,6 +53,11 @@ $orderTranslations = MTLang::instance()->getGroup('order');
 				$model->billing, $model->getEnumList('billing'),
 				array("class" => "form-control",'empty'=>'-')
 			);
+            echo "&nbsp;";
+            echo CHtml::dropDownList('SearchTransactionForm[status]',
+                $model->status, $model->getEnumList('status'),
+                array("class" => "form-control",'empty'=>'-')
+            );
 			echo CHtml::hiddenField('SearchTransactionForm[user_id]', !empty($model->user_id) ? $model->user_id : 0);
 			?>
 		</div>

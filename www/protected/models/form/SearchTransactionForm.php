@@ -13,23 +13,23 @@
 class SearchTransactionForm extends Transaction
 {
 
-	/**
-	 * Variable to store user email
-	 *
-	 * @param int
-	 */
-	public $email = null;
+    /**
+     * Variable to store user email
+     *
+     * @param int
+     */
+    public $email = null;
 
-	/**
-	 * Method return field rules
-	 *
-	 * @return array validation rules for model attributes.
-	 */
-	public function rules()
-	{
-		return array(
-			// Safe rule
-			array('id, user_id, billing', 'safe', 'on' => 'search'),
-		);
-	}
+    /**
+     * Method return field rules
+     *
+     * @return array validation rules for model attributes.
+     */
+    public function rules()
+    {
+        return array(
+            // Safe rule
+            array('id, user_id, billing, status', 'safe', 'on' => 'search'),
+        );
+    }
 }

@@ -89,6 +89,7 @@ class Transaction extends InfoModel
 				' . (!empty($params['id']) ? ' and transactions.id = :id' : '') . '
 				' . (!empty($params['user_id']) ? ' and transactions.user_id = :user_id ' : '') . '
 				' . (!empty($params['billing']) ? ' and transactions.billing = :billing ' : '') . '
+				' . (!empty($params['status']) ? ' and transactions.status = :status ' : '') . '
 			ORDER BY transactions.id DESC
 			LIMIT ' . ($this->getCurrentPage() * $this->getRowsPerPage()) . ', ' . $this->getRowsPerPage()
 		);
@@ -105,6 +106,10 @@ class Transaction extends InfoModel
 			$command->bindParam(":billing", $params['billing'], PDO::PARAM_STR);
 		}
 
+
+        if (!empty($params['status'])) {
+            $command->bindParam(":status", $params['status'], PDO::PARAM_STR);
+        }
 
 		// Try to find transactions
 		$transactions = $command->queryAll();

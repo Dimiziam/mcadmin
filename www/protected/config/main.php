@@ -223,6 +223,7 @@ $settings = array(
 		'royalty'=> 0.12,
 		//default billing in Payment paypal,payu,direct
 		'default_view_billing' =>'paypal',
+        'default_view_status' =>'done',
 
 		// traf price
 		'track_price' => array(
