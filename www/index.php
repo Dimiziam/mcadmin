@@ -12,10 +12,10 @@ $yii = dirname(__FILE__) . '/../yii/framework/yii.php';
 $config = dirname(__FILE__) . '/protected/config/main.php';
 
 // Include TRedis
-require_once(dirname(__FILE__) . '/protected/includes/tredis.php');
+require_once(dirname(__FILE__) . '/protected/includes/tredis_new.php');
 
 // Create TRedis inctance
-TRedis::create(require_once(dirname(__FILE__) . '/protected/config/redis_new.php'));
+TRedis::create(require_once(dirname(__FILE__) . '/protected/config/redis.php'));
 
 // remove the following lines when in production mode
 defined('YII_DEBUG') or define('YII_DEBUG', true);
