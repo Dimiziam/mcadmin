@@ -15,7 +15,7 @@ $config = dirname(__FILE__) . '/protected/config/main.php';
 require_once(dirname(__FILE__) . '/protected/includes/tredis.php');
 
 // Create TRedis inctance
-TRedis::create(require_once(dirname(__FILE__) . '/protected/config/redis.php'));
+TRedis::create(require_once(dirname(__FILE__) . '/protected/config/redis_new.php'));
 
 // remove the following lines when in production mode
 defined('YII_DEBUG') or define('YII_DEBUG', true);
