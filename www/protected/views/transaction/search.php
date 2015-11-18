@@ -117,13 +117,9 @@ if (!empty($transactions)) {
 					</a>
 					&nbsp;
 
-						<a href="<?php echo $this->createUrl('/order/search/', array('SearchOrderForm[id]' => $item['order_id'])); ?>"
-						   title="<?php echo $translationsUser['orders_link_title']; ?>">
-							<img src="/images/cart_16.png" border="0">
-						</a>
-						&nbsp;
-
-
+                    <a href="<?php echo $this->createUrl('/order/search/', array('SearchOrderForm[user_id]' => $item['user_id'])); ?>">
+                        <img src="/images/cart_16.png" border="0">
+                    </a>
 
 				</td>
 
