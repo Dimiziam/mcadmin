@@ -116,13 +116,13 @@ if (!empty($transactions)) {
 						<img src="/images/coins_16.png" border="0">
 					</a>
 					&nbsp;
-					<?php if ($item['order_id'] > 0) { ?>
+
 						<a href="<?php echo $this->createUrl('/order/search/', array('SearchOrderForm[id]' => $item['order_id'])); ?>"
 						   title="<?php echo $translationsUser['orders_link_title']; ?>">
 							<img src="/images/cart_16.png" border="0">
 						</a>
 						&nbsp;
-					<?php } ?>
+
 
 
 				</td>
