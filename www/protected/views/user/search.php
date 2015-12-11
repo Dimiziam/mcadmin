@@ -129,11 +129,19 @@ if (!empty($users)) {
                 </td>
                 <td><?php echo $item['country_code']; ?></td>
                 <td>
+                    <?php if (!empty($item['facebook_id'])) {?>
+                        <a target="_blank" href="http://www.facebook.com/profile.php?id=<?php echo $item['facebook_id'];?>">
+                            <img id="fb_squarepic" width="32" height="32" alt="Facebook" src="https://graph.facebook.com/<?php echo $item['facebook_id'];?>/picture" title="Facebook">
+                        </a>
+                    <?php }?>
+                </td>
+                <td>
                     <a href="<?php echo $this->createUrl('/user/edit/', array('id' => $item['id'])); ?>"
                        title="<?php echo $translations['edit_link_title']; ?>">
                         <img src="/images/edit_16.png" border="0">
                     </a>
                 </td>
+
                 <td>
                     <a href="JavaScript: void(0);" onClick="user_delete(<?php echo $item['id']; ?>);"
                        title="<?php echo $translations['delete_link_title']; ?>">
