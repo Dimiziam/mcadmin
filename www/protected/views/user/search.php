@@ -130,7 +130,7 @@ if (!empty($users)) {
                 <td><?php echo $item['country_code']; ?></td>
                 <td>
                     <?php if (!empty($item['facebook_id'])) {?>
-                        <a target="_blank" href="http://www.facebook.com/profile.php?id=<?php echo $item['facebook_id'];?>">
+                        <a target="_blank" href="https://www.facebook.com/app_scoped_user_id/<?php echo $item['facebook_id'];?>/">
                             <img id="fb_squarepic" width="32" height="32" alt="Facebook" src="https://graph.facebook.com/<?php echo $item['facebook_id'];?>/picture" title="Facebook">
                         </a>
                     <?php }?>
