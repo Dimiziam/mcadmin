@@ -38,7 +38,7 @@ class StaticPage extends InfoModel
 	{
 		return 'static_pages';
 	}
-	
+
 	/**
 	 * Returns the primary key of the associated database table.
 	 * 
@@ -48,7 +48,7 @@ class StaticPage extends InfoModel
 	{
 		return 'id';
 	}
-	
+
 	/**
 	 * Method return field rules
 	 * 
@@ -59,6 +59,7 @@ class StaticPage extends InfoModel
 		return array(
 			// Required rules
 			array('alias', 'required', 'on' => 'update'),
+			array('publishDate', 'required', 'on' => 'update,insert'),
 		);
 	}
 
@@ -72,7 +73,8 @@ class StaticPage extends InfoModel
 		return array(
 			'language' => MTLang::t('language', 'static_page'),
 			'alias' => MTLang::t('alias', 'static_page'),
-			'type' => MTLang::t('type', 'static_page')
+			'type' => MTLang::t('type', 'static_page'),
+			'publishDate' => MTLang::t('publishDate', 'static_page'),
 		);
 	}
 	

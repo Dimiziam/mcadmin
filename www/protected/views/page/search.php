@@ -51,6 +51,7 @@
 			<th><?php echo $translations['alias']; ?></th>
 			<th><?php echo $translations['title']; ?></th>
 			<th><?php echo $translations['created']; ?></th>
+			<th><?php echo $translations['publishDate']; ?></th>
 			<th colspan="2">&nbsp;</th>
 		</tr>
 		<?php foreach ($items as $item) { ?>
@@ -59,6 +60,7 @@
 				<td><?php echo CHtml::encode($item['alias']); ?></td>
 				<td><?php echo !empty($item['current_title']) ? CHtml::encode($item['current_title']) : CHtml::encode($item['default_title']); ?></td>
 				<td><?php echo $item['created']; ?></td>
+				<td><?php echo $item['publishDate']; ?></td>
 				<td width="20px">
 					<a href="<?php echo $this->createUrl('/page/edit/', array('id' => $item['id'], 'lang' => $language, 'type' => $type)); ?>" title="<?php echo $translations['edit_link_title']; ?>">
 						<img src="/images/edit_16.png" border="0">

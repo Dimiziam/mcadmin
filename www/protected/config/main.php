@@ -205,6 +205,8 @@ $settings = array(
 	
 		'RangeSearchAutocomplite' => '30',
 		'singer_cover' => '/images/art/',
+		//  path to News images
+		'news_image_path'=>'/images/newsimages/',
 		'albumr_cover' => '/images/alb/',
 		'static_images_url' => 'http://mclub.com.ua',
 		'mailer' =>	'noreply@mediaclub.com',
