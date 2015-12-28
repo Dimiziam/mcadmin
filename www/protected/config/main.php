@@ -111,6 +111,7 @@ $settings = array(
 				//Reports
 				'/<language:(' . implode('|', $i18n) . ')>/report/osa/' => '/report/osa/',
 				'/<language:(' . implode('|', $i18n) . ')>/report/paypal/' => '/report/paypal/',
+				'/<language:(' . implode('|', $i18n) . ')>/report/payu/' => '/report/payu/',
 
 				//SEO singer
 				'/<language:(' . implode('|', $i18n) . ')>/singerSeo/' => '/singerSeo/',

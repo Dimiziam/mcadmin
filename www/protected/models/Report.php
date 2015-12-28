@@ -45,11 +45,15 @@ class Report extends InfoModel
 		return 'order_songs';
 	}
 
-
+	/**
+	 * get payPal Transaction
+	 * @param $dateFrom
+	 * @param $dateTo
+	 * @return bool|MTArrayDataProvider
+	 * @throws CDbException
+	 */
 	public function getPayPalReport($dateFrom, $dateTo)
 	{
-
-
 		if ($this->_validate($dateFrom, $dateTo)) {
 
 			// paypalPayments
@@ -79,7 +83,7 @@ class Report extends InfoModel
 
 
 			if (!empty($_POST['show_only_eu'])) {
-				$country_codes = join(Yii::app()->params['EU_codes'],',');
+				$country_codes = join(Yii::app()->params['EU_codes'],"','");
 				$command->andWhere("u.country_code IN ('$country_codes')");
 			}
 
@@ -114,6 +118,82 @@ class Report extends InfoModel
 		return false;
 
 	}
+
+	/**
+	 * Get PayU filtered transaction
+	 * @param $dateFrom
+	 * @param $dateTo
+	 * @return bool|MTArrayDataProvider
+	 * @throws CDbException
+	 */
+	public function getPayUReport($dateFrom, $dateTo)
+	{
+		if ($this->_validate($dateFrom, $dateTo)) {
+
+			// paypalPayments
+
+			// prepare query
+			// between criteria
+			$criteria = new CDbCriteria();
+			$criteria->addBetweenCondition('tr.date_start', $this->dateFrom, $this->dateTo);
+			// get downloaded albums by date
+			$command = $this->getDbConnection()
+				->createCommand()->select("tr.id,
+										  tr.date_end,
+										  tr.status,
+										  tr.info,
+										  tr.amount,
+										  u.email,
+										  u.name,
+										  u.last_name,
+										  u.country_code", 'SQL_CALC_FOUND_ROWS');
+
+			$command->from("transactions tr");
+			$command->leftJoin("users u", "u.id = tr.user_id")
+				->where("tr.status='done'")
+				->andWhere("tr.billing='payu'")
+				->andWhere($criteria->condition, $criteria->params);
+
+
+
+			if (!empty($_POST['show_only_eu'])) {
+				$country_codes = join(Yii::app()->params['EU_codes'],"','");
+				$command->andWhere("u.country_code IN ('$country_codes')");
+			}
+
+
+			// if we need limit, default yes
+			$command->limit($this->getRowsPerPage(), ($this->getCurrentPage() * $this->getRowsPerPage()));
+
+			$command->order("tr.date_start ASC");
+
+
+			$reportData = $command->queryAll();
+
+			// Check orders
+			if (empty($reportData)) {
+				return false;
+			}
+
+			// Get nuber of found rows
+			$foundRows = $this->getDbConnection()->createCommand('SELECT found_rows() as totalRows')->queryScalar();
+
+			// Get data provider
+			$provider = new MTArrayDataProvider($reportData,
+				array(
+					'totalItemCount' => $foundRows,
+					'pagination' => array('pageSize' => $this->getRowsPerPage()),
+				)
+			);
+			// Set offset
+			$provider->setOffset(0);
+			return $provider;
+		}
+		return false;
+
+	}
+
+
 
 
 	/**
@@ -237,7 +317,7 @@ class Report extends InfoModel
 		if ($dateFrom && $dateTo) {
 
 			$this->dateFrom = date("Y-m-d", $dateFrom);
-			$this->dateTo = date("Y-m-d", $dateTo);
+			$this->dateTo = date("Y-m-d 23:59:59", $dateTo);
 
 			return true;
 		}

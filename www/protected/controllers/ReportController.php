@@ -19,7 +19,7 @@ class ReportController extends Controller
 	{
 		return array(
 			array('allow',
-				'actions' => array('paypal', 'index', 'osa'),
+				'actions' => array('paypal', 'index', 'osa','payu'),
 				'users' => array('@'),
 				'roles'=>array('admin'),
 			),
@@ -72,6 +72,21 @@ class ReportController extends Controller
 			return false;
 		}
 
+		if ($report=='payu') {
+
+			$payuReportData = Report::model()->getPayUReport($dateFrom, $dateTo);
+
+
+			$this->render('payu', array(
+					'payUReportData' => $payuReportData,
+					'dateFrom' => $dateFrom,
+					'dateTo' => $dateTo,
+				)
+			);
+
+			return false;
+		}
+
 
 	}
 
@@ -84,5 +99,10 @@ class ReportController extends Controller
 	public function actionPaypal()
 	{
 		$this->actionIndex('paypal');
+	}
+
+	public function actionPayU()
+	{
+		$this->actionIndex('payu');
 	}
 } 
