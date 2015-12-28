@@ -260,7 +260,16 @@ $settings = array(
 			// One year life time for cookie with tmp user token
 			'tmp_token_life_time' => 31536000,
 		),
+		'EU_codes' =>array (
+			'BE','BG','CZ','DK','EL','ES','FR',
+			'HR','IT','CY','LV','LT','LU',
+			'HU','MT','NL',	'AT','PL','PT',
+			'RO','SI','SK','FI',
+			'SE','UK','DE','EE','IE'
+		),
+
 	)
+
 );
 
 // Add DB settings to app params

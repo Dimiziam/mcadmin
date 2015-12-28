@@ -47,6 +47,15 @@ if (!empty($payments)) {
 
 	<br><br>
 
+
+<?php if (!empty($model->facebook_id)) {?>
+		<a target="_blank" href="https://www.facebook.com/app_scoped_user_id/<?php echo $model->facebook_id;?>/">
+			<img id="fb_squarepic" width="32" height="32" alt="Facebook" src="https://graph.facebook.com/<?php echo $model->facebook_id;?>/picture" title="Facebook">
+		</a>
+<br><br>
+<?php }?>
+
+
 <?php if (!empty($model->http_referer))  {?>
 	<?php echo $translations['http_referer'] . ' <b><a href="'.$model->http_referer.'" target="_blank">' . substr($model->http_referer,0,70) ?></a></b><br>
 <?php  }?>

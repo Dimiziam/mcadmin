@@ -49,6 +49,7 @@ class Report extends InfoModel
 	public function getPayPalReport($dateFrom, $dateTo)
 	{
 
+
 		if ($this->_validate($dateFrom, $dateTo)) {
 
 			// paypalPayments
@@ -74,6 +75,14 @@ class Report extends InfoModel
 				->where("tr.status='done'")
 				->andWhere("tr.billing='paypal'")
 				->andWhere($criteria->condition, $criteria->params);
+
+
+
+			if (!empty($_POST['show_only_eu'])) {
+				$country_codes = join(Yii::app()->params['EU_codes'],',');
+				$command->andWhere("u.country_code IN ('$country_codes')");
+			}
+
 
 			// if we need limit, default yes
 			$command->limit($this->getRowsPerPage(), ($this->getCurrentPage() * $this->getRowsPerPage()));

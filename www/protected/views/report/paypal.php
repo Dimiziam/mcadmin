@@ -54,6 +54,12 @@ $translations = MTLang::instance()->getGroup('report');
 		?>
 	</div>
 
+
+	<div class="row_label">
+		Show only eu
+		<?php echo CHtml::checkBox('show_only_eu',false); ?>
+	</div>
+
 	<div class="row buttons">
 		<input type="submit" value="<?php echo MTLang::t('find_button', 'persistence'); ?>">
 		<!-- <input type="submit" value="<?php echo MTLang::t('download_report', 'persistence'); ?>" name="getReport"> -->
