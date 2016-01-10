@@ -37,6 +37,7 @@ if (!empty($payUReportData)) {
 			<th <?php echo $translations['email']; ?></th>
 			<th><?php echo $translations['name']; ?></th>
 			<th><?php echo $translations['county_code']; ?></th>
+			<td><?php echo $translations['amount']; ?></td>
 
 		</tr>
 
@@ -50,6 +51,7 @@ if (!empty($payUReportData)) {
 				<td nowrap><?php echo $item['name']; ?>
 					<?php echo $item['last_name']; ?></td>
 				<td nowrap><?php echo $item['country_code']; ?></td>
+				<td nowrap><?php echo $item['amount']; ?></td>
 
 
 
