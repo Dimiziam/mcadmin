@@ -375,6 +375,40 @@ class Report extends InfoModel
 
 	}
 
+	/**
+	 * Method to get data amount by day
+	 * @param string $type paypal|payu
+	 * @return array
+	 * @throws CDbException
+	 */
+
+	public function getDateForChart ($type='paypal') {
+
+
+		$criteria = new CDbCriteria();
+		$criteria->addBetweenCondition('os.created', $this->dateFrom, $this->dateTo);
+		// get downloaded albums by date
+		$command = $this->getDbConnection()
+			->createCommand()->select('UNIX_TIMESTAMP(DATE(t.date_start)) AS myadate, SUM(amount) amount ')
+			->from('transactions t')
+			->where("t.type='add'
+					AND  t.billing=:billing
+					AND t.status = 'done'")
+			//->andWhere($criteria->condition, $criteria->params)
+			->group('YEAR(t.date_start), MONTH(t.date_start), DAY(t.date_start)');
+
+			$command->bindParam(':billing', $type, PDO::PARAM_STR);
+
+		$items = $command->queryAll();
+
+		foreach ($items as $item) {
+			$forJson[] = array((int)$item['myadate']*1000,(float)$item['amount']);
+		}
+
+		return $forJson;
+
+	}
+
 
 }
 

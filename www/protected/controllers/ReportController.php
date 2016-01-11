@@ -19,7 +19,7 @@ class ReportController extends Controller
 	{
 		return array(
 			array('allow',
-				'actions' => array('paypal', 'index', 'osa','payu'),
+				'actions' => array('paypal', 'index', 'osa','payu','chart','AjaxGetPaypalTotal'),
 				'users' => array('@'),
 				'roles'=>array('admin'),
 			),
@@ -105,4 +105,22 @@ class ReportController extends Controller
 	{
 		$this->actionIndex('payu');
 	}
+
+
+
+	public function actionAjaxGetPaypalTotal() {
+
+		$this->logOff();
+		$payPalData = Report::model()->getDateForChart('paypal');
+		echo "\n".json_encode($payPalData)."\n";
+
+
+	}
+
+
+	public function actionChart() {
+
+		$this->render('chart');
+	}
+
 } 
