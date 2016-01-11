@@ -35,7 +35,10 @@ $items = array(
 		'items' => array(
 			array('label' => $translations['osa_report'], 'url' => Yii::app()->getController()->createUrl('/report/osa/')),
 			array('label' => $translations['paypal_report'], 'url' => Yii::app()->getController()->createUrl('/report/paypal/')),
-			array('label' => $translations['payu_report'], 'url' => Yii::app()->getController()->createUrl('/report/payu/'))
+			array('label' => $translations['payu_report'], 'url' => Yii::app()->getController()->createUrl('/report/payu/')),
+			array('label' => $translations['chart'], 'url' => Yii::app()->getController()->createUrl('/report/chart'))
+
+
 		),
 
 	),

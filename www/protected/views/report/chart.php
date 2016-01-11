@@ -3,6 +3,7 @@
 
 <div id="container" style="height: 400px; min-width: 310px"></div>
 
+<br><br>
 
 <div id="container1" style="height: 400px; min-width: 310px"></div>
 
@@ -26,7 +27,7 @@
 				},
 
 				title : {
-					text : 'Amount'
+					text : 'Amount PayPal'
 				},
 
 				series : [{
@@ -53,7 +54,7 @@
 				},
 
 				title : {
-					text : 'Amount'
+					text : 'Amount PayuU'
 				},
 
 				series : [{
