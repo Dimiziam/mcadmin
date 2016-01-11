@@ -4,6 +4,8 @@
 <div id="container" style="height: 400px; min-width: 310px"></div>
 
 
+<div id="container1" style="height: 400px; min-width: 310px"></div>
+
 <script>
 
 
@@ -13,7 +15,6 @@
 		$.getJSON('/report/AjaxGetPaypalTotal', function (data) {
 
 			// Create the chart
-			console.log(data);
 			$('#container').highcharts('StockChart', {
 
 				global: {
@@ -30,6 +31,33 @@
 
 				series : [{
 					name : 'Paypal',
+					data : data,
+					tooltip: {
+						valueDecimals: 2
+					}
+				}]
+			});
+		});
+
+		$.getJSON('/report/AjaxGetPayUTotal', function (data) {
+
+			// Create the chart
+			$('#container1').highcharts('StockChart', {
+
+				global: {
+					useUTC: false
+				},
+
+				rangeSelector : {
+					selected : 1
+				},
+
+				title : {
+					text : 'Amount'
+				},
+
+				series : [{
+					name : 'PayU',
 					data : data,
 					tooltip: {
 						valueDecimals: 2
