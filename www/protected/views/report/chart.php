@@ -1,6 +1,10 @@
 <script src="https://code.highcharts.com/stock/highstock.js"></script>
 <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
 
+
+<div id="container2" style="height: 400px; min-width: 310px"></div>
+
+<br><br>
 <div id="container" style="height: 400px; min-width: 310px"></div>
 
 <br><br>
@@ -12,68 +16,73 @@
 
 	$(function () {
 
-		//$.getJSON('https://www.highcharts.com/samples/data/jsonp.php?filename=aapl-c.json&callback=?', function (data) {
-		$.getJSON('/report/AjaxGetPaypalTotal', function (data) {
+		var seriesOptions = [],
+			seriesCounter = 0,
+			names = ['PayPal','PayU','Total'],
+			urls = ['/report/AjaxGetPaypalTotal', '/report/AjaxGetPayUTotal','/report/AjaxGetTotalPayments'];
 
-			// Create the chart
-			$('#container').highcharts('StockChart', {
 
-				global: {
-					useUTC: false
+		/**
+		 * Create the chart when all data is loaded
+		 * @returns {undefined}
+		 */
+		function createChart() {
+
+			$('#container2').highcharts('StockChart', {
+
+				rangeSelector: {
+					selected: 4
 				},
 
-				rangeSelector : {
-					selected : 1
+				yAxis: {
+//					labels: {
+//						formatter: function () {
+//							return (this.value > 0 ? ' + ' : '') + this.value + '%';
+//						}
+//					},
+					plotLines: [{
+						value: 0,
+						width: 2,
+						color: 'silver'
+					}]
 				},
 
-				title : {
-					text : 'Amount PayPal'
+//				plotOptions: {
+//					series: {
+//						compare: 'percent'
+//					}
+//				},
+
+				tooltip: {
+					pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b><br/>',
+					valueDecimals: 2
 				},
 
-				series : [{
-					name : 'Paypal',
-					data : data,
-					tooltip: {
-						valueDecimals: 2
-					}
-				}]
+				series: seriesOptions
 			});
-		});
+		}
 
-		$.getJSON('/report/AjaxGetPayUTotal', function (data) {
+		$.each(urls, function (i, url) {
 
-			// Create the chart
-			$('#container1').highcharts('StockChart', {
+			$.getJSON(url, function (data) {
 
-				global: {
-					useUTC: false
-				},
+				seriesOptions[i] = {
+					name: names[i],
+					data: data
+				};
 
-				rangeSelector : {
-					selected : 1
-				},
+				// As we're loading the data asynchronously, we don't know what order it will arrive. So
+				// we keep a counter and create the chart when all the data is loaded.
+				seriesCounter += 1;
 
-				title : {
-					text : 'Amount PayuU'
-				},
+				if (seriesCounter === urls.length) {
+					createChart();
+				}
 
-				series : [{
-					name : 'PayU',
-					data : data,
-					tooltip: {
-						valueDecimals: 2
-					}
-				}]
 			});
 		});
 
 	});
-
-
-
-
-
-
 	
 
 </script>
