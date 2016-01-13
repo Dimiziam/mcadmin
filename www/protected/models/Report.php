@@ -382,7 +382,7 @@ class Report extends InfoModel
 	 * @throws CDbException
 	 */
 
-	public function getDateForChart ($type='paypal') {
+	public function getDateForChart ($type='') {
 
 
 		$criteria = new CDbCriteria();
@@ -392,15 +392,21 @@ class Report extends InfoModel
 			->createCommand()->select('UNIX_TIMESTAMP(DATE(t.date_start)) AS myadate, SUM(amount) amount ')
 			->from('transactions t')
 			->where("t.type='add'
-					AND  t.billing=:billing
 					AND t.status = 'done'")
-			//->andWhere($criteria->condition, $criteria->params)
 			->group('YEAR(t.date_start), MONTH(t.date_start), DAY(t.date_start)');
+			//->group('daygroup');
 
-			$command->bindParam(':billing', $type, PDO::PARAM_STR);
+		if (!empty($type)) {
+			$command->andWhere('t.billing=:billing')
+			->bindParam(':billing', $type, PDO::PARAM_STR);
+		}
+		else {
+			$command->andWhere('(t.billing="payu" or t.billing="paypal")');
+		}
+
 
 		$items = $command->queryAll();
-
+		
 		foreach ($items as $item) {
 			$forJson[] = array((int)$item['myadate']*1000,(float)$item['amount']);
 		}
