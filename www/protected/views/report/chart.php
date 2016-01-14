@@ -22,6 +22,13 @@
 			urls = ['/report/AjaxGetPaypalTotal', '/report/AjaxGetPayUTotal','/report/AjaxGetTotalPayments'];
 
 
+
+		Highcharts.setOptions({
+			global: {
+				timezoneOffset: - 2 * 60
+			}
+		});
+
 		/**
 		 * Create the chart when all data is loaded
 		 * @returns {undefined}
@@ -34,12 +41,17 @@
 					selected: 4
 				},
 
+				xAxis: {
+					type: 'datetime'
+				},
+
 				yAxis: {
 //					labels: {
 //						formatter: function () {
 //							return (this.value > 0 ? ' + ' : '') + this.value + '%';
 //						}
 //					},
+
 					plotLines: [{
 						value: 0,
 						width: 2,
