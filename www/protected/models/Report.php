@@ -389,7 +389,7 @@ class Report extends InfoModel
 		$criteria->addBetweenCondition('os.created', $this->dateFrom, $this->dateTo);
 		// get downloaded albums by date
 		$command = $this->getDbConnection()
-			->createCommand()->select('UNIX_TIMESTAMP(DATE(t.date_start)) AS myadate, SUM(amount) amount ')
+			->createCommand()->select('UNIX_TIMESTAMP(DATE_FORMAT(t.date_start,"%Y-%m-01")) AS myadate, SUM(amount) amount ')
 			->from('transactions t')
 			->where("t.type='add'
 					AND t.status = 'done'")
