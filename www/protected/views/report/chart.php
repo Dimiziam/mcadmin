@@ -25,7 +25,7 @@
 
 		Highcharts.setOptions({
 			global: {
-				timezoneOffset: - 2 * 60
+				timezoneOffset: - 3 * 60
 			}
 		});
 
