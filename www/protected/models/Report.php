@@ -394,8 +394,8 @@ class Report extends InfoModel
 			->from('transactions t')
 			->where("t.type='add'
 					AND t.status = 'done'")
-			//->group('DATE_FORMAT(t.date_start,"%Y-%m")');
-			->group('YEAR(t.date_start),WEEK(t.date_start)');
+			->group('DATE_FORMAT(t.date_start,"%Y-%m")');
+			//->group('YEAR(t.date_start),WEEK(t.date_start)');
 
 
 
