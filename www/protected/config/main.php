@@ -155,6 +155,7 @@ $settings = array(
 		
 				// Album routs
 				'/<language:(' . implode('|', $i18n) . ')>/album/autocomplete/' => '/album/autocomplete/',
+				'/<language:(' . implode('|', $i18n) . ')>/album/autocomplete/' => '/album/permit/',
 		
 				// Page routes
 				'/<language:(' . implode('|', $i18n) . ')>/page/search/<type:([^\.]+)>.html' => '/page/search/',

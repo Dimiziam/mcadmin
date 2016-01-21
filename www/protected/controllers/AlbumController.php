@@ -19,7 +19,7 @@ class AlbumController extends Controller {
 	{
 		return array(
 			array('allow',
-				'actions' => array('autocomplete'),
+				'actions' => array('autocomplete','permit'),
 				'users' => array('@'),
 				'roles'=>array('admin'),
 			),
@@ -63,5 +63,11 @@ class AlbumController extends Controller {
 		
 		echo CJSON::encode($options);
 		Yii::app()->end();
+	}
+
+	public function actionPermit() {
+
+
+
 	}
 }
