@@ -149,7 +149,12 @@ if (!empty($users)) {
                     </a>
                 </td>
                 <td>
-                    <a href="<?php echo $this->createUrl('/transaction/search/', array('SearchTransactionForm[user_id]' => $item['id'], 'SearchTransactionForm[billing]' => 'paypal')); ?>"
+                    <a href="<?php echo $this->createUrl('/transaction/search/',
+						array('SearchTransactionForm[user_id]' => $item['id'],
+							'SearchTransactionForm[status]' => '',
+							'SearchTransactionForm[billing]' => ''
+							)
+						); ?>"
                        title="<?php echo $translations['payments_link_title']; ?>">
                         <img src="/images/coins_16.png" border="0">
                     </a>

@@ -21,9 +21,23 @@ else {
 
 $this->menu = array(
 	array('label' => MTLang::t('add_new', 'persistence'), 'url' => $this->createUrl('/user/add/')),
-	array('label' => $translations['users_list'], 'url' => $this->createUrl('/user/search/'))
+	array('label' => $translations['users_list'], 'url' => $this->createUrl('/user/search/')),
+	array('label' => $translations['user_payments'], 'url' => $this->createUrl('/transaction/search/',
+		array('SearchTransactionForm[user_id]' => $model->id,
+			'SearchTransactionForm[status]' => '',
+			'SearchTransactionForm[billing]' => ''))
+	),
+	array('label' => $translations['order_list'],
+		'url' => $this->createUrl('/order/search/', array('SearchOrderForm[user_id]' => $model->id))
+	),
+	array('label' => $translations['change_balance_link_title'],
+		'url' => $this->createUrl('/transaction/add/', array('userId' =>$model->id))
+	)
+
+
 );
 ?>
+
 
 <h1><?php echo $translations['edit_user']; ?>: <?php echo $model->email; ?></h1>
 
@@ -40,10 +54,6 @@ if (!empty($payments)) {
 }
 ?>
 
- <a href="<?php echo $this->createUrl('/order/search/', array('SearchOrderForm[user_id]' => $model->id)); ?>"
-                       title="<?php echo $translations['orders_link_title']; ?>">
-                      <?php echo $translations['order_list']; ?>
-</a>
 
 	<br><br>
 
