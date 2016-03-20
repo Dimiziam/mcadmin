@@ -39,6 +39,12 @@
 		<?php echo $form->error($languageModel, 'title'); ?>
 	</div>
 
+	<div class="row">
+		<?php echo $form->labelEx($languageModel, 'meta_description'); ?>
+		<?php echo $form->textField($languageModel, 'meta_description', array('maxlength' => 555, 'size' => 70)); ?>
+		<?php echo $form->error($languageModel, 'meta_description'); ?>
+	</div>
+
 	<?php if (!$model->isNewRecord) {
 		// Image shown here if page is update page
 		?>

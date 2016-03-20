@@ -61,7 +61,7 @@ class StaticPageLanguage extends InfoModel
 			array('title, page_text', 'required', 'on' => 'create,update'),
 
 			// Safe rules
-			array('annotation', 'safe', 'on' => 'create,update'),
+			array('annotation,meta_description', 'safe', 'on' => 'create,update'),
 			// image
 			array('image', 'file', 'types' => 'jpg, gif, png', 'safe' => false, 'allowEmpty' => true),
 		);
@@ -78,6 +78,7 @@ class StaticPageLanguage extends InfoModel
 			'title' => MTLang::t('title', 'static_page'),
 			'annotation' => MTLang::t('annotation', 'static_page'),
 			'page_text' => MTLang::t('page_text', 'static_page'),
+			'meta_description' => MTLang::t('meta_description', 'static_page'),
 			'remove_image' => MTLang::t('remove_image', 'static_page'),
 
 		);
