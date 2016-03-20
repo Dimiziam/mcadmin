@@ -45,6 +45,12 @@
 		<?php echo $form->error($languageModel, 'meta_description'); ?>
 	</div>
 
+	<div class="row">
+		<?php echo $form->labelEx($languageModel, 'keyword_image'); ?>
+		<?php echo $form->textField($languageModel, 'keyword_image', array('maxlength' => 555, 'size' => 70)); ?>
+		<?php echo $form->error($languageModel, 'keyword_image'); ?>
+	</div>
+
 	<?php if (!$model->isNewRecord) {
 		// Image shown here if page is update page
 		?>
