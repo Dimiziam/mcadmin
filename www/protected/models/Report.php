@@ -406,7 +406,7 @@ class Report extends InfoModel
 		$items = $command->queryAll();
 		if ($avr === true) {
 			foreach ($items as $item) {
-				$forJson[] = array((int)$item['myadate'] * 1000, ((float)$item['amount']/date('t', $item['myadate'])*20));
+				$forJson[] = array((int)$item['myadate'] * 1000, ((float)$item['amount']/date('t', $item['myadate'])*10));
 			}
 		} else {
 			foreach ($items as $item) {
