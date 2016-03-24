@@ -402,11 +402,13 @@ class Report extends InfoModel
 		} else {
 			$command->andWhere('(t.billing="payu" or t.billing="paypal")');
 		}
+
 		$forJson=array();
 		$items = $command->queryAll();
+
 		if ($avr === true) {
 			foreach ($items as $item) {
-				$forJson[] = array((int)$item['myadate'] * 1000, ((float)$item['amount']/date('t', $item['myadate'])*10));
+				$forJson[] = array((int)$item['myadate'] * 1000, ((float)$item['amount']/(int)date('t', $item['myadate']))*10);
 			}
 		} else {
 			foreach ($items as $item) {
