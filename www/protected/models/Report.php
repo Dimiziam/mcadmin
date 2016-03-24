@@ -408,7 +408,14 @@ class Report extends InfoModel
 
 		if ($avr === true) {
 			foreach ($items as $item) {
-				$forJson[] = array((int)$item['myadate'] * 1000, ((float)$item['amount']/(int)date('t', $item['myadate']))*10);
+
+				if( !each($items) ) {
+					$days_in_month=(int)date('j');
+				}
+				else {
+					$days_in_month	= (int)date('t', $item['myadate']);
+				}
+				$forJson[] = array((int)$item['myadate'] * 1000, ((float)$item['amount']/$days_in_month)*10);
 			}
 		} else {
 			foreach ($items as $item) {
