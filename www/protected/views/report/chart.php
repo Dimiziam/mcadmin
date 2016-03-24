@@ -18,8 +18,8 @@
 
 		var seriesOptions = [],
 			seriesCounter = 0,
-			names = ['PayPal','PayU','Total'],
-			urls = ['/report/AjaxGetPaypalTotal', '/report/AjaxGetPayUTotal','/report/AjaxGetTotalPayments'];
+			names = ['PayPal','PayU','Total','Avr'],
+			urls = ['/report/AjaxGetPaypalTotal', '/report/AjaxGetPayUTotal','/report/AjaxGetTotalPayments','/report/AjaxGetAvr'];
 
 
 

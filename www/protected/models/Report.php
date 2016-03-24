@@ -81,9 +81,8 @@ class Report extends InfoModel
 				->andWhere($criteria->condition, $criteria->params);
 
 
-
 			if (!empty($_POST['show_only_eu'])) {
-				$country_codes = join(Yii::app()->params['EU_codes'],"','");
+				$country_codes = join(Yii::app()->params['EU_codes'], "','");
 				$command->andWhere("u.country_code IN ('$country_codes')");
 			}
 
@@ -155,9 +154,8 @@ class Report extends InfoModel
 				->andWhere($criteria->condition, $criteria->params);
 
 
-
 			if (!empty($_POST['show_only_eu'])) {
-				$country_codes = join(Yii::app()->params['EU_codes'],"','");
+				$country_codes = join(Yii::app()->params['EU_codes'], "','");
 				$command->andWhere("u.country_code IN ('$country_codes')");
 			}
 
@@ -192,8 +190,6 @@ class Report extends InfoModel
 		return false;
 
 	}
-
-
 
 
 	/**
@@ -272,9 +268,9 @@ class Report extends InfoModel
 				. "SKLADBA" . ";"
 				. "" . ";"
 				. "" . ";"
-				. "\"" . $item['song_title'] .  "\"" . ";"
+				. "\"" . $item['song_title'] . "\"" . ";"
 				. "" . ";"
-				. "\"" . $item['album_title'] .  "\"" .  ";"
+				. "\"" . $item['album_title'] . "\"" . ";"
 				. "\"" . $item['lable'] . "\"" . ";"
 				. "\"" . $item['singer_name'] . "\"" . ";"
 				. $item['download'] . ";"
@@ -287,7 +283,7 @@ class Report extends InfoModel
 		}
 
 
-		$outPutDada = html_entity_decode(mb_convert_encoding($outPutDada, "windows-1251", "utf-8"),ENT_HTML401,'cp1251');
+		$outPutDada = html_entity_decode(mb_convert_encoding($outPutDada, "windows-1251", "utf-8"), ENT_HTML401, 'cp1251');
 		// header
 		header("Cache-Control: public");
 		header("Content-Description: File Transfer");
@@ -378,40 +374,44 @@ class Report extends InfoModel
 	/**
 	 * Method to get data amount by day
 	 * @param string $type paypal|payu
+	 * @param bool $avr true|false
 	 * @return array
 	 * @throws CDbException
 	 */
 
-	public function getDateForChart ($type='') {
+	public function getDateForChart($type = '', $avr = false)
+	{
 
 
 		$criteria = new CDbCriteria();
 		$criteria->addBetweenCondition('os.created', $this->dateFrom, $this->dateTo);
 		// get downloaded albums by date
 		$command = $this->getDbConnection()
-			->createCommand()->select('UNIX_TIMESTAMP(DATE_FORMAT(t.date_start,"%Y-%m-01")) AS myadate, SUM(amount) amount ')
+			->createCommand()->select('UNIX_TIMESTAMP(DATE_FORMAT(t.date_start,"%Y-%m-01")) AS myadate, SUM(amount) amount, DATE_FORMAT(t.date_start,"%Y-%m-01") as DateFormat ')
 			//->createCommand()->select('UNIX_TIMESTAMP(DATE(t.date_start)) AS myadate, SUM(amount) amount ')
 			->from('transactions t')
 			->where("t.type='add'
 					AND t.status = 'done'")
 			->group('DATE_FORMAT(t.date_start,"%Y-%m")');
-			//->group('YEAR(t.date_start),WEEK(t.date_start)');
-
+		//->group('YEAR(t.date_start),WEEK(t.date_start)');
 
 
 		if (!empty($type)) {
 			$command->andWhere('t.billing=:billing')
-			->bindParam(':billing', $type, PDO::PARAM_STR);
-		}
-		else {
+				->bindParam(':billing', $type, PDO::PARAM_STR);
+		} else {
 			$command->andWhere('(t.billing="payu" or t.billing="paypal")');
 		}
-
-
+		$forJson=array();
 		$items = $command->queryAll();
-		
-		foreach ($items as $item) {
-			$forJson[] = array((int)$item['myadate']*1000,(float)$item['amount']);
+		if ($avr === true) {
+			foreach ($items as $item) {
+				$forJson[] = array((int)$item['myadate'] * 1000, ((float)$item['amount']/date('t', $item['myadate'])*20));
+			}
+		} else {
+			foreach ($items as $item) {
+				$forJson[] = array((int)$item['myadate'] * 1000, (float)$item['amount']);
+			}
 		}
 
 		return $forJson;
