@@ -133,6 +133,13 @@ class ReportController extends Controller
 
 	}
 
+	public function actionAjaxGetTest() {
+		$this->logOff();
+		$payUData = Report::model()->getDateForChart('',true);
+		echo "\n".json_encode($payUData)."\n";
+
+	}
+
 	public function actionAjaxGetTotalPayments(){
 
 		$this->logOff();

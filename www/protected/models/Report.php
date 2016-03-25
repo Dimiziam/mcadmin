@@ -415,6 +415,10 @@ class Report extends InfoModel
 				else {
 					$days_in_month	= (int)date('t', $item['myadate']);
 				}
+				echo $item['amount'] .' - '. $days_in_month. ' '.($item['amount']/$days_in_month) ;
+				echo "<br>";
+
+
 				$forJson[] = array((int)$item['myadate'] * 1000, ((float)$item['amount']/$days_in_month)*10);
 			}
 		} else {
