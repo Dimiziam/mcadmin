@@ -415,7 +415,7 @@ class Report extends InfoModel
 				else {
 					$days_in_month	= (int)date('t', $item['myadate']);
 				}
-				echo $item['amount'] .' - '. $days_in_month. ' '.($item['amount']/$days_in_month) ;
+				echo $item['DateFormat'].' - '.$item['amount'] .' - '. $days_in_month. ' '.($item['amount']/$days_in_month) ;
 				echo "<br>";
 
 
