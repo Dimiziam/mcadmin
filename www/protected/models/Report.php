@@ -336,7 +336,7 @@ class Report extends InfoModel
 		$criteria->addBetweenCondition('os.created', $this->dateFrom, $this->dateTo);
 		// get downloaded albums by date
 		$command = $this->getDbConnection()
-			->createCommand()->select(" SQL_CALC_FOUND_ROWS os.*,
+			->createCommand()->select(' SQL_CALC_FOUND_ROWS os.*,
 									s.name AS singer_name,
 									sg.name AS song_title,
 									u.email,
@@ -348,7 +348,7 @@ class Report extends InfoModel
 									s.permit_from,
 									os.price as price,
 									count(os.id) AS download,
-									sum(price) AS cost");
+									sum(price) AS cost');
 		$command->from("order_songs os");
 		$command->join("singers s", "s.id = os.singer_id");
 		$command->join("users u", "u.id = os.user_id");
@@ -415,9 +415,13 @@ class Report extends InfoModel
 				else {
 					$days_in_month	= (int)date('t', $item['myadate']);
 				}
+				$days_in_month	= (int)date('t', $item['myadate']);
 				//echo $item['DateFormat'].' - '.$item['amount'] .' - '. $days_in_month. ' '.($item['amount']/$days_in_month) ;
+				//echo $days_in_month;
 				//echo "<br>";
 
+#echo $item['amount'];
+#echo "<br>";
 
 				$forJson[] = array((int)$item['myadate'] * 1000, ((float)$item['amount']/$days_in_month)*10);
 			}
