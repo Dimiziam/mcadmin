@@ -53,7 +53,7 @@ $items = array(
 	array(
 		'label' => $translations['permit'],
 		'items' => array(
-			array('label' => $translations['permit_album'], 'url' => Yii::app()->getController()->createUrl('/album/permit')),
+			array('label' => $translations['permit_album'], 'url' => Yii::app()->getController()->createUrl('/album/')),
 		),
 
 	),
