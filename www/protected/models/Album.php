@@ -95,9 +95,10 @@ class Album extends InfoModel
 	 */
 	public function cleareCache()
 	{
-		return TRedis::instance('data')->deleteByTag('ALBUM');
+		return TRedis::instance('data')->deleteByTag('ALBUMS');
 	}
 
 
+	//fix
 
 }
