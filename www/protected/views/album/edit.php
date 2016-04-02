@@ -40,7 +40,8 @@ $translations = MTLang::instance()->getGroup('album');
 
 
 <?php
-echo 'ID:'.$albumsPermits->id.' <b>'.$albumsPermits->title.'<b>';
+echo 'ID:'.$albumsPermits->id.' <b>
+<a href="https://www.mediaclub.com/en/album/'.$albumsPermits->id.'" target="_blank">'.$albumsPermits->title.'</a><b>';
 ?>
 	<div class="row">
 		<label><?php echo MTLang::t('album_search_permit', 'album');?></label>
