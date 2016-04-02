@@ -130,6 +130,10 @@ $settings = array(
 				'/<language:(' . implode('|', $i18n) . ')>/albumSeo/edit/<id:([^\.]+)>.html' => '/albumSeo/edit/',
 				'/<language:(' . implode('|', $i18n) . ')>/albumSeo/delete/<id:([^\.]+)>.html' => '/albumSeo/delete/',
 
+				//Album
+				'/<language:(' . implode('|', $i18n) . ')>/album/' => '/album/',
+				'/<language:(' . implode('|', $i18n) . ')>/album/search' => '/album/search',
+				'/<language:(' . implode('|', $i18n) . ')>/album/save' => '/album/save',
 
 				// Order routes
 				'/<language:(' . implode('|', $i18n) . ')>/order/search/' => '/order/search/',

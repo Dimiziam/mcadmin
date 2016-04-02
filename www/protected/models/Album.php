@@ -50,14 +50,14 @@ class Album extends InfoModel
 	 * @return array albums from database
 	 */
 
-	public function search($q,$l) {
+	public function search($q='',$l=20) {
 		$albums = $this->getDbConnection()->createCommand("
 			SELECT a.id as id,a.title,s.name sname from " . Album::model()->tableName() . " as a
 			left join singers as s on s.id=a.singer_id
 			where a.title LIKE :name
 			LIMIT :limit
 			");
-		$q = '%'.$q.'%';
+		$q ='%'.$q.'%';
 		$albums->bindParam(':name', $q , PDO::PARAM_STR);
 
 		$albums->bindParam(':limit', $l , PDO::PARAM_INT);
@@ -66,6 +66,38 @@ class Album extends InfoModel
 		$albums = $albums->queryAll();
 		return $albums;
 	}
+
+	/**
+	 * Method to save model
+	 *
+	 * @param bool $runValidation
+	 * @param array $attributes
+	 */
+	public function save($runValidation = true, $attributes = null)
+	{
+		// Call parent method
+		$result = parent::save($runValidation, $attributes);
+
+		// Check result
+		if ($result === true && !empty($this->id)) {
+			// Remove all cache
+			$this->cleareCache();
+		}
+
+		return $result;
+	}
+
+
+	/**
+	 * Method to cleare current model cache
+	 *
+	 * @return bool
+	 */
+	public function cleareCache()
+	{
+		return TRedis::instance('data')->deleteByTag('ALBUM');
+	}
+
 
 
 }

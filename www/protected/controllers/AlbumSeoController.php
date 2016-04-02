@@ -46,7 +46,7 @@ class AlbumSeoController extends Controller
 		}
 		// Send albums
 		foreach ($albums as $album) {
-			echo $album['title'] . ' - ' . $album['sname'] . '|' . $album['id'] . "\n";
+			echo $album['title'] . ' - ' . $album['sname'] . ' - ' . $album['id']. '|' . $album['id'] . "\n";
 
 		}
 
