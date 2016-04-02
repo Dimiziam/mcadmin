@@ -407,21 +407,22 @@ class Report extends InfoModel
 		$items = $command->queryAll();
 
 		if ($avr === true) {
+
 			foreach ($items as $item) {
 
-				if( !each($items) ) {
-					$days_in_month=(int)date('j');
+				if( !each($items) and (date ('m',$item['myadate'])===date ('m'))) {
+					 $days_in_month=(int)date('j');
 				}
-				else {
+				else  {
 					$days_in_month	= (int)date('t', $item['myadate']);
 				}
-				$days_in_month	= (int)date('t', $item['myadate']);
+
+				//$days_in_month	= (int)date('t', $item['myadate']);
 				//echo $item['DateFormat'].' - '.$item['amount'] .' - '. $days_in_month. ' '.($item['amount']/$days_in_month) ;
 				//echo $days_in_month;
 				//echo "<br>";
-
-#echo $item['amount'];
-#echo "<br>";
+				#echo $item['amount'];
+				#echo "<br>";
 
 				$forJson[] = array((int)$item['myadate'] * 1000, ((float)$item['amount']/$days_in_month)*10);
 			}
