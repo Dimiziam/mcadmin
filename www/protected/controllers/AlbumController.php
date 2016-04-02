@@ -75,11 +75,12 @@ class AlbumController extends Controller {
 	 */
 	public function actionSearch() {
 		$album_id = Yii::app()->request->getParam('album');
-		$search_id  = $album_id['id'] ? $album_id['id']: $album_id['id_manual'];
+		$search_id  = ($album_id['id'] and $album_id['name']) ? $album_id['id']: $album_id['id_manual'];
 
 
 		$album_for_permit = Album::model()->findByPK($search_id);
 
+		//echo $album_id['name'];
 
 		if (empty($album_for_permit)) {
 			$this->render('index',array('action'=>'search'));
