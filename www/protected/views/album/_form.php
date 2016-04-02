@@ -27,8 +27,8 @@
 		<?php
 		$this->widget('CAutoComplete',
 			array(
-				'model' => 'albumSeo',
-				'name' => 'name',
+				'model' => 'album',
+				'name' => 'album[name]',
 				'value' => !empty($model->name) ? $model->name : '',
 				'url' => $this->createUrl('/albumSeo/autocomplete/'),
 				'minChars' => 2,

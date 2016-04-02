@@ -32,7 +32,7 @@ $translations = MTLang::instance()->getGroup('album');
 	'id' => 'albumpermit-form',
 	'action'=>'/'.Yii::app()->language.'/'.$this->action->controller->id.'/'.$action.'/',
 	'enableClientValidation' => true,
-	'clientOptions' => array(
+	'clientOptions' => array(	
 		'validateOnSubmit' => true,
 	)
 )); ?>
@@ -40,7 +40,7 @@ $translations = MTLang::instance()->getGroup('album');
 
 
 <?php
-echo $albumsPermits->id.' '.$albumsPermits->title;
+echo 'ID:'.$albumsPermits->id.' <b>'.$albumsPermits->title.'<b>';
 ?>
 	<div class="row">
 		<label><?php echo MTLang::t('album_search_permit', 'album');?></label>
