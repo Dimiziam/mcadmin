@@ -75,8 +75,7 @@ class AlbumController extends Controller {
 	 */
 	public function actionSearch() {
 		$album_id = Yii::app()->request->getParam('album');
-		$search_id  = ($album_id['id'] and $album_id['name']) ? $album_id['id']: $album_id['id_manual'];
-
+		$search_id  = (!empty($album_id['id']) and !empty($album_id['name'])) ? $album_id['id'] : $album_id['id_manual'];
 
 		$album_for_permit = Album::model()->findByPK($search_id);
 
@@ -97,7 +96,7 @@ class AlbumController extends Controller {
 	public function actionSave() {
 		$params = Yii::app()->request->getParam('album');
 		// for redirects
-		$_POST['Album']['manual_id'] = $params['id'] ? $params['id'] : $params['id_manual'];
+		$_POST['album']['id_manual'] = $params['id'] ? $params['id'] : $params['id_manual'];
 
 		if (!empty($params['search'])) {
 			if (empty($params['name'])) {
