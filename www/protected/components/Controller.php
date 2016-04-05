@@ -97,8 +97,10 @@ class Controller extends CController
 	 */
 	public function logOff()
 	{
+		if (defined('YII_DEBUG') and YII_DEBUG===true) {
 		foreach (Yii::app()->log->routes as $route)
-			$route->enabled = false;
+				$route->enabled = false;
+		}
 	}
 
 
