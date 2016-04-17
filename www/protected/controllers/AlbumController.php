@@ -66,6 +66,15 @@ class AlbumController extends Controller {
 	}
 
 	public function actionIndex() {
+
+		//album to delete
+		/*
+		select  os.singer_id, a.dir, s.path from order_songs os
+		left join albums as a on a.id=album_id
+		left join songs as s on s.album_id=os.album_id
+		group by os.album_id;
+		*/
+
 		$this->render('index',array('action'=>'search'));
 
 	}
