@@ -80,6 +80,11 @@
 					<a href="<?php echo $this->createUrl('/order/songs/', array('id' => $item['id'])); ?>" title="<?php echo $translations['songs_link_title']; ?>">
 						<img src="/images/songs_16.png" border="0">
 					</a>
+
+					<a href="<?php echo $this->createUrl('/user/edit/', array('id' => $item['user_id'])); ?>">
+						<img src="/images/edit_16.png" border="0">
+					</a>
+
 				</td>
 			</tr>
 		<?php } ?>

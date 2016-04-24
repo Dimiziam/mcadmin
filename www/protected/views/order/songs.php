@@ -12,10 +12,13 @@
 
 	if (!empty($songs)) {
 
-		[];
+
 
 ?>
-	<table class="table table-striped">
+
+
+
+		<table class="table table-striped">
 		<?php 
 			$currentAlbum = '';
 			$singerInfo='';
@@ -37,6 +40,9 @@
 								   	href="<?php echo  Yii::app()->params['url_main_site'];?>en/singer/<?php echo $singerInfo['id'];?>">
 									<?php echo $singerInfo['name']; ?>
 								</a>&nbsp;
+						<a href="<?php echo $this->createUrl('/user/edit/', array('id' => $songs[0]['user_id'])); ?>">
+							Edit User
+						</a>
 					</th>
 				</tr>
 				<tr>
