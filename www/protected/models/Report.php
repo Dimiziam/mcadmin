@@ -22,6 +22,8 @@ class Report extends InfoModel
 
 	private $dateFrom;
 	private $dateTo;
+	/** @var string show full report OSA */
+	public $fullReport='false';
 
 
 	/**
@@ -195,7 +197,7 @@ class Report extends InfoModel
 	/**
 	 * Method to get OsaReport
 	 */
-	public function getOsaReport($dateFrom, $dateTo)
+	public function getOsaReport($dateFrom, $dateTo, $fullReport='false')
 	{
 		//if in config not set
 		// do not word now
@@ -204,6 +206,7 @@ class Report extends InfoModel
 		if ($this->_validate($dateFrom, $dateTo)) {
 
 			// Try to find orders
+			$this->fullReport = $fullReport;
 			$command = $this->_prepareOsaQuery();
 
 			$reportData = $command->queryAll();
@@ -238,11 +241,11 @@ class Report extends InfoModel
 	 * @return file
 	 */
 
-	public function getOsaReportAsCSV($dateFrom, $dateTo)
+	public function getOsaReportAsCSV($dateFrom, $dateTo, $fullReport='false')
 	{
 
 		$this->_validate($dateFrom, $dateTo);
-
+		$this->fullReport = $fullReport;
 		$command = $this->_prepareOsaQuery(false);
 		$items = $command->queryAll();
 
@@ -355,9 +358,15 @@ class Report extends InfoModel
 		$command->join("owners o", "o.id = os.album_owner_id");
 		$command->join("albums albm", "albm.id = os.album_id");
 
-		$command->join("songs sg", " sg.id = os.song_id")
-			->where("u.developer='no' AND o.rule_number=0 and s.permit_from=0")
-			->andWhere($criteria->condition, $criteria->params);
+		$command->join("songs sg", " sg.id = os.song_id");
+		if ($this->fullReport === 'true' ) {
+			$command->where("u.developer='no'");
+		}
+		else {
+			$command->where("u.developer='no' AND o.rule_number=0 and s.permit_from=0");
+		}
+
+		$command->andWhere($criteria->condition, $criteria->params);
 
 		// if we need limit, default yes
 		if ($needLimit) {

@@ -52,7 +52,12 @@ $translations = MTLang::instance()->getGroup('report');
 			),
 		));
 		?>
-		currency: <input type="text" name="currency" value="<?php echo Yii::app()->request->getParam('currency'); ?>">
+		currency: <input type="text" name="currency" value="<?php echo Yii::app()->request->getParam('currency'); ?>"><br>
+
+
+		Full Report: <input type="checkbox" name="fullReport" value="true"
+		<?php if (Yii::app()->request->getParam('fullReport') == "true") echo " checked " ; ?> >
+
 	</div>
 
 	<div class="row buttons">

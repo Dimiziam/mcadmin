@@ -35,6 +35,7 @@ class ReportController extends Controller
 
 		$dateFrom = Yii::app()->request->getParam('dateFrom');
 		$dateTo = Yii::app()->request->getParam('dateTo');
+		$fullReport = Yii::app()->request->getParam('fullReport');
 
 		if ($report == 'osa') {
 
@@ -42,11 +43,11 @@ class ReportController extends Controller
 
 			if (!empty($getReport)) {
 				$this->logOff();
-				Report::model()->getOsaReportAsCSV($dateFrom, $dateTo);
+				Report::model()->getOsaReportAsCSV($dateFrom, $dateTo, $fullReport);
 				return false;
 			}
 
-			$osaReportData = Report::model()->getOsaReport($dateFrom, $dateTo);
+			$osaReportData = Report::model()->getOsaReport($dateFrom, $dateTo, $fullReport);
 			$this->render('osa', array(
 					'osaReportData' => $osaReportData,
 					'dateFrom' => $dateFrom,
