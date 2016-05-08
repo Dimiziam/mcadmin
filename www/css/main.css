@@ -275,6 +275,7 @@ div.search-form
 }
 .edit {
 	color:#cd0a0a;
+	float:right;
 }
 
 .row_label label{
