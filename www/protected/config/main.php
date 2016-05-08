@@ -143,6 +143,7 @@ $settings = array(
 				'/<language:(' . implode('|', $i18n) . ')>/transaction/search/' => '/transaction/search/',
 				'/<language:(' . implode('|', $i18n) . ')>/transaction/add/<userId:([^\.]+)>.html' => '/transaction/add/',
 				'/<language:(' . implode('|', $i18n) . ')>/transaction/affiliate/<id:\d+>' => '/transaction/affiliate/',
+				'/<language:(' . implode('|', $i18n) . ')>/transaction/canceled/<transaction_id:\d+>' => '/transaction/canceled/',
 		
 				// Chart routes
 				'/<language:(' . implode('|', $i18n) . ')>/chart/add/' => '/chart/add/',

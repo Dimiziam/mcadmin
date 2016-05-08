@@ -10,6 +10,7 @@ $orderTranslations = MTLang::instance()->getGroup('order');
 
 <?php $form = $this->beginWidget('CActiveForm', array(
 	'id' => 'search-form',
+	'action'=>Yii::app()->createUrl('/transaction/search/')
 )); ?>
 
 	<div class="form">
@@ -51,13 +52,13 @@ $orderTranslations = MTLang::instance()->getGroup('order');
 			echo "&nbsp;";
 			echo CHtml::dropDownList('SearchTransactionForm[billing]',
 				$model->billing, $model->getEnumList('billing'),
-				array("class" => "form-control",'empty'=>'-')
+				array("class" => "form-control", 'empty' => '-')
 			);
-            echo "&nbsp;";
-            echo CHtml::dropDownList('SearchTransactionForm[status]',
-                $model->status, $model->getEnumList('status'),
-                array("class" => "form-control",'empty'=>'-')
-            );
+			echo "&nbsp;";
+			echo CHtml::dropDownList('SearchTransactionForm[status]',
+				$model->status, $model->getEnumList('status'),
+				array("class" => "form-control", 'empty' => '-')
+			);
 			echo CHtml::hiddenField('SearchTransactionForm[user_id]', !empty($model->user_id) ? $model->user_id : 0);
 			?>
 		</div>
@@ -94,12 +95,21 @@ if (!empty($transactions)) {
 				<td>
 					<?php echo $item['email']; ?><br>
 					<?php echo $item['country_code']; ?>,
-					<span class="bold 	<?php if ($item['download_all']=='yes') echo " green";?>
+					<span class="bold 	<?php if ($item['download_all'] == 'yes') {
+						echo " green";
+					} ?>
 					"><?php echo $item['download_all']; ?></span><br>
 				</td>
 				<td><?php echo $translations['billing_' . $item['billing']]; ?></td>
 				<td><?php echo $item['type'] == 'add' ? '+' . $item['amount'] : '-' . $item['amount']; ?></td>
-				<td><?php echo $orderTranslations['status_' . $item['status']]; ?></td>
+				<td>
+					<?php echo $orderTranslations['status_' . $item['status']]; ?>
+					<?php
+					if ($item['status'] == 'done' and in_array($item['billing'], array('paypal', 'payu'))) {
+						echo "<a class='confirmation' href=".$this->createUrl('/transaction/canceled/',array("transaction_id"=>$item['id'])).">".$translations['refund']."</a>";
+						}
+					?>
+				</td>
 				<td>
 					<?php echo $item['date_start']; ?><br>
 					<?php echo $item['date_end']; ?>
@@ -120,9 +130,9 @@ if (!empty($transactions)) {
 					</a>
 					&nbsp;
 
-                    <a href="<?php echo $this->createUrl('/order/search/', array('SearchOrderForm[user_id]' => $item['user_id'])); ?>">
-                        <img src="/images/cart_16.png" border="0">
-                    </a>
+					<a href="<?php echo $this->createUrl('/order/search/', array('SearchOrderForm[user_id]' => $item['user_id'])); ?>">
+						<img src="/images/cart_16.png" border="0">
+					</a>
 
 				</td>
 

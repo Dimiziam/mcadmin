@@ -273,7 +273,9 @@ div.search-form
 .bold {
 	font-weight: bold;
 }
-
+.edit {
+	color:#cd0a0a;
+}
 
 .row_label label{
 	float:left;

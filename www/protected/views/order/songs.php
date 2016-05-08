@@ -40,8 +40,8 @@
 								   	href="<?php echo  Yii::app()->params['url_main_site'];?>en/singer/<?php echo $singerInfo['id'];?>">
 									<?php echo $singerInfo['name']; ?>
 								</a>&nbsp;
-						<a href="<?php echo $this->createUrl('/user/edit/', array('id' => $songs[0]['user_id'])); ?>">
-							Edit User
+						<a class="edit" href="<?php echo $this->createUrl('/user/edit/', array('id' => $songs[0]['user_id'])); ?>">
+							<?php echo $translations['edit_user']?>
 						</a>
 					</th>
 				</tr>
