@@ -12,7 +12,11 @@
 
 <div class="form">
 
-<?php $form = $this->beginWidget('CActiveForm', array(
+<?php
+
+$action='search';
+
+$form = $this->beginWidget('CActiveForm', array(
 	'id' => 'albumpermit-form',
 	'action'=>'/'.Yii::app()->language.'/'.$this->action->controller->id.'/'.$action.'/',
 	'enableClientValidation' => true,

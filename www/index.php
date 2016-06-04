@@ -1,4 +1,5 @@
 <?php
+
 // Enable to store all php error into log file
 error_reporting(E_ALL);
 ini_set('display_errors', 'on');

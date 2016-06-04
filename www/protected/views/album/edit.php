@@ -29,7 +29,7 @@ $translations = MTLang::instance()->getGroup('album');
 <div class="form">
 
 <?php $form = $this->beginWidget('CActiveForm', array(
-	'id' => 'albumpermit-form',
+	'id' => 'albumpermit-form-edit',
 	'action'=>'/'.Yii::app()->language.'/'.$this->action->controller->id.'/'.$action.'/',
 	'enableClientValidation' => true,
 	'clientOptions' => array(	
