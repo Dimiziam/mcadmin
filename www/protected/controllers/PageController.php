@@ -22,11 +22,11 @@ class PageController extends Controller
 		return array(
 			array('allow',
 				'actions' => array('search', 'add', 'edit', 'delete'),
-				'users' => array('@')
+				'roles'=>array('admin','seo'),
 			),
 			array('deny',
-				'users' => array('*'),
-				'roles' => array('admin'),
+				'users' => array('*')
+
 			)
 		);
 	}
