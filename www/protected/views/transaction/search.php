@@ -6,6 +6,8 @@ $translations = MTLang::instance()->getGroup('transaction');
 $translationsUser = MTLang::instance()->getGroup('user');
 // Get order translations
 $orderTranslations = MTLang::instance()->getGroup('order');
+
+
 ?>
 
 <?php $form = $this->beginWidget('CActiveForm', array(
@@ -86,6 +88,7 @@ if (!empty($transactions)) {
 			<th><?php echo $translations['billing']; ?></th>
 			<th><?php echo $translations['amount']; ?></th>
 			<th><?php echo $translations['status']; ?></th>
+			<th><?php echo $translations['info']; ?></th>
 			<th><?php echo $translations['date_start']; ?><br><?php echo $translations['date_end']; ?></th>
 			<th></th>
 		</tr>
@@ -110,11 +113,34 @@ if (!empty($transactions)) {
 						}
 					?>
 				</td>
-				<td>
+				<td nowrap>
+					<?php
+
+					 $payment_detail_info = $item['info'] ?  unserialize($item['info']) : "";
+
+						if (!empty($payment_detail_info)) {
+							if ($item['billing'] === 'payu') {
+								echo($payment_detail_info['ts']);
+							} elseif ($item['billing'] === 'paypal') {
+								echo 	'PaymentID: '.$payment_detail_info['paymentId'].'<br>'.
+									  	'PayerID: '.$payment_detail_info['payerId'].'<br>'.
+										'<b>Detail payment</b> '.'<br>'.
+										'Email: '.$payment_detail_info['detailPayment']['email'].'<br>'.
+										'Last Name: '.$payment_detail_info['detailPayment']['last_name'].'<br>'.
+										'First Name: '.$payment_detail_info['detailPayment']['first_name'].'<br>'.
+										'County Code: '.$payment_detail_info['detailPayment']['county_code'].'<br>';
+
+							}
+						}
+
+
+					?>
+				</td>
+				<td nowrap>
 					<?php echo $item['date_start']; ?><br>
 					<?php echo $item['date_end']; ?>
 				</td>
-				<td>
+				<td nowrap>
 
 					<a href="<?php echo $this->createUrl('/user/edit/', array('id' => $item['user_id'])); ?>"
 					   title="<?php echo $translationsUser['edit_link_title']; ?>">
