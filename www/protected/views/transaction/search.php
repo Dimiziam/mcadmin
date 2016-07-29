@@ -113,25 +113,31 @@ if (!empty($transactions)) {
 						}
 					?>
 				</td>
-				<td nowrap>
+				<td nowrap class="paymentinfo">
 					<?php
 
-					 $payment_detail_info = $item['info'] ?  unserialize($item['info']) : "";
+
+					if (!empty($item['info'])) {
+						$payment_detail_info = $item['info'] ?  unserialize($item['info']) : "";
+
 
 						if (!empty($payment_detail_info)) {
 							if ($item['billing'] === 'payu') {
 								echo($payment_detail_info['ts']);
 							} elseif ($item['billing'] === 'paypal') {
-								echo 	'PaymentID: '.$payment_detail_info['paymentId'].'<br>'.
-									  	'PayerID: '.$payment_detail_info['payerId'].'<br>'.
-										'<b>Detail payment</b> '.'<br>'.
-										'Email: '.$payment_detail_info['detailPayment']['email'].'<br>'.
-										'Last Name: '.$payment_detail_info['detailPayment']['last_name'].'<br>'.
-										'First Name: '.$payment_detail_info['detailPayment']['first_name'].'<br>'.
-										'County Code: '.$payment_detail_info['detailPayment']['county_code'].'<br>';
-
+								echo 	'PaymentID: '.$payment_detail_info['paymentId'].'<br>';
+								if (!empty($payment_detail_info['payerId'])) {
+								echo	'PayerID: ' . $payment_detail_info['payerId'] . '<br>' .
+									'<b>payment detail </b> ' . '<br>' .
+									'Email: ' . $payment_detail_info['detailPayment']['email'] . '<br>' .
+									'Last Name: ' . $payment_detail_info['detailPayment']['last_name'] . '<br>' .
+									'First Name: ' . $payment_detail_info['detailPayment']['first_name'] . '<br>' .
+									'County Code: ' . $payment_detail_info['detailPayment']['county_code'] . '<br>';
+								}
 							}
 						}
+
+					}
 
 
 					?>

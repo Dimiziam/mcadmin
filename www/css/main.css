@@ -297,3 +297,7 @@ div.search-form
 .table>tbody>tr>td {
     padding:4px!important;
 }
+
+.paymentinfo {
+	font-size: 8px;
+}
