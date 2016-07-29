@@ -128,7 +128,7 @@ if (!empty($transactions)) {
 								echo 	'PaymentID: '.$payment_detail_info['paymentId'].'<br>';
 								if (!empty($payment_detail_info['payerId'])) {
 								echo	'PayerID: ' . $payment_detail_info['payerId'] . '<br>' .
-									'<b>payment detail </b> ' . '<br>' .
+									'<b>payment details </b> ' . '<br>' .
 									'Email: ' . $payment_detail_info['detailPayment']['email'] . '<br>' .
 									'Last Name: ' . $payment_detail_info['detailPayment']['last_name'] . '<br>' .
 									'First Name: ' . $payment_detail_info['detailPayment']['first_name'] . '<br>' .
