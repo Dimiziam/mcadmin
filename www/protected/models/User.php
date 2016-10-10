@@ -225,13 +225,49 @@ class User extends InfoModel {
 				'pagination' => array('pageSize' => $this->getRowsPerPage()),
 			)
 		);
-		
 		// Set offset
 		$provider->setOffset(0);
 		
 		return $provider;
 	}
 
+	/**
+	 * Get all users selected genre
+	 * @return bool
+	 * @throws CDbException
+	 */
+
+	public function getUserSubscribeGenre($id){
+
+		// userid
+		$id=(int)$id;
+		// Get genre ids from cache
+		$genreIds = TRedis::instance('users')->get('user_genres_' . $id);
+
+		if (empty($genreIds)) {
+			// Get genre ids from DB
+			$genreIds = $this->getDbConnection()
+				->createCommand('select genre_id from ' . UserGenre::model()->tableName() . ' where user_id = :id')
+				->bindParam(":id", $id, PDO::PARAM_INT)
+				->queryAll();
+			if (empty($genreIds)) {
+				return false;
+			}
+			// Prepare genre ids
+			$prepared = array();
+			foreach ($genreIds as $genreId) {
+				$prepared[] = $genreId['genre_id'];
+			}
+			$genreIds = $prepared;
+
+			// Store genre ids in cache
+			TRedis::instance('users')->setByTag('USER_' . $id, 'user_genres_' . $id, $genreIds);
+		}
+
+		// Get genres by ids
+		return Genre::model()->getByIds($genreIds);
+
+	}
 
 
 }

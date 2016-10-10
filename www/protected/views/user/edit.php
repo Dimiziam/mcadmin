@@ -53,11 +53,25 @@ if (!empty($payments)) {
 	}
 }
 ?>
+<Br>
 
+<div class="profile_genres">
 
-	<br><br>
+	<?php
 
+	if ($UserSubscrition['is_subscribed']==='yes') {
+		echo MTLang::instance()->t("subscribe_yes",'persistence');
+		foreach ($genres as $genreId => $genre) {
+			echo isset($userGenres[$genreId]) ? $genre['name'].", " : "";
+		}
+	}
+	else {
+		echo MTLang::instance()->t("subscribe_no",'persistence');
+	}
+	?>
 
+</div>
+<Br>
 <?php if (!empty($model->facebook_id)) {?>
 		<a target="_blank" href="https://www.facebook.com/app_scoped_user_id/<?php echo $model->facebook_id;?>/">
 			<img id="fb_squarepic" width="32" height="32" alt="Facebook" src="https://graph.facebook.com/<?php echo $model->facebook_id;?>/picture" title="Facebook">
@@ -77,3 +91,5 @@ if (!empty($payments)) {
 <br>
 <br>
 <?php echo $this->renderPartial('_form', array('model' => $model, 'translations' => $translations)); ?>
+
+

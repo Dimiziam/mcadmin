@@ -162,6 +162,8 @@ class UserController extends Controller
 	{
 		$model = $this->loadModel($id);
 
+		$userGenres = User::model()->getUserSubscribeGenre($model->id);
+
 		$model->scenario = 'update';
 		$model->f = Yii::app()->request->getParam('f');
 
@@ -200,10 +202,11 @@ class UserController extends Controller
 
 			}
 
-
 		}
-
 		$this->render('edit', array('model' => $model,
+									'userGenres'=>$userGenres,
+									'genres'=>Genre::model()->getAll(),
+									'UserSubscrition'=>UserSubscrition::model()->getByUserId($model->id),
 									'payments' => Transaction::model()->successfulTransaction($model->id)));
 	}
 
