@@ -8,7 +8,7 @@
  * @package MediaClub
  * @subpackage controllers
  * @copyright (C) 2014 point.od.ua <support@point.od.ua>
- * @author Tishenko Vladimir <vagrand@mail.ru>
+ * @author Tishenko Vladimir <vagrand@mail.ru> Roman Shtempelyuk <deRamzes@gmail.com>
  */
 class UserController extends Controller
 {
@@ -188,9 +188,11 @@ class UserController extends Controller
 			} else {
 				$model->password = $oldPassword;
 			}
+			// set model data
+			$model->subscribed->is_subscribed = $_POST['UserSubscrition']['is_subscribed'];
+			$model->subscribed->how_often = $_POST['UserSubscrition']['how_often'];
 
-
-			if ($model->save()) {
+			if ($model->save() && $model->subscribed->save()) {
 
 				if ($model->f == 'affiliate') {
 					$this->redirect(array('/user/affiliate/'));
@@ -203,6 +205,7 @@ class UserController extends Controller
 			}
 
 		}
+		//pc::debug($model->subscribed->is_subscribed);
 		$this->render('edit', array('model' => $model,
 									'userGenres'=>$userGenres,
 									'genres'=>Genre::model()->getAll(),

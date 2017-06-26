@@ -63,7 +63,6 @@ $this->menu = array(
 if (!empty($users)) {
     // Get users items
     $items = $users->getData();
-
     $statuses = array(
         'yes' => MTLang::t('yes_value', 'persistence'),
         'no' => '<b>' . MTLang::t('no_value', 'persistence') . '</b>'
@@ -100,7 +99,9 @@ if (!empty($users)) {
 
             <th colspan="3">&nbsp;</th>
         </tr>
-        <?php foreach ($items as $item) { ?>
+        <?php foreach ($items as $item) {
+		  $item['is_subscribed'] = $item['is_subscribed'] ? $item['is_subscribed'] : "no";
+        	?>
             <tr id="user_<?php echo $item['id']; ?>">
                 <td><?php echo $item['id']; ?></td>
                 <td><?php echo $item['email']; ?></td>
@@ -135,8 +136,10 @@ if (!empty($users)) {
 				  	echo $translations['last_time_sent_subsr']." ".date("d.m.Y H:i",$item['last_time_sent_subsr']);
 				  	echo "<br>";
 				  }
-				  echo $translations['is_subscribed'];
-				  echo $item['is_subscribed'] ? ": Yes":": No";
+				  echo $translations['is_subscribed'].": ";
+
+				  echo $statuses[strtolower($item['is_subscribed'])];
+
 				  ?><br>
 				</td>
                 <td><?php echo $item['country_code']; ?></td>

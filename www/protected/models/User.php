@@ -1,19 +1,19 @@
 <?php
 /**
  * User
- * 
+ *
  * Model for table users
- * 
+ *
  * @package MediaClub
  * @subpackage models
  * @copyright (C) 2014 point.od.ua <support@point.od.ua>
- * @author Tishenko Vladimir <vagrand@mail.ru>
+ * @author Tishenko Vladimir <vagrand@mail.ru> Roman Shtempelyuk <deRamzes@gmail.com>
  */
 class User extends InfoModel {
-	
-	/**
+
+  /**
 	 * Variable to store user id
-	 * 
+	 *
 	 * @var int
 	 */
 	public $user_id;
@@ -26,10 +26,10 @@ class User extends InfoModel {
 	 */
 
 	public $f;
-	
+
 	/**
 	 * Returns the static model of the specified AR class.
-	 * 
+	 *
 	 * @param string $className active record class name.
 	 * @return Players the static model class
 	 */
@@ -40,7 +40,7 @@ class User extends InfoModel {
 
 	/**
 	 * Method return DB table name
-	 * 
+	 *
 	 * @return string the associated database table name
 	 */
 	public function tableName()
@@ -50,7 +50,7 @@ class User extends InfoModel {
 
 	/**
 	 * Method return field rules
-	 * 
+	 *
 	 * @return array validation rules for model attributes.
 	 */
 	public function rules()
@@ -59,28 +59,36 @@ class User extends InfoModel {
 			// Required rules
 			array('email, password', 'required', 'on' => 'create'),
 			array('email', 'required', 'on' => 'update'),
-			
+
 			// Formats rules
 			array('password', 'length', 'min' => 3, 'max' => 32, 'on' => 'create,update'),
 			array('email', 'length', 'max' => 150, 'on' => 'create,update'),
 			array('email', 'email', 'on' => 'create,update'),
 			array('name, last_name', 'length', 'max' => 255, 'on' => 'create,update'),
-			
+
 			// Custom rules
 			array('email', 'uniqueEmail', 'on' => 'create'),
-			
+
 			// Safe rule
 			array('name,is_affiliate, last_name, password, is_active, is_email_confirmed, download_all', 'safe', 'on' => 'create,update'),
 			array('email, user_id', 'safe', 'on' => 'search'),
-			
+
 			// Default rules
 			array('created', 'default', 'value' => date('Y-m-d H:i:s', time()), 'on' => 'create'),
 		);
 	}
+  /**
+   * @return array relational rules.
+   */
+	  public function relations() {
+		return array(
+		  'subscribed' => array(self::HAS_ONE, 'UserSubscrition', 'user_id'),
+		);
+	  }
 
 	/**
 	 * Method return attribute labels
-	 * 
+	 *
 	 * @return array customized attribute labels (name=>label)
 	 */
 	public function attributeLabels()
@@ -97,10 +105,10 @@ class User extends InfoModel {
 
 		);
 	}
-	
+
 	/**
 	 * Method to check is email unique
-	 * 
+	 *
 	 * @param string $attribute
 	 * @param array $params
 	 */
@@ -108,16 +116,16 @@ class User extends InfoModel {
 	{
 		// Try to find item by email
 		$item = self::model()->find('email = :email', array(':email' => $this->email));
-		
+
 		// Check is item exists
 		if (!empty($item) && (empty($this->id) || $item->id != $this->id)) {
 			$this->addError('email', MTLang::t('email_exists', 'user'));
 		}
 	}
-	
+
 	/**
 	 * After delete hook
-	 * 
+	 *
 	 * @return void
 	 */
 	public function afterDelete()
@@ -125,10 +133,10 @@ class User extends InfoModel {
 		// Remove all cache
 		$this->cleareCache($this->id);
 	}
-	
+
 	/**
 	 * Method to save model
-	 * 
+	 *
 	 * @param bool $runValidation
 	 * @param array $attributes
 	 */
@@ -136,7 +144,7 @@ class User extends InfoModel {
 	{
 		// Call parent method
 		$result = parent::save($runValidation, $attributes);
-		
+
 		// Check result
 		if ($result === true && !empty($this->id)) {
 			// Remove all cache
@@ -146,10 +154,10 @@ class User extends InfoModel {
 
 		return $result;
 	}
-	
+
 	/**
 	 * Method to cleare current model cache for some user id
-	 * 
+	 *
 	 * @param int $id
 	 * @return bool
 	 */
@@ -157,10 +165,10 @@ class User extends InfoModel {
 	{
 		return TRedis::instance('users')->deleteByTag('USER_' . $id);
 	}
-	
+
 	/**
 	 * Method to search users
-	 * 
+	 *
 	 * @param array $params
 	 * @return mixed
 	 */
@@ -215,12 +223,12 @@ class User extends InfoModel {
 		if (empty($users)) {
 			return false;
 		}
-		
+
 		// Get nuber of found rows
 		$foundRows = $this->getDbConnection()->createCommand('SELECT found_rows() as totalRows')->queryScalar();
-		
+
 		// Get data provider
-		$provider = new MTArrayDataProvider($users, 
+		$provider = new MTArrayDataProvider($users,
 			array(
 				'totalItemCount' => $foundRows,
 				'pagination' => array('pageSize' => $this->getRowsPerPage()),
@@ -228,7 +236,7 @@ class User extends InfoModel {
 		);
 		// Set offset
 		$provider->setOffset(0);
-		
+
 		return $provider;
 	}
 
