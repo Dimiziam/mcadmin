@@ -182,9 +182,10 @@ class User extends InfoModel {
 		*/
 
 		$command = $this->getDbConnection()->createCommand()
-			->select(" user.*, user1.email as email_affiliate, (SELECT COUNT(id) FROM users u WHERE u.affiliate_id = user.id) AS total_affiliated_users",'SQL_CALC_FOUND_ROWS')
+			->select(' user.*, user1.email as email_affiliate,us.is_subscribed , us.is_subscribed,(SELECT COUNT(id) FROM users u WHERE u.affiliate_id = user.id) AS total_affiliated_users','SQL_CALC_FOUND_ROWS')
 			->from( $this->tableName() . ' as user')
 			->leftJoin( $this->tableName() . ' user1' ,'user1.id=user.affiliate_id')
+		    ->leftJoin( UserSubscrition::model()->tableName() . ' us' ,'user.id=us.user_id')
 			->order('id desc')
 			->limit( $this->getRowsPerPage(),$this->getCurrentPage() * $this->getRowsPerPage());
 

@@ -92,6 +92,9 @@ if (!empty($users)) {
                 <?php echo $translations['ip_register']; ?><br>
                 <?php echo $translations['last_ip_login']; ?>
             </th>
+			<th>
+			  <?php echo $translations['subscribtion']; ?><br>
+			</th>
             <th><?php echo $translations['country_code']; ?></th>
             <th></th>
 
@@ -127,6 +130,15 @@ if (!empty($users)) {
                     <span class="referer_comment"><?php echo $item['http_referer']; ?></span>
 
                 </td>
+				<td>
+				  <?php if ($item['last_time_sent_subsr']!=0) {
+				  	echo $translations['last_time_sent_subsr']." ".date("d.m.Y H:i",$item['last_time_sent_subsr']);
+				  	echo "<br>";
+				  }
+				  echo $translations['is_subscribed'];
+				  echo $item['is_subscribed'] ? ": Yes":": No";
+				  ?><br>
+				</td>
                 <td><?php echo $item['country_code']; ?></td>
                 <td>
                     <?php if (!empty($item['facebook_id'])) {?>
@@ -179,7 +191,9 @@ if (!empty($users)) {
 <?php } ?>
     <script language="javascript">
         $(document).ready(function () {
-            $(".referer_comment").shorten();
+            $(".referer_comment").shorten({
+				showChars: 30,
+			});
 
         });
     </script>
