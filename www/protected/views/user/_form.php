@@ -17,6 +17,7 @@
 		<?php echo $form->error($model, 'email'); ?>
 	</div>
 
+
 	<div class="row">
 	  <?php echo $form->labelEx($model->subscribed, 'is_subscribed'); ?>
 	  <?php echo $form->dropDownList($model->subscribed, 'is_subscribed', array('yes' => MTLang::t('yes_value', 'persistence'), 'no' => MTLang::t('no_value', 'persistence'))); ?>
