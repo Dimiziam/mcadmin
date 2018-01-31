@@ -105,11 +105,11 @@ class SingerSeo extends InfoModel
 			->select("singerSeo.*, singer.name", 'SQL_CALC_FOUND_ROWS')
 			->from($this->tableName() . ' as singerSeo')
 			->leftJoin(Singer::model()->tableName() . ' singer', 'singer.id=singerSeo.singer_id')
-			//->order('id desc')
+			->order('id desc')
 			->limit($this->getRowsPerPage(), $this->getCurrentPage() * $this->getRowsPerPage());
+		//order
 
-
-		// Bind params
+		//  Bind params
 		if (!empty($params['singer_id'])) {
 			//pc::debug($params);
 			$command->where('singerSeo.singer_id=:singer_id', array(":singer_id" => $params['singer_id']));
