@@ -102,7 +102,10 @@ class ChartItem extends InfoModel
 	 */
 	public function cleareCache()
 	{
-		return TRedis::instance('charts')->deleteByTag('CHARTS');
+	  // temporary solution, if we have only 2 charts and we know it
+	  TRedis::instance('charts')->delete('europe');
+	  TRedis::instance('charts')->delete('world');
+	  return true;
 	}
 
 	/**
