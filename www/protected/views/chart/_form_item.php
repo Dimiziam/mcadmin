@@ -69,8 +69,9 @@
 					)
 				)
 			);
-			
-			echo CHtml::hiddenField('ChartItem[album_id]', !empty($model->album_id) ? $model->album_id : 0);
+
+			echo $form->labelEx($model, 'id album for link');
+			echo CHtml::textField('ChartItem[album_id]', !empty($model->album_id) ? $model->album_id : 0);
 		?>
 		<?php echo $form->error($model, 'album'); ?>
 	</div>

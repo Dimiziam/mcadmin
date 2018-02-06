@@ -9,9 +9,9 @@ $this->breadcrumbs = array(
 	$model->id
 );
 
-$this->menu = array(
-	array('label' => $translations['chart_items_list'], 'url' => $this->createUrl('/chart/items/', array('id' => $chart->id)))
-);
+//$this->menu = array(
+//	array('label' => $translations['chart_items_list'], 'url' => $this->createUrl('/chart/items/', array('id' => $chart->id)))
+//);
 
 $this->menu = array(
 	array('label' => $translations['charts_list'], 'url' => $this->createUrl('/chart/items/', array('id' => $chart->id))),
