@@ -104,7 +104,10 @@ class ChartItem extends InfoModel
 	{
 	  // temporary solution, if we have only 2 charts and we know it
 	  TRedis::instance('charts')->delete('europe');
+	  TRedis::instance('charts')->delete('CHARTS');
+	  TRedis::instance('charts')->delete('CHARTS_ITEM_TOP');
 	  TRedis::instance('charts')->delete('world');
+
 	  return true;
 	}
 
