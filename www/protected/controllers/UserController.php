@@ -142,6 +142,16 @@ class UserController extends Controller
 			);
 
 			if ($model->save()) {
+
+
+			  // subscribe
+			  $subscription = new UserSubscrition('edit');
+			  $subscription->is_subscribed='yes';
+			  $subscription->how_often='daily';
+			  $subscription->user_id = $model->id;
+			  $subscription->save();
+
+
 				$this->redirect(array('/user/search/'));
 			} else {
 				Yii::app()->user->setFlash('error', MTLang::t('message_2', 'user'));
