@@ -94,8 +94,8 @@
 			<tr id="chart_item_<?php echo $item['id']; ?>">
 				<td><?php echo CHtml::encode($item['id']); ?></td>
 				<td><?php echo CHtml::encode($item['position']); ?></td>
-				<td><nobr><?php echo CHtml::encode($item['singer']) . (!empty($item['singer_id']) ? ' (' . $item['singer_id'] . ')' : ''); ?></nobr></td>
-				<td><nobr><?php echo CHtml::encode($item['album']) . (!empty($item['album_id']) ? ' (' . $item['album_id'] . ')' : ''); ?></nobr></td>
+				<td><nobr><?php echo CHtml::encode($item['singer']) . (!empty($item['singer_id']) ? ' (<a href="https://www.mediaclub.com/en/singer/' . $item['singer_id'] . '" target=_blank>' . $item['singer_id'] . ')</a>' : ''); ?></nobr></td>
+				<td><nobr><?php echo CHtml::encode($item['album']) . (!empty($item['album_id']) ? ' (<a href="https://www.mediaclub.com/en/album/'. $item['album_id'] .'" target=_blank>' . $item['album_id'] . '</a>)' : ''); ?></nobr></td>
 				<td>
 					<a href="<?php echo $this->createUrl('/chart/itemEdit/', array('id' => $item['id'])); ?>" title="<?php echo $translations['item_edit_link_title']; ?>">
 						<img src="/images/edit_16.png" border="0">
