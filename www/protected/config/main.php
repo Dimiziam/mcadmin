@@ -9,7 +9,8 @@ $currentLanguage = 'en';
 // Allowed languages
 $i18n = array(
 	'cz' => 'cz',
-	'ru' => 'ru',
+	'de' => 'de',
+  	'pl' => 'pl',
 	'en' => 'en'
 );
 
@@ -60,9 +61,9 @@ $settings = array(
 			'enableCsrfValidation' => true,
 		),
 		'authManager' => array(
-			// Áóäåì èñïîëüçîâàòü ñâîé ìåíåäæåð àâòîðèçàöèè
+			// Ð‘ÑƒÐ´ÐµÐ¼ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÑŒ ÑÐ²Ð¾Ð¹ Ð¼ÐµÐ½ÐµÐ´Ð¶ÐµÑ€ Ð°Ð²Ñ‚Ð¾Ñ€Ð¸Ð·Ð°Ñ†Ð¸Ð¸
 			'class' => 'MCPhpAuthManager',
-			// Ðîëü ïî óìîë÷àíèþ. Âñå, êòî íå àäìèíû, ìîäåðàòîðû è þçåðû — ãîñòè.
+			// Ð Ð¾Ð»ÑŒ Ð¿Ð¾ ÑƒÐ¼Ð¾Ð»Ñ‡Ð°Ð½Ð¸ÑŽ. Ð’ÑÐµ, ÐºÑ‚Ð¾ Ð½Ðµ Ð°Ð´Ð¼Ð¸Ð½Ñ‹, Ð¼Ð¾Ð´ÐµÑ€Ð°Ñ‚Ð¾Ñ€Ñ‹ Ð¸ ÑŽÐ·ÐµÑ€Ñ‹ â€” Ð³Ð¾ÑÑ‚Ð¸.
 			'defaultRoles' => array('guest'),
 		),
 		'user' => array(
@@ -206,7 +207,7 @@ $settings = array(
 		'adminEmail' => 'ramzes@te.net.ua',
 	
 		// application-level parameters
-		'languages' => array('ru' => 'Russain', 'en' => 'English', 'cz' => 'Czech'),
+		'languages' => array('de' => 'Deutsch', 'en' => 'English', 'cz' => 'ÄŒeÅ¡tina','pl'=>'Polski'),
 	
 		// Part of seacret key to create hashes
 		'secret_key' => 'MediaClub_0343742374-fjfnsdjkfn=jdnfjksdfn',
