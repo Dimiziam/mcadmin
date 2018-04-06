@@ -8,7 +8,7 @@ $currentLanguage = 'en';
 
 // Allowed languages
 $i18n = array(
-	'cz' => 'cz',
+	'cs' => 'cs',
 	'de' => 'de',
   	'pl' => 'pl',
 	'en' => 'en'
@@ -207,7 +207,7 @@ $settings = array(
 		'adminEmail' => 'ramzes@te.net.ua',
 	
 		// application-level parameters
-		'languages' => array('de' => 'Deutsch', 'en' => 'English', 'cz' => 'Čeština','pl'=>'Polski'),
+		'languages' => array('de' => 'Deutsch', 'en' => 'English', 'cs' => 'Čeština','pl'=>'Polski'),
 	
 		// Part of seacret key to create hashes
 		'secret_key' => 'MediaClub_0343742374-fjfnsdjkfn=jdnfjksdfn',
