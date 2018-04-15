@@ -199,11 +199,13 @@ class UserController extends Controller
 				$model->password = $oldPassword;
 			}
 			// set model data
-			$model->subscribed->is_subscribed = $_POST['UserSubscrition']['is_subscribed'];
-			$model->subscribed->how_often = $_POST['UserSubscrition']['how_often'];
+			// TODO review this to allow editing user subscribtion
+			// $model->subscribed->is_subscribed = $_POST['UserSubscrition']['is_subscribed'];
+			// $model->subscribed->how_often = $_POST['UserSubscrition']['how_often'];
 
-			if ($model->save() && $model->subscribed->save()) {
-
+//$model->subscribed->save()	
+			if ($model->save()) {
+			
 				if ($model->f == 'affiliate') {
 					$this->redirect(array('/user/affiliate/'));
 				} else {
