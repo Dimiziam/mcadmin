@@ -16,17 +16,17 @@
 		<?php echo $form->emailField($model, 'email', array('maxlength' => 150, 'size' => 70)); ?>
 		<?php echo $form->error($model, 'email'); ?>
 	</div>
- <?php if (!empty($UserSubscrition->subscribed)) {?>
+ <?php if (!empty($model->subscribed)) {?>
 	<div class="row">
-	  <?php echo $form->labelEx($UserSubscrition->subscribed, 'is_subscribed'); ?>
-	  <?php echo $form->dropDownList($UserSubscrition->subscribed, 'is_subscribed', array('yes' => MTLang::t('yes_value', 'persistence'), 'no' => MTLang::t('no_value', 'persistence'))); ?>
-	  <?php echo $form->error($UserSubscrition->subscribed, 'is_subscribed'); ?>
+	  <?php echo $form->labelEx($model->subscribed, 'is_subscribed'); ?>
+	  <?php echo $form->dropDownList($model->subscribed, 'is_subscribed', array('yes' => MTLang::t('yes_value', 'persistence'), 'no' => MTLang::t('no_value', 'persistence'))); ?>
+	  <?php echo $form->error($model->subscribed, 'is_subscribed'); ?>
 	</div>
 
 	<div class="row">
-	  <?php echo $form->labelEx($UserSubscrition->subscribed, 'how_often'); ?>
-	  <?php echo $form->dropDownList($UserSubscrition->subscribed, 'how_often', array('daily' => MTLang::t('daily', 'persistence'), 'monday' => MTLang::t('monday', 'persistence'))); ?>
-	  <?php echo $form->error($UserSubscrition->subscribed, 'how_often'); ?>
+	  <?php echo $form->labelEx($model->subscribed, 'how_often'); ?>
+	  <?php echo $form->dropDownList($model->subscribed, 'how_often', array('daily' => MTLang::t('daily', 'persistence'), 'monday' => MTLang::t('monday', 'persistence'))); ?>
+	  <?php echo $form->error($model->subscribed, 'how_often'); ?>
 	</div>
 <?php }?>
 	<div class="row">

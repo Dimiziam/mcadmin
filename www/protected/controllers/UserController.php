@@ -172,6 +172,7 @@ class UserController extends Controller
 	{
 		$model = $this->loadModel($id);
 
+
 		$userGenres = User::model()->getUserSubscribeGenre($model->id);
 
 		$model->scenario = 'update';
@@ -199,11 +200,15 @@ class UserController extends Controller
 				$model->password = $oldPassword;
 			}
 			// set model data
-			// TODO review this to allow editing user subscribtion
-			// $model->subscribed->is_subscribed = $_POST['UserSubscrition']['is_subscribed'];
-			// $model->subscribed->how_often = $_POST['UserSubscrition']['how_often'];
 
-//$model->subscribed->save()	
+			// TODO review this to allow editing user subscribtion
+			if (isset($_POST['UserSubscrition'])) {
+			  $model->subscribed->is_subscribed = $_POST['UserSubscrition']['is_subscribed'];
+			  $model->subscribed->how_often = $_POST['UserSubscrition']['how_often'];
+			  $model->subscribed->save();
+			}
+
+//
 			if ($model->save()) {
 			
 				if ($model->f == 'affiliate') {
@@ -217,7 +222,6 @@ class UserController extends Controller
 			}
 
 		}
-		//pc::debug($model->subscribed->is_subscribed);
 		$this->render('edit', array('model' => $model,
 									'userGenres'=>$userGenres,
 									'genres'=>Genre::model()->getAll(),
