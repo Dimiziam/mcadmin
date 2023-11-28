@@ -10,7 +10,9 @@ $currentLanguage = 'en';
 $i18n = array(
 	'cs' => 'cs',
 	'de' => 'de',
-  	'pl' => 'pl',
+	'fr' => 'fr',
+	'es' => 'es',
+	'pl' => 'pl',
 	'en' => 'en'
 );
 
@@ -18,10 +20,10 @@ $i18n = array(
 if (!empty($_SERVER['REQUEST_URI'])) {
 	// Get URI parts
 	$uri = explode('/', $_SERVER['REQUEST_URI']);
-	
+
 	// Get current language alias
 	$currentLanguage = !strstr($_SERVER['REQUEST_URI'], '/static/') ? $uri[1] : $uri[2];
-	
+
 	// Check is first of URI part is language alias
 	if (!isset($i18n[$currentLanguage])) {
 		$currentLanguage = 'en';
@@ -69,24 +71,24 @@ $settings = array(
 		'user' => array(
 			// Disable cookie-based authentication
 			'allowAutoLogin' => false,
-			
+
 			// Extending class CWebUser
 			'class' => 'MCWebUser',
-		
+
 			// Singin url
 			'loginUrl' => array('/admin/signin/')
 		),
-		'urlManager'=>array(
+		'urlManager' => array(
 			'urlFormat' => 'path',
 			'class' => 'application.components.UrlManager',
 			'showScriptName' => false,
 			'rules' => array(
 				// Routes index page
 				'<language:(' . implode('|', $i18n) . ')>' => '/index',
-		
+
 				// Routes index page
 				'/captcha/display/<key:([^\_]+)>_<rand:([^\.]+)>.jpg' => '/captcha/display/',
-		
+
 				// Admin routes
 				'/<language:(' . implode('|', $i18n) . ')>/admin/search/' => '/admin/search/',
 				'/<language:(' . implode('|', $i18n) . ')>/admin/signin/' => '/admin/signin/',
@@ -95,7 +97,7 @@ $settings = array(
 				'/<language:(' . implode('|', $i18n) . ')>/admin/edit/<id:([^\.]+)>.html' => '/admin/edit/',
 				'/<language:(' . implode('|', $i18n) . ')>/admin/delete/<id:([^\.]+)>.html' => '/admin/delete/',
 				'/<language:(' . implode('|', $i18n) . ')>/admin/autocomplete/' => '/admin/autocomplete/',
-		
+
 				// User routes
 				'/<language:(' . implode('|', $i18n) . ')>/user/search/' => '/user/search/',
 				'/<language:(' . implode('|', $i18n) . ')>/user/add/' => '/user/add/',
@@ -139,13 +141,13 @@ $settings = array(
 				// Order routes
 				'/<language:(' . implode('|', $i18n) . ')>/order/search/' => '/order/search/',
 				'/<language:(' . implode('|', $i18n) . ')>/order/songs/<id:([^\.]+)>.html' => '/order/songs/',
-		
+
 				// Payments routes
 				'/<language:(' . implode('|', $i18n) . ')>/transaction/search/' => '/transaction/search/',
 				'/<language:(' . implode('|', $i18n) . ')>/transaction/add/<userId:([^\.]+)>.html' => '/transaction/add/',
 				'/<language:(' . implode('|', $i18n) . ')>/transaction/affiliate/<id:\d+>' => '/transaction/affiliate/',
 				'/<language:(' . implode('|', $i18n) . ')>/transaction/canceled/<transaction_id:\d+>' => '/transaction/canceled/',
-		
+
 				// Chart routes
 				'/<language:(' . implode('|', $i18n) . ')>/chart/add/' => '/chart/add/',
 				'/<language:(' . implode('|', $i18n) . ')>/chart/edit/<id:([^\.]+)>.html' => '/chart/edit/',
@@ -155,14 +157,14 @@ $settings = array(
 				'/<language:(' . implode('|', $i18n) . ')>/chart/item_add/<created:([^\_]+)>_<sourceId:([^\.]+)>.html' => '/chart/itemAdd/',
 				'/<language:(' . implode('|', $i18n) . ')>/chart/item_edit/<id:([^\.]+)>.html' => '/chart/itemEdit/',
 				'/<language:(' . implode('|', $i18n) . ')>/chart/item_delete/<id:([^\.]+)>.html' => '/chart/itemDelete/',
-				
+
 				// Singer routs
 				'/<language:(' . implode('|', $i18n) . ')>/singer/autocomplete/' => '/singer/autocomplete/',
-		
+
 				// Album routs
 				'/<language:(' . implode('|', $i18n) . ')>/album/autocomplete/' => '/album/autocomplete/',
 				'/<language:(' . implode('|', $i18n) . ')>/album/autocomplete/' => '/album/permit/',
-		
+
 				// Page routes
 				'/<language:(' . implode('|', $i18n) . ')>/page/search/<type:([^\.]+)>.html' => '/page/search/',
 				'/<language:(' . implode('|', $i18n) . ')>/page/add/<type:([^\.]+)>.html' => '/page/add/',
@@ -202,24 +204,24 @@ $settings = array(
 	'params' => array(
 		// Current language
 		'currentLanguage' => $currentLanguage,
-	
+
 		// this is used in contact page
 		'adminEmail' => 'ramzes@te.net.ua',
-	
+
 		// application-level parameters
-		'languages' => array('de' => 'Deutsch', 'en' => 'English', 'cs' => 'Čeština','pl'=>'Polski'),
-	
+		'languages' => array('de' => 'Deutsch', 'en' => 'English', 'cs' => 'Čeština', 'pl' => 'Polski', 'fr' => 'French', 'es' => 'Espanol'),
+
 		// Part of seacret key to create hashes
 		'secret_key' => 'MediaClub_0343742374-fjfnsdjkfn=jdnfjksdfn',
-	
+
 		'RangeSearchAutocomplite' => '30',
 		'singer_cover' => '/images/art/',
 		//  path to News images
-		'news_image_path'=>'/images/newsimages/',
+		'news_image_path' => '/images/newsimages/',
 		'albumr_cover' => '/images/alb/',
 		'static_images_url' => 'http://mclub.com.ua',
-		'mailer' =>	'noreply@mediaclub.com',
-		'url_main_site' =>'http://www.mediaclub.com/',
+		'mailer' => 'noreply@mediaclub.com',
+		'url_main_site' => 'http://www.mediaclub.com/',
 
 		// Pager settings
 		'pager' => array(
@@ -229,12 +231,12 @@ $settings = array(
 			),
 			'rpp' => 20
 		),
-	
+
 		// royalty for track price
-		'royalty'=> 0.12,
+		'royalty' => 0.12,
 		//default billing in Payment paypal,payu,direct
-		'default_view_billing' =>'paypal',
-        'default_view_status' =>'done',
+		'default_view_billing' => 'paypal',
+		'default_view_status' => 'done',
 
 		// traf price
 		'track_price' => array(
@@ -243,12 +245,12 @@ $settings = array(
 			"2" => array("price" => 0.2, 'geo' => "Odessa"),
 			"3" => array("price" => 0.7, 'geo' => "Reserved"),
 			"4" => array("price" => 0.2, 'geo' => "Tenet"),
-			"5" => array("price" => 0,   'geo' => "Free"),
+			"5" => array("price" => 0, 'geo' => "Free"),
 		),
 		// minimum payment CKZ
-		'AO_minimup'=>2,
+		'AO_minimup' => 2,
 		// payment persent from one track
-		'AO_ednotka'=>0.08,
+		'AO_ednotka' => 0.08,
 
 
 		// Album types
@@ -259,22 +261,45 @@ $settings = array(
 			4 => 'live',
 			5 => 'compilations'
 		),
-		
+
 		// Auth cookies settings
 		'cookies' => array(
 			'prefix' => 'mclubadmin_',
 			'life_time' => 3600,
 			'hash_rebuild_period' => 600,
-		
+
 			// One year life time for cookie with tmp user token
 			'tmp_token_life_time' => 31536000,
 		),
-		'EU_codes' =>array (
-			'BE','BG','CZ','DK','EL','ES','FR',
-			'HR','IT','CY','LV','LT','LU',
-			'HU','MT','NL',	'AT','PL','PT',
-			'RO','SI','SK','FI',
-			'SE','UK','DE','EE','IE'
+		'EU_codes' => array(
+			'BE',
+			'BG',
+			'CZ',
+			'DK',
+			'EL',
+			'ES',
+			'FR',
+			'HR',
+			'IT',
+			'CY',
+			'LV',
+			'LT',
+			'LU',
+			'HU',
+			'MT',
+			'NL',
+			'AT',
+			'PL',
+			'PT',
+			'RO',
+			'SI',
+			'SK',
+			'FI',
+			'SE',
+			'DE',
+			'EE',
+			'IE'
+			// UK removed
 		),
 
 	)
