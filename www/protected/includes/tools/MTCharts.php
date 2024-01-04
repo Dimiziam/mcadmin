@@ -20,7 +20,7 @@ class MTCharts
 	public static function getItems($sourceId)
 	{
 		// Get chart source by id
-		echo  $sourceId;
+		echo $sourceId;
 		$source = ChartSource::model()->findByPk($sourceId);
 
 
@@ -40,49 +40,49 @@ class MTCharts
 
 		// Prepare host
 		$parts['host'] = str_replace('www.', '', $parts['host']);
-		
+
 		// Handle by host
 		switch ($parts['host']) {
 			case 'allcharts.org':
 				$items = self::allCharts($source->url);
-			break;
-			
+				break;
+
 			case 'acharts.us':
 				$items = self::aCharts($source->url);
-			break;
-			
+				break;
+
 			case 'hotcharts.ru':
 				$items = self::hotCharts($source->url);
-			break;
-			
+				break;
+
 			case 'top40-charts.com':
 				$items = self::top40Charts($source->url);
-			break;
-			
+				break;
+
 			case 'officialcharts.com':
 				$items = self::officialCharts($source->url);
-			break;
-			
+				break;
+
 			case 'billboard.com':
 				$items = self::billboard($source->url);
-			break;
-			
+				break;
+
 			case 'swisscharts.com':
 				$items = self::swissCharts($source->url);
-			break;
-			
+				break;
+
 			case 'artists.letssingit.com':
 				$items = self::artistsLetssingIt($source->url);
-			break;
-			
+				break;
+
 			case 'snkhan.co.uk':
 				$items = self::snkhan($source->url);
-			break;
-			
+				break;
+
 			default:
 				return false;
 		}
-		
+
 		return $items;
 	}
 
@@ -105,7 +105,7 @@ class MTCharts
 		if (empty($matches[2])) {
 			return false;
 		}
-		
+
 		// Prepare items
 		$items = array();
 		foreach ($matches[2] as $index => $singer) {
@@ -115,10 +115,10 @@ class MTCharts
 				'album' => htmlspecialchars_decode(trim($matches[1][$index])),
 			);
 		}
-		
+
 		return $items;
 	}
-	
+
 	/**
 	 * Method to get charts info from artists.letssingit.com
 	 * 
@@ -138,7 +138,7 @@ class MTCharts
 		if (empty($matches[2])) {
 			return false;
 		}
-		
+
 		// Prepare items
 		$items = array();
 		foreach ($matches[1] as $index => $singer) {
@@ -148,10 +148,10 @@ class MTCharts
 				'album' => htmlspecialchars_decode(trim($matches[2][$index])),
 			);
 		}
-		
+
 		return $items;
 	}
-	
+
 	/**
 	 * Method to get charts info from swisscharts.com
 	 * 
@@ -165,13 +165,13 @@ class MTCharts
 		if (empty($content)) {
 			return false;
 		}
-		
+
 		// Parse
 		preg_match_all('$<a href="/album/[^\<\>]+" class="navb" style="text-decoration:none;">(.*?)<br>([^\<\>]+)</a>$is', $content, $matches);
 		if (empty($matches[2])) {
 			return false;
 		}
-		
+
 		// Prepare items
 		$items = array();
 		foreach ($matches[1] as $index => $singer) {
@@ -181,10 +181,10 @@ class MTCharts
 				'album' => iconv('iso-8859-1', 'utf-8', htmlspecialchars_decode(trim($matches[2][$index]))),
 			);
 		}
-		
+
 		return $items;
 	}
-	
+
 	/**
 	 * Method to get charts info from billboard.com
 	 * 
@@ -204,7 +204,7 @@ class MTCharts
 		if (empty($matches[2])) {
 			return false;
 		}
-		
+
 		// Prepare items
 		$items = array();
 		foreach ($matches[2] as $index => $singer) {
@@ -214,10 +214,10 @@ class MTCharts
 				'album' => htmlspecialchars_decode(trim($matches[1][$index])),
 			);
 		}
-		
+
 		return $items;
 	}
-	
+
 	/**
 	 * Method to get charts info from officialcharts.com
 	 * 
@@ -233,24 +233,25 @@ class MTCharts
 		}
 
 		// Parse
-		preg_match_all('$<h3>([^\<\>]+)</h3>[^\<\>]+<h4>([^\<\>]+)</h4>$is', $content, $matches);
+		preg_match_all('$<span>([^\<\>]+)</span></a><br><a href="\S*" class="chart-artist text-lg inline-block"><span>([^\<\>]+)</span>$is', $content, $matches);
+		// preg_match_all('$<h3>([^\<\>]+)</h3>[^\<\>]+<h4>([^\<\>]+)</h4>$is', $content, $matches);
 		if (empty($matches[2])) {
 			return false;
 		}
-		
+
 		// Prepare items
 		$items = array();
 		foreach ($matches[2] as $index => $singer) {
 			$items[] = array(
 				'position' => $index + 1,
-				'singer' => htmlspecialchars_decode(trim($singer)),
-				'album' => htmlspecialchars_decode(trim($matches[1][$index])),
+				'singer' => htmlspecialchars_decode(ucwords(strtolower(trim($singer)))),
+				'album' => htmlspecialchars_decode(ucwords(strtolower(trim($matches[1][$index])))),
 			);
 		}
-		
+
 		return $items;
 	}
-	
+
 	/**
 	 * Method to get charts info from top40-charts.com
 	 * 
@@ -270,7 +271,7 @@ class MTCharts
 		if (empty($matches[2])) {
 			return false;
 		}
-		
+
 		// Prepare items
 		$items = array();
 		foreach ($matches[2] as $index => $singer) {
@@ -280,10 +281,10 @@ class MTCharts
 				'album' => htmlspecialchars_decode(trim($matches[1][$index])),
 			);
 		}
-		
+
 		return $items;
 	}
-	
+
 	/**
 	 * Method to get charts info from hotcharts.ru
 	 * 
@@ -299,13 +300,13 @@ class MTCharts
 		}
 		$content = str_replace("\n", '', $content);
 		$content = str_replace("’", "'", $content);
-		
+
 		// Parse
 		preg_match_all('$<span class="artist_name">([^\<\>]+)</span></a><a href="/mp3/\?song=[0-9]+" title="[^\"]*"><span class="song_name">([^\<\>]+)</span></a>$is', $content, $matches);
 		if (empty($matches[1])) {
 			return false;
 		}
-		
+
 		// Prepare items
 		$items = array();
 		foreach ($matches[1] as $index => $singer) {
@@ -315,10 +316,10 @@ class MTCharts
 				'album' => htmlspecialchars_decode(trim($matches[2][$index])),
 			);
 		}
-		
+
 		return $items;
 	}
-	
+
 	/**
 	 * Method to get charts info from acharts.us
 	 * 
@@ -333,25 +334,25 @@ class MTCharts
 			return false;
 		}
 		$content = str_replace("\n", '', $content);
-		
+
 		// Get first
 		preg_match_all('$<acronym title="artist\(s\) / band\(s\)"><a href="[^\<\>]+">([^\<\>]+)</a></acronym> <br> <acronym title="album title"><a href="[^\<\>]+" class="Title">([^\<\>]+)</a></acronym>$is', $content, $first);
 		if (empty($first[1])) {
 			return false;
 		}
-		
+
 		// Get positions
 		preg_match_all('$<td class="No">\s*([0-9]+)$is', $content, $positions);
 		if (empty($positions[1])) {
 			return false;
 		}
-		
+
 		// Get names
 		preg_match_all('$<a href="[^\"]+">([^\<\>]+)</a> <br> <a href="[^\"]+" class="Title">([^\<\>]+)</a>$is', $content, $names);
 		if (empty($names[1])) {
 			return false;
 		}
-		
+
 		// Prepare items
 		$items = array(
 			array(
@@ -367,10 +368,10 @@ class MTCharts
 				'album' => htmlspecialchars_decode(trim($names[2][$index])),
 			);
 		}
-		
+
 		return $items;
 	}
-	
+
 	/**
 	 * Method to get charts info from allcharts.org
 	 * 
@@ -385,13 +386,13 @@ class MTCharts
 			return false;
 		}
 		$content = str_replace('</font>', '', $content);
-		
+
 		// Parse
 		preg_match_all('$<tr align=center bgcolor=[^\<\>]+><td rowspan=2><b>([0-9]+)</b></td><td rowspan=2>[^\<\>]+</td><td rowspan=2>[^\<\>]+</td><td rowspan=2><b>"([^\<\>]+)"</b>([^\<\>]+)</td><td width=80 bgcolor=#f7efe7>$is', $content, $matches);
 		if (empty($matches[1])) {
 			return false;
 		}
-		
+
 		// Prepare items
 		$items = array();
 		foreach ($matches[1] as $index => $position) {
@@ -401,10 +402,10 @@ class MTCharts
 				'album' => htmlspecialchars_decode(trim($matches[2][$index])),
 			);
 		}
-		
+
 		return $items;
 	}
-	
+
 	/**
 	 * Method to send request to charts site
 	 * 
@@ -414,13 +415,13 @@ class MTCharts
 	public static function sendRequest($url)
 	{
 		$ch = curl_init();
-		curl_setopt ($ch, CURLOPT_URL, $url);
-		curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-		curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		$result = curl_exec($ch);
 		curl_close($ch);
-	
+
 		return $result;
-	
+
 	}
 }
