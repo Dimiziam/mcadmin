@@ -287,7 +287,7 @@ class Report extends InfoModel
 				. "\"" . number_format($price, 2, ',', '') . "\"" . ";"
 				. "\"" . number_format($cost, 2, ',', '') . "\"" . ";"
 				. "\"" . number_format($to_pay, 2, ',', '') . "\"" . ";"
-				. "\"" . number_format(Yii::app()->params['AO_minimup'], 2, ',', '') . "\"" . ";"
+				. "\"" . number_format($AO_minimup, 2, ',', '') . "\"" . ";"
 				. "\"" . number_format($new_pay, 2, ',', '') . "\"" . "\n";
 
 		}
