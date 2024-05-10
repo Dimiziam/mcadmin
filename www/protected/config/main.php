@@ -247,11 +247,22 @@ $settings = array(
 			"4" => array("price" => 0.2, 'geo' => "Tenet"),
 			"5" => array("price" => 0, 'geo' => "Free"),
 		),
-		// minimum payment CKZ
-		'AO_minimup' => 2,
-		// payment persent from one track
-		'AO_ednotka' => 0.08,
 
+		// minimum payment CKZ
+		// 'AO_minimup'=>2,
+		// New ranges
+		'AO_minimup'=>array(
+			"13" => 1.15,
+			"15" => 1.54,
+			"18" => 1.66,
+			"25" => 1.93,
+		),
+		// greater than max
+		'AO_max'=>2.56,
+		// payment percent from one track
+		// percent change from Jan 2024 0.08 -> 0.09
+		'AO_ednotka'=>0.09,
+		'DPH'=>21,
 
 		// Album types
 		'album_types' => array(

@@ -255,17 +255,24 @@ class Report extends InfoModel
 		$outPutDada = $headerFilds;
 
 		foreach ($items as $item) {
+			$bez_dph = 1 / (1 + Yii::app()->request->getParam('DPH')/100);
+			$price = round($bez_dph * $item['price'] * Yii::app()->request->getParam('currency'), 2);
+			$cost = round($bez_dph * $item['cost'] * Yii::app()->request->getParam('currency'), 2);
 
-			$price = round($item['price'] * Yii::app()->request->getParam('currency'), 2);
-			$cost = round($item['cost'] * Yii::app()->request->getParam('currency'), 2);
 			$to_pay = $price * Yii::app()->params['AO_ednotka'];
-
-			if ($to_pay < Yii::app()->params['AO_minimup']) {
-				$new_pay = Yii::app()->params['AO_minimup'] * $item['download'];
+			$AO_minimup = 0;
+			foreach(Yii::app()->params['AO_minimup'] as $key => $value) {
+				if($price <= $key) {
+					$AO_minimup=$value;
+					break;
+				}
+			}
+			if ($AO_minimup==0) $AO_minimup = Yii::app()->params['AO_max'];
+			if ($to_pay < $AO_minimup) {
+				$new_pay = $AO_minimup * $item['download'];
 			} else {
 				$new_pay = $price * $item['download'];
 			}
-
 
 			$outPutDada .= date("Ym", strtotime($item['created'])) . ";"
 				. "SKLADBA" . ";"
