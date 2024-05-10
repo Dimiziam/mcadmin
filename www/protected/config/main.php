@@ -258,7 +258,7 @@ $settings = array(
 		'AO_max'=>2.56,
 		// payment percent from one track
 		// percent change from Jan 2024 0.08 -> 0.09
-		'AO_ednotka'=>0.08,
+		'AO_ednotka'=>0.09,
 		'DPH'=>21,
 
 
