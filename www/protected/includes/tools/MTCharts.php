@@ -233,7 +233,8 @@ class MTCharts
 		}
 
 		// Parse
-		preg_match_all('$<span>([^\<\>]+)</span></a><br><a href="\S*" class="chart-artist text-lg inline-block"><span>([^\<\>]+)</span>$is', $content, $matches);
+		preg_match_all('/<span>([^\<\>]+)</span></a><br><a href="\S*" class="chart-artist text-lg inline-block"><span>([^\<\>]+)</span>/', $content, $matches);
+		// preg_match_all('$<span>([^\<\>]+)</span></a><br><a href="\S*" class="chart-artist text-lg inline-block"><span>([^\<\>]+)</span>$is', $content, $matches);
 		// preg_match_all('$<h3>([^\<\>]+)</h3>[^\<\>]+<h4>([^\<\>]+)</h4>$is', $content, $matches);
 		if (empty($matches[2])) {
 			return false;
