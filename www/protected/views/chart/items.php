@@ -91,7 +91,7 @@
 			<th colspan="2">&nbsp;</th>
 		</tr>
 		<?php foreach ($chartItems as $item) { ?>
-			<tr id="chart_item_<?php echo $item['id']; ?>">
+			<tr id="chart_item_<?php echo $item['id']; ?>"  <?php echo empty($item['album_id']) ? 'style="background-color:#FFEEEE;"' : ''; ?> >
 				<td><?php echo CHtml::encode($item['id']); ?></td>
 				<td><?php echo CHtml::encode($item['position']); ?></td>
 				<td><nobr><?php echo CHtml::encode($item['singer']) . (!empty($item['singer_id']) ? ' (<a href="https://www.mediaclub.com/en/singer/' . $item['singer_id'] . '" target=_blank>' . $item['singer_id'] . ')</a>' : ''); ?></nobr></td>
