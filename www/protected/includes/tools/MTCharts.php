@@ -268,7 +268,8 @@ class MTCharts
 		}
 
 		// Parse
-		preg_match_all('$href="/song\.php\?sid=[0-9]+">([^\<\>]+)</a></b></div><a style="text-decoration: none;\s*"\s*href="/artist\.php\?aid=[0-9]+">([^\<\>]+)</a></td>$is', $content, $matches);
+		// preg_match_all('$href="/song\.php\?sid=[0-9]+">([^\<\>]+)</a></b></div><a style="text-decoration: none;\s*"\s*href="/artist\.php\?aid=[0-9]+">([^\<\>]+)</a></td>$is', $content, $matches);
+		preg_match_all('$href=/song\.php\?sid=[0-9]+>([^\<\>]+)</a></b></div><a style="text-decoration: none;\s*"\s*href="/artist\.php\?aid=[0-9]+">([^\<\>]+)</a></td>$is', $content, $matches);
 		if (empty($matches[2])) {
 			return false;
 		}
