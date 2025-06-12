@@ -58,6 +58,9 @@ class MTCharts
 			case 'top40-charts.com':
 				$items = self::top40Charts($source->url);
 				break;
+			case 'mclub.com.ua':
+				$items = self::top40Charts($source->url);
+				break;
 
 			case 'officialcharts.com':
 				$items = self::officialCharts($source->url);
