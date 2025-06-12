@@ -39,7 +39,7 @@ class MTCharts
 
 
 		// Prepare host
-		$deu_sign = str_contains($parts['host'], 'deu');
+		$deu_sign = strpos($parts['host'], 'deu');
 		$parts['host'] = str_replace('www.', '', $parts['host']);
 
 		// Handle by host
