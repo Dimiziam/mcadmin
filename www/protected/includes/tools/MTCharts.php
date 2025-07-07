@@ -39,7 +39,7 @@ class MTCharts
 
 
 		// Prepare host
-		$deu_sign = strpos($parts['host'], 'deu');
+		$deu_sign = strpos($source->url, 'deu');
 		$parts['host'] = str_replace('www.', '', $parts['host']);
 
 		// Handle by host
@@ -60,7 +60,7 @@ class MTCharts
 				$items = self::top40Charts($source->url);
 				break;
 			case 'mclub.com.ua':
-				$items = $deu_sign ? self::top40Charts($source->url) : self::officialCharts($source->url);
+				$items = $deu_sign>0 ? self::top40Charts($source->url) : self::officialCharts($source->url);
 				break;
 
 			case 'officialcharts.com':
@@ -267,7 +267,6 @@ class MTCharts
 	{
 		// Get page content
 		$content = self::sendRequest($url);
-		return ['1', $url,'test'];
 		if (empty($content)) {
 			return false;
 		}
