@@ -267,6 +267,7 @@ class MTCharts
 	{
 		// Get page content
 		$content = self::sendRequest($url);
+		return ['1', $url,'test'];
 		if (empty($content)) {
 			return false;
 		}
