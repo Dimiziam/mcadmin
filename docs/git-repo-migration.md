@@ -73,6 +73,16 @@ Restore it from `/root/admin_keep/main_db.php`.
 
 ### Updating prod
 
+Pull as the owner (no chown needed). Prod git is old (1.8.x), so `git -C`
+doesn't work:
+
+```bash
+cd /home/mediaclub/mediaclub.com/admin
+sudo -u mediaclub -H git pull
+```
+
+Or as root, then fix ownership:
+
 ```bash
 cd /home/mediaclub/mediaclub.com/admin
 git pull
