@@ -1,3 +1,4 @@
 .idea/
 www/protected/runtime/*
 www/assets/*
+www/_sql/*.gz
